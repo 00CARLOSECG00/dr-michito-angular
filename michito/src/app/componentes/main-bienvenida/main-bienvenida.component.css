@@ -1,0 +1,91 @@
+.hero {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #44344f;
+    padding: 50px 140px;
+    color: #c2f970;
+  }
+  
+  .hero-content {
+    max-width: 600px;
+  }
+  
+  .hero-content h1 {
+    font-size: 150px;
+    line-height: 80px;
+    font-weight: 400;
+    color: #c2f970;
+  }
+  
+  .hero-content p {
+    font-size: 24px;
+    margin: 20px 0;
+    line-height: 40px;
+  }
+  
+  .contact-button {
+    display: flexbox;
+    background-color: #c2f970;
+    color: #44344f;
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 18px;
+    font-weight: bold;
+  }
+  
+  .hero-image img {
+    max-width: 120%;
+    max-height: 200;
+    height: auto;
+    width: auto;
+    position: relative;
+    top: 155px;
+  }
+  .hero-image img {
+    max-width: 120%;
+    max-height: 200;
+    height: auto;
+    width: auto;
+    position: relative;
+    top: 155px;
+  }
+  
+  .hero {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #44344f;
+    padding: 50px 140px;
+    color: #c2f970;
+  }
+  
+  .hero-content {
+    max-width: 600px;
+  }
+  
+  .hero-content h1 {
+    font-size: 150px;
+    line-height: 80px;
+    font-weight: 400;
+    color: #c2f970;
+  }
+  
+  .hero-content p {
+    font-size: 24px;
+    margin: 20px 0;
+    line-height: 40px;
+  }
+  
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    margin: 0;
+    font-family: Jomhuria, serif;
+    letter-spacing: 5px;
+    line-height: 30px;
+  }

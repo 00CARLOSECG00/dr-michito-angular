@@ -1,0 +1,97 @@
+
+#servicios p {
+    color: #98A6D4;
+    line-height: 1.5;
+    font-size: 25px;
+  }
+
+  #servicios h2 {
+    color: #C2F970;
+    font-family: Jomhuria, serif;
+    font-size: 160px;
+  }
+  
+  .ServiciosImg {
+    width: 60px;
+  }
+  
+  .tarjeta {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    background-color: #44344f;
+    border-radius: 20px;
+    width: 218px;
+    height: 230px;
+    padding: 10px;
+    margin: 10px;
+  }
+  
+  .tarjeta h3 {
+    color: #C2F970;
+    font-family: Jomhuria, serif;
+    font-size: 42px;
+    line-height: 0.8;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+  }
+  
+  .tarjeta input {
+    background-color: #C2F970;
+    width: 110px;
+    height: 30px;
+    border-radius: 30px;
+    color: #44344f;
+    border: none; 
+    cursor: pointer;
+  }
+  
+  #cajaServicios {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  #servicios {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 40px;
+    padding: 0px;
+    padding-left: 20px;
+    /*background-image: url("../images/triangulo.png");*/
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 80%;
+  }
+  
+  #espacio {
+    height: 200px;
+  }
+  
+  .CambioSec {
+    display: flex;
+    justify-content: center;
+  }
+  
+  hr {
+    margin-top: 240px;
+    height: 5px;
+    width: 90%;
+    background-color: #44344F;
+  }
+  
+  .filaServ {
+    display: flex;
+    justify-content: space-around;
+    width: 80%;
+    padding-top: 20px;
+    box-sizing: border-box; 
+  }
+  #PresentacionServ{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }

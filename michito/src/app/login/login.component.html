@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Iniciar Sesión</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Jomhuria&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Jomhuria&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="container">
+      <div class="left-panel">
+        <img
+          src="images/iconos/Logo_principal_dr.michito_blanco.png"
+          alt="Logo"
+          class="LogoPrincipal"
+        />
+        <h2>Volvamos a cuidar juntos de tus peludos favoritos.</h2>
+        <img
+          src="images/loginImage.png"
+          alt="Perro en Sofa"
+          class="large-image"
+        />
+      </div>
+      <div class="right-panel">
+        <div class="top-right">
+          <a href="/"
+            ><img
+              src="images/iconos/arrow-circle-left-purple.png"
+              alt="Icono Atras"
+          /></a>
+        </div>
+        <div class="main-content">
+          <h1>Iniciar Sesión</h1>
+
+          <form th:action="@{/login}" method="post" th:object="${loginForm}">
+            <label for="cedula">Cédula</label>
+            <input type="text" id="cedula" th:field="*{cedula}" />
+
+            <div th:if="${error != null}" class="alert alert-danger">
+              <p th:text="${error}"></p>
+            </div>
+
+            <button type="submit">Iniciar Sesión</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

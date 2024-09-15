@@ -1,0 +1,97 @@
+ /****************Sobre nosotros y nuestro equipo *******************/
+ #nosotros {
+    background-color: #B49FCC;
+    padding: 20px 10px; /* Reducir el padding */
+    text-align: center;
+  }
+  #nosotros h2 {
+    color: #44344F;
+    font-family: Jomhuria, serif;
+    font-size: 90px; /* Reducir el tamaño de la fuente */
+    margin-bottom: 0px;
+    margin-top: 0px;
+  }
+  #nosotros p {
+    color: #44344F;
+    font-size: 16px; /* Reducir el tamaño de la fuente */
+    line-height: 1.5;
+    max-width: 1150px; 
+    margin: 0 auto;
+    margin-bottom: 5px;
+  }
+  #equipo {
+    background-color: #B49FCC;
+    padding: 20px 10px; /* Reducir el padding */
+    text-align: center;
+  }
+  #equipo h2 {
+    color: #44344F;
+    font-family: Jomhuria, serif;
+    font-size: 70px; /* Reducir el tamaño de la fuente */
+    margin-bottom: 5px; /* Reducir el margen */
+    margin-top: 5px;
+  }
+  
+  .team-carousel {
+    background-color: #44344F;
+    display: flex;
+    align-items: stretch;
+    padding: 30px; /* Reducir el padding */
+    border-radius: 15px;
+    margin: 60px; /* Reducir el margen */
+    position: relative;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    height: 100%; /* Asegurar que el contenedor use todo el espacio disponible */
+  }
+  .team-member {
+    background-color: #44344F;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    margin: 0 10px;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    flex-grow: 1; /* Permite que los elementos crezcan para llenar el espacio disponible */
+    min-height: 450px; /* Ajustar según sea necesario */
+  }
+  .team-member img {
+    width: 170px;  /* Puedes ajustar el tamaño según sea necesario */
+    height: 170px; /* Puedes ajustar el tamaño según sea necesario */
+    display: block;
+    margin: 0 auto 10px;
+    object-fit: contain; /* Asegura que las imágenes mantengan su proporción original */
+  }
+  .team-member h3 {
+    font-size: 30px;
+    color: #fff;
+    margin-bottom: 10px;
+  }
+  .team-member p {
+    font-size: 14px;
+    color: #BEB2C8;
+    margin: 0;
+  }
+  
+  .slick-arrow {
+    width: 30px;
+    height: 30px;
+    font-size: 0;
+    color: transparent;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    border: none;
+  }
+  .slick-prev {
+    left: -50px; /* Ajustar la posición de la flecha izquierda */
+    background: url("../../../../public/images/iconos/arrow-previous.png");
+    background-size: 100%;
+  }
+  .slick-next {
+    right: -50px; /* Ajustar la posición de la flecha derecha */
+    background: url("../../../../public/images/iconos/arrow-next.png");
+    background-size: 100%;
+  }

@@ -1,0 +1,164 @@
+<section id="nosotros">
+    <h2>Sobre Nosotros</h2>
+    <p>
+      En Dr. Michito, nuestra misión es proporcionar atención médica
+      veterinaria de alta calidad y con cariño para tus mascotas. Desde
+      nuestros comienzos, hemos estado comprometidos con el bienestar de los
+      animales, ofreciendo servicios integrales que van desde chequeos
+      regulares hasta tratamientos especializados. Creemos firmemente en la
+      importancia de la prevención y la educación para garantizar que tus
+      amigos peludos vivan vidas largas y saludables. Nos esforzamos por crear
+      un ambiente acogedor y seguro para todos nuestros pacientes y sus
+      dueños, porque entendemos que ellos son parte de tu familia y merecen lo
+      mejor.
+    </p>
+  </section>
+  <!-- Sección de Nuestro equipo -->
+  <section id="equipo">
+    <h2>Nuestro equipo</h2>
+    <div class="team-carousel">
+      <div class="team-member">
+        <img
+          src="images/equipo_de_trabajo/LauraRodriguez.webp"
+          alt="Dra. Laura Rodríguez"
+        />
+        <h3>Dra. Laura Rodríguez</h3>
+        <p>
+          Especialista en Medicina Preventiva y Cuidados de Animales Pequeños
+        </p>
+        <p>
+          Con 8 años de experiencia, la Dra. Rodríguez se dedica a asegurar
+          que tu mascota reciba el mejor cuidado posible. Su pasión por la
+          salud animal y su atención a los detalles la convierten en una
+          profesional excepcional.
+        </p>
+      </div>
+      <div class="team-member">
+        <img
+          src="images/equipo_de_trabajo/CarlosGomez.webp"
+          alt="Dr. Carlos Gómez"
+        />
+        <h3>Dr. Carlos Gómez</h3>
+        <p>Cirujano Veterinario y Especialista en Ortopedia</p>
+        <p>
+          El Dr. Gómez es un experto en cirugía veterinaria y ortopedia, con
+          más de 10 años de experiencia. Ha trabajado en las mejores clínicas
+          de la región y su habilidad en el quirófano es insuperable.
+        </p>
+      </div>
+      <div class="team-member">
+        <img
+          src="images/equipo_de_trabajo/AnaMartinez.webp"
+          alt="Dra. Ana Martínez"
+        />
+        <h3>Dra. Ana Martínez</h3>
+        <p>Especialista en Medicina Interna y Diagnóstico</p>
+        <p>
+          La Dra. Martínez cuenta con 7 años de experiencia en medicina
+          interna y diagnóstico. Su compromiso con la salud de los animales y
+          su capacidad para encontrar soluciones efectivas la destacan como
+          una pieza clave de nuestro equipo.
+        </p>
+      </div>
+      <div class="team-member">
+        <img
+          src="images/equipo_de_trabajo/JulianLopez.webp"
+          alt="Dr. Julián López"
+        />
+        <h3>Dr. Julián López</h3>
+        <p>Especialista en Dermatología Veterinaria</p>
+        <p>
+          Con más de 6 años de experiencia, el Dr. López se especializa en el
+          cuidado de la piel de las mascotas. Su conocimiento y dedicación
+          aseguran que cada animal reciba el mejor tratamiento dermatológico.
+        </p>
+      </div>
+      <div class="team-member">
+        <img
+          src="images/equipo_de_trabajo/MarianaSantos.webp"
+          alt="Dra. Mariana Santos"
+        />
+        <h3>Dra. Mariana Santos</h3>
+        <p>Especialista en Neurología Veterinaria</p>
+        <p>
+          La Dra. Santos tiene 5 años de experiencia en neurología
+          veterinaria. Su enfoque detallado y cuidado en los tratamientos
+          neurológicos hace que sea una profesional muy valorada en nuestro
+          equipo.
+        </p>
+      </div>
+      <div class="team-member">
+        <img
+          src="images/equipo_de_trabajo/RicardoDiaz.webp"
+          alt="Dr. Ricardo Díaz"
+        />
+        <h3>Dr. Ricardo Díaz</h3>
+        <p>Especialista en Cardiología Veterinaria</p>
+        <p>
+          El Dr. Díaz tiene 8 años de experiencia en cardiología veterinaria.
+          Su dedicación y conocimiento profundo en el cuidado del corazón de
+          las mascotas aseguran tratamientos de alta calidad.
+        </p>
+      </div>
+      <div class="team-member">
+        <img
+          src="images/equipo_de_trabajo/SofiaGomez.webp"
+          alt="Dra. Sofía Gómez"
+        />
+        <h3>Dra. Sofía Gómez</h3>
+        <p>Especialista en Endocrinología Veterinaria</p>
+        <p>
+          La Dra. Gómez cuenta con 4 años de experiencia en endocrinología
+          veterinaria. Su habilidad para diagnosticar y tratar trastornos
+          hormonales en mascotas la hace una adición valiosa para nuestro
+          equipo.
+        </p>
+      </div>
+    </div>
+  </section>
+  <script
+  type="text/javascript"
+  src="https://code.jquery.com/jquery-1.11.0.min.js"
+></script>
+<script
+  type="text/javascript"
+  src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"
+></script>
+<script>
+  $(document).ready(function () {
+    $(".team-carousel").slick({
+      dots: false,
+      infinite: true,
+      speed: 800,
+      slidesToShow: 3,
+      slidesToScroll: 1,
+      responsive: [
+        {
+          breakpoint: 1024,
+          settings: {
+            slidesToShow: 3,
+            slidesToScroll: 1,
+            infinite: true,
+            dots: true,
+          },
+        },
+        {
+          breakpoint: 600,
+          settings: {
+            slidesToShow: 2,
+            slidesToScroll: 1,
+          },
+        },
+        {
+          breakpoint: 480,
+          settings: {
+            slidesToShow: 1,
+            slidesToScroll: 1,
+          },
+        },
+
+      ],
+    });
+  });
+</script>
+  <div class="CambioSec"><hr /></div>
