@@ -20,7 +20,7 @@
     <div class="container">
       <div class="left-panel">
         <img
-        th:src="@{/images/iconos/Logo_principal_dr.michito_blanco.png}"
+        src="images/iconos/Logo_principal_dr.michito_blanco.png"
           alt="Logo"
           class="LogoPrincipal"
         />
@@ -42,19 +42,24 @@
         <div class="main-content">
           <h1>Portal Interno</h1>
 
-          <form th:action="@{/login/portalInterno}" method="post" th:object="${loginForm}">
+          <form #loginForm="ngForm">
             <label for="usuario">Usuario</label>
-            <input th:field="*{usuario}" id="usuario" type="text" required=""/>
-        
+            <input [(ngModel)]="login.username" name="username" id="usuario" type="text" required/>
+            
             <label for="contrasena">Contraseña</label>
-            <input type="password" id="contrasena" th:field="*{password}" required=""/>
+            <input [(ngModel)]="login.password" name="password" id="contrasena" type="password" required/>
             
-            <div th:if="${error != null}" class="alert alert-danger">
-                <p th:text="${error}"></p>
-            </div>
+            <!-- Mostrar el mensaje de error si 'mostrarError' es true -->
+            <ng-container *ngIf="mostrarError">
+              <div class="alert alert-danger">
+                <p>Usuario o contraseña incorrecta</p>
+              </div>
+            </ng-container>
             
-            <button type="submit">Iniciar Sesión</button>
-        </form>
+            <button type="button" (click)="comprobar(login.username, login.password)">Iniciar Sesión</button>
+          </form>
+          
+            
         </div>
       </div>
     </div>
