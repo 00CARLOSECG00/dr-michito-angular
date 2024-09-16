@@ -6,8 +6,8 @@ export class Mascota {
     public peso!:number;
     public edad!:number;
     public foto!:string;
-    
+    /*
     public cliente!:Cliente;
     public tratamientos!:Tratamiento[];
-    
+    */
 }

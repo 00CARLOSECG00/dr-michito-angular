@@ -5,7 +5,7 @@ export class Cliente {
     public nombre!:string;
     public correo!:string;
     public celular!:number;
-    public mascotas!:Mascota[];
+    //public mascotas!:Mascota[];
 
 
 

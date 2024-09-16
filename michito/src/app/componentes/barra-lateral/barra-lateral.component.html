@@ -13,54 +13,54 @@
     <nav class="navegacion">
       <ul>
         <li>
-          <a id="dashboard" href="#">
+          <a id="dashboard" [routerLink]="['/mascotas']">
             <img
-              th:src="@{/images/iconos/barraLateral/chart-pie.png}"
+              src="/images/iconos/barraLateral/chart-pie.png"
               alt="dashboard"
             />
             <span>Dashboard</span>
           </a>
         </li>
         <li>
-          <a id="personal" href="#">
+          <a id="personal" [routerLink]="['/mascotas']">
             <img
-              th:src="@{/images/iconos/barraLateral/identification.png}"
+              src="/images/iconos/barraLateral/identification.png"
               alt="personal"
             />
             <span>Personal</span>
           </a>
         </li>
         <li>
-          <a id="medicamentos" href="#">
+          <a id="medicamentos" [routerLink]="['/mascotas']">
             <img
-              th:src="@{/images/iconos/barraLateral/Pills.png}"
+              src="/images/iconos/barraLateral/Pills.png"
               alt="medicamentos"
             />
             <span>Medicamentos</span>
           </a>
         </li>
         <li>
-          <a id="mascotas" href="/Mascotas/all">
-            <img
-              th:src="@{/images/iconos/barraLateral/Dog.png}"
+          <a id="mascotas" [routerLink]="['/mascotas']"> 
+            <img 
+              src="/images/iconos/barraLateral/Dog.png"
               alt="mascotas"
             />
             <span>Mascotas</span>
           </a>
         </li>
         <li>
-          <a id="clientes" href="/Clientes/all/paginated">
+          <a id="clientes" [routerLink]="['/clientes']">
             <img
-              th:src="@{/images/iconos/barraLateral/users.png}"
+              src="/images/iconos/barraLateral/users.png"
               alt="clientes"
             />
             <span>Clientes</span>
           </a>
         </li>
         <li>
-          <a id="tratamientos" href="#">
+          <a id="tratamientos" [routerLink]="['/mascotas']">
             <img
-              th:src="@{/images/iconos/barraLateral/Stetoscope.png}"
+              src="/images/iconos/barraLateral/Stetoscope.png"
               alt="tratamientos"
             />
             <span>Tratamientos</span>
@@ -68,9 +68,9 @@
         </li>
 
         <li>
-          <a id="salir" href="/">
+          <a id="salir" [routerLink]="['/']">
             <img
-              th:src="@{/images/iconos/arrow-circle-left-white.png}"
+              src="/images/iconos/arrow-circle-left-white.png"
               alt="salir"
             />
             <span>Salir</span>
@@ -84,3 +84,4 @@
       <!---->
     </div>
   </div>
+  <script tsrc="/script/lateralBar.js"></script>
