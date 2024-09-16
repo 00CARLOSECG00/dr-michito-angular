@@ -45,11 +45,14 @@
             <label for="cedula">Cédula</label>
             <input type="text" id="cedula" th:field="*{cedula}" />
 
-            <div th:if="${error != null}" class="alert alert-danger">
-              <p th:text="${error}"></p>
-            </div>
-
-            <button type="submit">Iniciar Sesión</button>
+            <!-- Mostrar el mensaje de error si 'mostrarError' es true -->
+            <ng-container *ngIf="mostrarError">
+              <div class="alert alert-danger">
+                <p>Usuario o contraseña incorrecta</p>
+              </div>
+            </ng-container>
+            <button type="button" (click)="comprobar()">Iniciar Sesión</button>
+            
           </form>
         </div>
       </div>

@@ -8,5 +8,12 @@ import { Component } from '@angular/core';
   styleUrl: './login.component.css'
 })
 export class LoginComponent {
-
+  mostrarError: boolean = false;
+  comprobar(usuario: string) {
+    if (usuario ) {
+      //redirigir
+    } else {
+      this.mostrarError = true; 
+    }
+  } 
 }

@@ -2,13 +2,13 @@ import { Routes } from '@angular/router';
 import{MainPageComponent} from'./main-page/main-page.component'
 import{LoginComponent}from'./login/login.component'
 import{LoginPortalInternoComponent}from'./login-portal-interno/login-portal-interno.component'
-import{BarraLateralComponent}from'./componentes/barra-lateral/barra-lateral.component'
+import{TablaMascotasComponent}from'./tabla-mascotas/tabla-mascotas.component'
 
 
 export const routes: Routes = [
     {
         path: '',
-        component: MainPageComponent
+        component: TablaMascotasComponent
     },
     {
         path: 'login',
@@ -20,6 +20,6 @@ export const routes: Routes = [
     },
     {
         path: 'mascotas',
-        component: BarraLateralComponent
+        component: TablaMascotasComponent
     }
 ];
