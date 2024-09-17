@@ -1,23 +1,46 @@
-import { Component } from '@angular/core';
-import{BarraLateralComponent} from'../componentes/barra-lateral/barra-lateral.component'
-import { FormsModule } from '@angular/forms';  // Asegúrate de importar FormsModule
+import { Component, EventEmitter, Output, output } from '@angular/core';
+import { FormsModule } from '@angular/forms';  
 import { CommonModule } from '@angular/common';
 import { Mascota } from '../mascota';
+import { BarraLateralComponent } from '../componentes/barra-lateral/barra-lateral.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-create-mascota',
   standalone: true,
-  imports: [BarraLateralComponent,FormsModule,CommonModule],
+  imports: [FormsModule, CommonModule, BarraLateralComponent], 
   templateUrl: './create-mascota.component.html',
-  styleUrl: './create-mascota.component.css'
+  styleUrls: ['./create-mascota.component.css']
 })
 export class CreateMascotaComponent {
-  mascota!:Mascota;
-  mostrarError: boolean = false;
-  crea(mascota: Mascota){
-    //revisar si existe mostrarError=true;
-    //else crear
+  @Output() mascotaCreada = new EventEmitter<Mascota>(); 
 
+  sendMascota!:Mascota;
+
+  formMascota: Mascota = {
+    ID: 0, 
+    nombre: '',
+    peso: 0,
+    edad: 0,
+    foto: ''
   }
 
+  mostrarError: boolean = false;
+
+  constructor(private router: Router) {}
+
+  crea(){
+ 
+      this.mostrarError = false;
+      console.log('Mascota creada:', this.formMascota);
+      this.sendMascota = Object.assign({}, this.formMascota);
+      this.mascotaCreada.emit(this.sendMascota);
+      this.router.navigate(['/mascotas']);
+  }
+
+
+
+  goBack() {
+    history.back();
+  }
 }

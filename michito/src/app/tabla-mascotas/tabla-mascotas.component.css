@@ -1,22 +1,4 @@
 
-:root{
-    --color-barra-lateral:#44344f;
-
-    --color-texto:#ffffff;
-    --color-texto-menu:#ffffff;
-
-    --color-menu-hover:#65558F;
-    --color-menu-hover-texto:#ffffff;
-
-    --color-linea:#C2F970;
-
-    --color-switch-base :rgb(201,202,206);
-    --color-switch-circulo:rgb(241,241,241);
-
-    --color-scroll:rgb(192,192,192);
-    --color-scroll-hover:rgb(134,134,134);
-}
-
 *{
     margin: 0;
     padding: 0;
@@ -48,32 +30,6 @@ h2 {
     padding: 0;
 }
 
-/*-----------------Botones*/
-button,a{
-    margin-top: 18px;
-}
-
-/*-----------------Menu*/
-.menu{
-    font-family: Roboto, serif;
-    font-weight: bold;
-    position: fixed;
-    width: 50px;
-    height: 50px;
-    font-size: 30px;
-    display: none;
-    justify-content: center;
-    align-items: center;
-    border-radius: 50%;
-    cursor: pointer;
-    background-color: var(--color-boton);
-    color: var(--color-boton-texto);
-    right: 15px;
-    top: 15px;
-    z-index: 100;
-}
-
-
 
 /*-----------------> Linea*/
 .barra-lateral .linea{
@@ -83,48 +39,8 @@ button,a{
     background-color: var(--color-linea);
 }
 
-/*---------------> Usuario*/
-.barra-lateral .usuario{
-    width: 100%;
-    display: flex;
-}
-.barra-lateral .usuario img{
-    width: 50px;
-    min-width: 50px;
-    border-radius: 10px;
-}
-.barra-lateral .usuario .info-usuario{
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    color: var(--color-texto);
-    overflow: hidden;
-}
-.barra-lateral .usuario .nombre-email{
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    margin-left: 5px;
-}
-.barra-lateral .usuario .nombre{
-    font-size: 15px;
-    font-weight: 600;
-}
-.barra-lateral .usuario .email{
-    font-size: 13px;
-}
-.barra-lateral .usuario ion-icon{
-    font-size: 20px;
-}
 
 
-/*-------------main*/
-
-#inbox{
-    background-color: var(--color-menu-hover);
-    color: var(--color-menu-hover-texto);
-}
 
 main{
     margin-left: 250px;
@@ -232,74 +148,4 @@ main.min-main{
 
 .pagination .page-item {
     margin: 0 0.25rem; 
-}
-
-/* Estilo de la tarjeta de agregar mascota */
-.agregar-mascota-card {
-    margin: auto;
-    max-width: 600px;
-    border-radius: 20px;
-    padding: 20px;
-    background-color: #B49FCC;
-    font-family: 'Roboto', serif;
-}
-
-/* Estilo del título */
-.agregar-mascota-titulo {
-    font-family: Jomhuria, serif;
-    letter-spacing: 4px;
-    color: #5a4076;
-    font-size: 80px;
-}
-
-/* Botones */
-.btn-outline-secondary {
-    border: none;
-    background: transparent;
-}
-
-.btn-outline-secondary:hover {
-    background: #6f42c1;
-    color: white;
-}
-
-.btn-dark {
-    background-color: #5a4076;
-    border-color: #5a4076;
-}
-
-.btn-dark:hover {
-    background-color: #44344f;
-}
-
-/*------------------> Responsive*/
-@media (max-height: 660px){
-    .barra-lateral .nombre-pagina{
-        margin-bottom: 5px;
-    }
-    .barra-lateral .modo-oscuro{
-        margin-bottom: 3px;
-    }
-}
-@media (max-width: 600px){
-    .barra-lateral{
-        position: fixed;
-        left: -250px;
-    }
-    .max-barra-lateral{
-        left: 0;
-    }
-    .menu{
-        display: flex;
-    }
-    .menu ion-icon:nth-child(2){
-        display: none;
-    }
-    main{
-        margin-left: 0;
-    }
-    main.min-main{
-        margin-left: 0;
-    }
-    
 }

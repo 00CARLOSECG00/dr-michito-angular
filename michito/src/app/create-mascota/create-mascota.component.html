@@ -1,132 +1,101 @@
-<!DOCTYPE html>
-<html lang="es" xmlns:th="http://www.thymeleaf.org">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Agregar Mascota</title>
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-    />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Jomhuria&display=swap"
-      rel="stylesheet"
-    />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Jomhuria&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" th:href="@{/css/stylesVistas.css}" />
-  </head>
-  <body>
-    <div class="contenedor-principal">
-      <!-- Sidebar -->
-      <app-barra-lateral></app-barra-lateral>
+<div class="contenedor-principal">
+  <!-- Sidebar -->
+  <app-barra-lateral></app-barra-lateral>
 
-
-      <main
-        role="main"
-        class="col-md-9 ml-sm-auto col-lg-10 px-4 contenido-principal"
-      >
-        <div
-          class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom"
-        >
-        
-          <a onclick="history.back()" class="btn btn-outline-secondary">
-            <img
-              src="/images/iconos/arrow-circle-left-purple.png"
-              alt="Icono Atras"s
-            />
-          </a>
-        </div>
-
-        <div class="card agregar-mascota-card">
-          <div class="card-body">
-            <h2 class="text-center agregar-mascota-titulo">Agregar Mascota</h2>
-            
-            <!-- Mostrar el mensaje de error si 'mostrarError' es true -->
-            <ng-container *ngIf="mostrarError">
-                <div class="alert alert-danger">
-                  <p>Usuario o contraseña incorrecta</p>
-                </div>
-            </ng-container>
-
-            <form
-              let mascota from mascota
-            >
-              <div class="mb-3">
-                <label for="cedulaCliente" class="form-label"
-                  >Cédula del Cliente</label
-                >
-                <input
-                  th:field="*{cedulaCliente}"
-                  type="text"
-                  class="form-control"
-                  id="cedulaCliente"
-                  name="cedulaCliente"
-                  placeholder="Ingrese la cédula del cliente"
-                  required
-                />
-              </div>
-              <div class="mb-3">
-                <label for="nombre" class="form-label">Nombre</label>
-                <input
-                  th:field="*{nombre}"
-                  type="text"
-                  class="form-control"
-                  id="nombre"
-                  name="nombre"
-                  placeholder="Ingrese el nombre de la mascota"
-                  required
-                />
-              </div>
-              <div class="row">
-                <div class="col-md-6 mb-3">
-                  <label for="edad" class="form-label">Edad</label>
-                  <input
-                    th:field="*{edad}"
-                    type="number"
-                    class="form-control"
-                    id="edad"
-                    name="edad"
-                    placeholder="Ingrese la edad de la mascota"
-                    required
-                  />
-                </div>
-                <div class="col-md-6 mb-3">
-                  <label for="peso" class="form-label">Peso (kg)</label>
-                  <input
-                    th:field="*{peso}"
-                    type="number"
-                    class="form-control"
-                    id="peso"
-                    name="peso"
-                    placeholder="Ingrese el peso de la mascota"
-                    required
-                  />
-                </div>
-              </div>
-              <div class="mb-3">
-                <label for="foto" class="form-label">Foto</label>
-                <input
-                  th:field="*{foto}"
-                  type="url"
-                  class="form-control"
-                  id="foto"
-                  name="foto"
-                  placeholder="Ingrese la URL de la foto"
-                  required
-                />
-              </div>
-              <button type="submit" (click)="crea(mascota)"class="btn btn-dark w-100">Guardar</button>
-            </form>
-          </div>
-        </div>
-      </main>
+  <main
+    role="main"
+    class="col-md-9 ml-sm-auto col-lg-10 px-4 contenido-principal"
+  >
+    <div
+      class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom"
+    >
+      <a onclick="history.back()" class="btn btn-outline-secondary">
+        <img
+          src="/images/iconos/arrow-circle-left-purple.png"
+          alt="Icono Atras"
+          s
+        />
+      </a>
     </div>
 
-    <script th:src="@{/scripts/lateralBar.js}"></script>
-  </body>
-</html>
+    <div class="card agregar-mascota-card">
+      <div class="card-body">
+        <h2 class="text-center agregar-mascota-titulo">Agregar Mascota</h2>
+
+        <!-- Mostrar el mensaje de error si 'mostrarError' es true -->
+        <ng-container *ngIf="mostrarError">
+          <div class="alert alert-danger">
+            <p>Usuario o contraseña incorrecta</p>
+          </div>
+        </ng-container>
+
+        <form (ngSubmit)="crea()" #mascotaForm="ngForm">
+          <div class="mb-3">
+            <label for="cedulaCliente" class="form-label">Cédula del Cliente</label>
+            <input
+              type="text"
+              class="form-control"
+              id="cedulaCliente"
+              name="cedulaCliente"
+              placeholder="Ingrese la cédula del cliente"
+              required
+            />
+          </div>
+          <div class="mb-3">
+            <label for="nombre" class="form-label">Nombre</label>
+            <input
+              [(ngModel)]="formMascota.nombre"
+              type="text"
+              class="form-control"
+              id="nombre"
+              name="nombre"
+              placeholder="Ingrese el nombre de la mascota"
+              required
+            />
+          </div>
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <label for="edad" class="form-label">Edad</label>
+              <input
+                [(ngModel)]="formMascota.edad"
+                type="number"
+                class="form-control"
+                id="edad"
+                name="edad"
+                placeholder="Ingrese la edad de la mascota"
+                required
+              />
+            </div>
+            <div class="col-md-6 mb-3">
+              <label for="peso" class="form-label">Peso (kg)</label>
+              <input
+                [(ngModel)]="formMascota.peso"
+                type="number"
+                class="form-control"
+                id="peso"
+                name="peso"
+                placeholder="Ingrese el peso de la mascota"
+                required
+              />
+            </div>
+          </div>
+          <div class="mb-3">
+            <label for="foto" class="form-label">Foto</label>
+            <input
+              [(ngModel)]="formMascota.foto"
+              type="url"
+              class="form-control"
+              id="foto"
+              name="foto"
+              placeholder="Ingrese la URL de la foto"
+              required
+            />
+          </div>
+          <button type="submit" [disabled]="!mascotaForm.form.valid" class="btn btn-dark w-100">Guardar</button>
+        </form>
+        {{ formMascota.nombre }}
+        {{ formMascota.edad }}
+      </div>
+    </div>
+  </main>
+</div>

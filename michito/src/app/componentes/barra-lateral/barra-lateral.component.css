@@ -1,4 +1,24 @@
+:root{
+    --color-barra-lateral:#44344f;
 
+    --color-texto:#ffffff;
+    --color-texto-menu:#ffffff;
+
+    --color-menu-hover:#65558F;
+    --color-menu-hover-texto:#ffffff;
+
+    --color-linea:#C2F970;
+
+    --color-switch-base :rgb(201,202,206);
+    --color-switch-circulo:rgb(241,241,241);
+
+    --color-scroll:rgb(192,192,192);
+    --color-scroll-hover:rgb(134,134,134);
+}
+body {
+    font-family: 'Roboto', serif;
+    background-color: #f8f9fa;
+}
 /*----------------Barra Lateral*/
 .barra-lateral{
     position: fixed;
@@ -10,7 +30,6 @@
     overflow: hidden;
     padding: 20px 15px;
     background-color: var(--color-barra-lateral);
-    transition: width 0.5s ease,background-color 0.3s ease,left 0.5s ease;
     z-index: 50;
 }
 
@@ -24,7 +43,6 @@
     font-size: 18px;
     text-align: left;
     opacity: 1;
-    transition: opacity 0.5s ease,width 0.5s ease;
 }
 .barra-lateral span.oculto{
     opacity: 0;

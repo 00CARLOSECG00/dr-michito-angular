@@ -10,6 +10,7 @@
     font-size: 100px;
     line-height: 80px;
     font-weight: 400;
+    font-family: Jomhuria, serif;
     color: #c2f970;
   }
   
@@ -72,4 +73,9 @@
     height: 380px;
     width: 280px;
     top: 55%;
+  }
+
+  .CambioSec {
+    display: flex;
+    justify-content: center;
   }
