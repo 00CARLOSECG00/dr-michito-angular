@@ -18,6 +18,27 @@ import { CreateMascotaComponent } from '../create-mascota/create-mascota.compone
   styleUrl: './tabla-mascotas.component.css',
 })
 export class TablaMascotasComponent {
+
+  mascotas!: Mascota[];
+  cantInicialMascotas!: number;
+  mascotaSeleccionada!: Mascota | null;
+  modoEdicion: boolean = false;
+
+
+  editarMascota(mascota: Mascota) {
+    this.mascotaSeleccionada = { ...mascota }; // Clona la mascota seleccionada
+    this.modoEdicion = true; // Activa el modo edición
+  }
+
+  actualizarMascotaActualizada(mascotaActualizada: Mascota) {
+    const index = this.mascotas.findIndex(m => m.ID === mascotaActualizada.ID);
+    if (index !== -1) {
+      this.mascotas[index] = mascotaActualizada;
+    }
+    this.mascotaSeleccionada = null;
+    this.modoEdicion = false;
+  }
+
   eliminarMascota(mascota: Mascota) {
     const confirmacion = confirm(
       `¿Estás seguro de que deseas eliminar a ${mascota.nombre}?`
@@ -28,6 +49,9 @@ export class TablaMascotasComponent {
     }
   }
   agregarMascota(nuevaMascota: Mascota): void {
+    this.mascotaSeleccionada = null;
+    this.modoEdicion = false;
+
     this.cantInicialMascotas++;
     nuevaMascota.ID = this.cantInicialMascotas;
 
@@ -35,8 +59,7 @@ export class TablaMascotasComponent {
     console.log('Tabla componente Mascota agregada:', nuevaMascota);
   }
 
-  mascotas!: Mascota[];
-  cantInicialMascotas!: number;
+  
   ngOnInit(): void {
     this.mascotas = [
       {

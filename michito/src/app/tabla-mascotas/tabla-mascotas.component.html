@@ -19,9 +19,9 @@
       <h1>Mascotas</h1>
       <div class="btn-toolbar mb-2 mb-md-0">
         <div class="btn-group mr-2">
-          <a [routerLink]="['/CreaMascota']" class="btn btn-green">
-            + Agregar Mascotas
-          </a>
+          <button class="btn btn-green" (click)="mascotaSeleccionada = null; modoEdicion = false">
+            + Agregar Mascota
+          </button>
         </div>
       </div>
     </div>
@@ -56,35 +56,25 @@
               >
             </td>
             <td>
-              <a
-                th:href="@{editar/{id}(id=${Mascotas.id})}"
-                class="btn btn-sm btn-edit"
-              >
-                <img
-                  src="/images/iconos/editIcon.png"
-                  alt="Editar"
-                  class="action-icon"
-                />
-              </a>
-              <a
-                
-                class="btn btn-sm btn-delete"
-                (click)="eliminarMascota(Mascotas)"
-              >
-                <img
-                  src="/images/iconos/trashIcon.png"
-                  alt="Eliminar"
-                  class="action-icon"
-                />
-              </a>
+              <button class="btn btn-sm btn-edit" (click)="editarMascota(Mascotas)">
+                <img src="/images/iconos/editIcon.png" alt="Editar" class="action-icon" />
+              </button>
+              <button class="btn btn-sm btn-delete" (click)="eliminarMascota(Mascotas)">
+                <img src="/images/iconos/trashIcon.png" alt="Eliminar" class="action-icon" />
+              </button>
             </td>
           </tr>
         </tbody>
       </table>
 
-      <app-create-mascota
-        (mascotaCreada)="agregarMascota($event)"
-      ></app-create-mascota>
+      <div *ngIf="mascotaSeleccionada || !modoEdicion">
+        <app-create-mascota
+          [mascota]="mascotaSeleccionada"
+          [modoEdicion]="modoEdicion"
+          (mascotaCreada)="agregarMascota($event)"
+          (mascotaActualizada)="actualizarMascotaActualizada($event)"
+        ></app-create-mascota>
+      </div>
     </div>
 
   </main>

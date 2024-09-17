@@ -20,7 +20,9 @@
 
     <div class="card agregar-mascota-card">
       <div class="card-body">
-        <h2 class="text-center agregar-mascota-titulo">Agregar Mascota</h2>
+        <h2 class="text-center agregar-mascota-titulo">
+          {{ modoEdicion ? 'Editar Mascota' : 'Agregar Mascota' }}
+        </h2>
 
         <!-- Mostrar el mensaje de error si 'mostrarError' es true -->
         <ng-container *ngIf="mostrarError">
@@ -29,7 +31,7 @@
           </div>
         </ng-container>
 
-        <form (ngSubmit)="crea()" #mascotaForm="ngForm">
+        <form (ngSubmit)="guardar()" #mascotaForm="ngForm">
           <div class="mb-3">
             <label for="cedulaCliente" class="form-label">Cédula del Cliente</label>
             <input
@@ -91,7 +93,9 @@
               required
             />
           </div>
-          <button type="submit" [disabled]="!mascotaForm.form.valid" class="btn btn-dark w-100">Guardar</button>
+          <button type="submit" class="btn btn-dark w-100">
+            {{ modoEdicion ? 'Actualizar' : 'Guardar' }}
+          </button>
         </form>
         {{ formMascota.nombre }}
         {{ formMascota.edad }}
