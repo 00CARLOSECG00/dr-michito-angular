@@ -95,6 +95,8 @@ main.min-main{
 .btn-green {
     background-color: #C2F970;
     border-color: #C2F970;
+    min-height: 30px;
+    width: 100px;
     color: #44344F;
     font-weight: 600;
     margin-bottom: 4px;
