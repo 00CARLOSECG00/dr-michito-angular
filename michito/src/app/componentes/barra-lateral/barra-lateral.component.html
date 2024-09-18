@@ -1,87 +1,69 @@
 <div class="barra-lateral">
-    <div>
-      <div class="nombre-pagina">
-        <img
-          id="logo"
-          src="/images/iconos/Logo_principal_dr.michito_blanco.png"
-          alt="logo"
-        />
-        <span>Dr. Michito</span>
-      </div>
-    </div>
-
-    <nav class="navegacion">
-      <ul>
-        <li>
-          <a id="dashboard" [routerLink]="['/mascotas']">
-            <img
-              src="/images/iconos/barraLateral/chart-pie.png"
-              alt="dashboard"
-            />
-            <span>Dashboard</span>
-          </a>
-        </li>
-        <li>
-          <a id="personal" [routerLink]="['/mascotas']">
-            <img
-              src="/images/iconos/barraLateral/identification.png"
-              alt="personal"
-            />
-            <span>Personal</span>
-          </a>
-        </li>
-        <li>
-          <a id="medicamentos" [routerLink]="['/mascotas']">
-            <img
-              src="/images/iconos/barraLateral/Pills.png"
-              alt="medicamentos"
-            />
-            <span>Medicamentos</span>
-          </a>
-        </li>
-        <li>
-          <a id="mascotas" [routerLink]="['/mascotas']"> 
-            <img 
-              src="/images/iconos/barraLateral/Dog.png"
-              alt="mascotas"
-            />
-            <span>Mascotas</span>
-          </a>
-        </li>
-        <li>
-          <a id="clientes" [routerLink]="['/clientes']">
-            <img
-              src="/images/iconos/barraLateral/users.png"
-              alt="clientes"
-            />
-            <span>Clientes</span>
-          </a>
-        </li>
-        <li>
-          <a id="tratamientos" [routerLink]="['/mascotas']">
-            <img
-              src="/images/iconos/barraLateral/Stetoscope.png"
-              alt="tratamientos"
-            />
-            <span>Tratamientos</span>
-          </a>
-        </li>
-
-        <li>
-          <a id="salir" [routerLink]="['/']">
-            <img
-              src="/images/iconos/arrow-circle-left-white.png"
-              alt="salir"
-            />
-            <span>Salir</span>
-          </a>
-        </li>
-      </ul>
-    </nav>
-
-    <div>
-      <div class="linea"></div>
-      <!---->
+  <div>
+    <div class="nombre-pagina">
+      <img id="logo" src="/images/iconos/Logo_principal_dr.michito_blanco.png" alt="logo" />
+      <span>Dr. Michito</span>
     </div>
   </div>
-  <script tsrc="/script/lateralBar.js"></script>
+
+  <nav class="navegacion">
+    <ul>
+      <!-- El botón 'Dashboard' siempre está visible -->
+      <li>
+        <a id="dashboard" (click)="onClick('dashboard')">
+          <img src="/images/iconos/barraLateral/chart-pie.png" alt="dashboard" />
+          <span>Dashboard</span>
+        </a>
+      </li>
+
+      <!-- El botón 'Personal' solo está visible para el admin -->
+      <li *ngIf="tipoUsuario === 'admin'">
+        <a id="personal" (click)="onClick('personal')">
+          <img src="/images/iconos/barraLateral/identification.png" alt="personal" />
+          <span>Personal</span>
+        </a>
+      </li>
+
+      <!-- El botón 'Medicamentos' visible para todos -->
+      <li>
+        <a id="medicamentos" (click)="onClick('medicamentos')">
+          <img src="/images/iconos/barraLateral/Pills.png" alt="medicamentos" />
+          <span>Medicamentos</span>
+        </a>
+      </li>
+
+      <!-- Otros botones -->
+      <li>
+        <a id="mascotas" (click)="onClick('mascotas')">
+          <img src="/images/iconos/barraLateral/Dog.png" alt="mascotas" />
+          <span>Mascotas</span>
+        </a>
+      </li>
+
+      <li *ngIf="tipoUsuario === 'admin'">
+        <a id="clientes" (click)="onClick('clientes')">
+          <img src="/images/iconos/barraLateral/users.png" alt="clientes" />
+          <span>Clientes</span>
+        </a>
+      </li>
+
+      <li>
+        <a id="tratamientos" (click)="onClick('tratamientos')">
+          <img src="/images/iconos/barraLateral/Stetoscope.png" alt="tratamientos" />
+          <span>Tratamientos</span>
+        </a>
+      </li>
+
+      <li>
+        <a id="salir" (click)="onClick('salir')">
+          <img src="/images/iconos/arrow-circle-left-white.png" alt="salir" />
+          <span>Salir</span>
+        </a>
+      </li>
+    </ul>
+  </nav>
+
+  <div>
+    <div class="linea"></div>
+  </div>
+</div>

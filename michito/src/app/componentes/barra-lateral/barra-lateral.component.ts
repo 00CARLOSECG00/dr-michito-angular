@@ -1,13 +1,19 @@
-import { Component } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { Component, Input } from '@angular/core';
+import { CommonModule } from '@angular/common'
 
 @Component({
   selector: 'app-barra-lateral',
   standalone: true,
-  imports: [RouterModule],
+  imports: [CommonModule],
   templateUrl: './barra-lateral.component.html',
-  styleUrl: './barra-lateral.component.css'
+  styleUrls: ['./barra-lateral.component.css']
 })
 export class BarraLateralComponent {
+  @Input() tipoUsuario: string = ''; // define tipoUsuario como un input
 
+  // Método para manejar los clics de los botones
+  onClick(buttonName: string) {
+    console.log('Botón clickeado:', buttonName);
+    // Aquí puedes implementar lógica para navegar o cambiar el contenido
+  }
 }
