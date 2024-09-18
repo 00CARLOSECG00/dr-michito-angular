@@ -8,8 +8,8 @@
 
   <nav class="navegacion">
     <ul>
-      <!-- El botón 'Dashboard' siempre está visible -->
-      <li>
+      <!-- El botón 'Dashboard' solo está visible para el admin -->
+      <li *ngIf="tipoUsuario === 'admin'">
         <a id="dashboard" (click)="onClick('dashboard')">
           <img src="/images/iconos/barraLateral/chart-pie.png" alt="dashboard" />
           <span>Dashboard</span>
@@ -24,15 +24,15 @@
         </a>
       </li>
 
-      <!-- El botón 'Medicamentos' visible para todos -->
-      <li>
+      <!-- El botón 'Medicamentos' visible para admin y veterinario -->
+      <li *ngIf="tipoUsuario === 'admin' || tipoUsuario === 'veterinario'">
         <a id="medicamentos" (click)="onClick('medicamentos')">
           <img src="/images/iconos/barraLateral/Pills.png" alt="medicamentos" />
           <span>Medicamentos</span>
         </a>
       </li>
 
-      <!-- Otros botones -->
+      <!-- El botón 'Mascotas' visible para todos -->
       <li>
         <a id="mascotas" (click)="onClick('mascotas')">
           <img src="/images/iconos/barraLateral/Dog.png" alt="mascotas" />
@@ -40,20 +40,23 @@
         </a>
       </li>
 
-      <li *ngIf="tipoUsuario === 'admin'">
+      <!-- El botón 'Clientes' visible para admin y veterinario -->
+      <li *ngIf="tipoUsuario === 'admin' || tipoUsuario === 'veterinario'">
         <a id="clientes" (click)="onClick('clientes')">
           <img src="/images/iconos/barraLateral/users.png" alt="clientes" />
           <span>Clientes</span>
         </a>
       </li>
 
-      <li>
+      <!-- El botón 'Tratamientos' visible para admin y veterinario -->
+      <li *ngIf="tipoUsuario === 'admin' || tipoUsuario === 'veterinario'">
         <a id="tratamientos" (click)="onClick('tratamientos')">
           <img src="/images/iconos/barraLateral/Stetoscope.png" alt="tratamientos" />
           <span>Tratamientos</span>
         </a>
       </li>
 
+      <!-- El botón 'Salir' visible para todos -->
       <li>
         <a id="salir" (click)="onClick('salir')">
           <img src="/images/iconos/arrow-circle-left-white.png" alt="salir" />

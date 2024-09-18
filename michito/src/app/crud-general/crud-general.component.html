@@ -1,5 +1,19 @@
-<app-barra-lateral [tipoUsuario]="tipoUsuario"></app-barra-lateral>
-<!-- Aquí irían los componentes dinámicos a la derecha -->
+<app-barra-lateral 
+  [tipoUsuario]="tipoUsuario"
+  (botonSeleccionado)="seleccionarComponente($event)">
+</app-barra-lateral>
 <div class="contenido-derecho">
-  <!-- Contenido dinámico dependiendo de la barra lateral -->
+  <!-- Mostrar el componente dinámico -->
+  <ng-container [ngSwitch]="componenteSeleccionado">
+    <app-tabla-mascotas *ngSwitchCase="'mascotas'"></app-tabla-mascotas>
+    <app-tabla-clientes *ngSwitchCase="'clientes'"></app-tabla-clientes>
+    <!-- Agrega más componentes según los botones -->
+     <!--
+    <div *ngSwitchCase="'dashboard'">Dashboard Component Placeholder</div>
+    <div *ngSwitchCase="'personal'">Personal Component Placeholder</div>
+    <div *ngSwitchCase="'medicamentos'">Medicamentos Component Placeholder</div>
+    <div *ngSwitchCase="'tratamientos'">Tratamientos Component Placeholder</div>
+    <div *ngSwitchCase="'salir'">Salir Component Placeholder</div>
+    -->
+  </ng-container>
 </div>
