@@ -2,8 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { BarraLateralComponent } from '../componentes/barra-lateral/barra-lateral.component';
 import { Mascota } from '../mascota';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { CreateMascotaComponent } from '../create-mascota/create-mascota.component';
+import { MascotaService } from '../mascota.service';
 
 @Component({
   selector: 'app-tabla-mascotas',
@@ -24,6 +25,13 @@ export class TablaMascotasComponent {
   mascotaSeleccionada!: Mascota | null;
   modoEdicion: boolean = false;
 
+
+  constructor(private mascotaService: MascotaService, private router: Router) {}
+  
+  verMascota(mascota: Mascota) {
+    this.mascotaService.seleccionarMascota(mascota); // Pasar la mascota al servicio para verla
+    this.router.navigate(['/detalles-mascota']); // Navegar al componente de detalles
+  }
 
   editarMascota(mascota: Mascota) {
     this.mascotaSeleccionada = { ...mascota }; // Clona la mascota seleccionada

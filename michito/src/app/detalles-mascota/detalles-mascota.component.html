@@ -1,0 +1,40 @@
+<app-barra-lateral></app-barra-lateral>
+
+<main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4 contenido-principal">
+  <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h1>Detalle de Mascota</h1>
+    <div class="btn-toolbar mb-2 mb-md-0">
+      <div class="btn-group mr-2">
+        <button class="btn btn-green" onclick="history.back()">Volver</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="card mb-4">
+    <div class="row g-0">
+      <!-- Columna de la imagen de la mascota -->
+      <div class="col-md-4 d-flex justify-content-center align-items-center p-3">
+        <img [src]="mascota.foto" class="img-fluid rounded-circle" alt="Foto de la mascota" />
+      </div>
+      <!-- Columna de los detalles de la mascota -->
+      <div class="col-md-8">
+        <div class="card-body">
+          <h4 class="card-title">Detalles de la Mascota</h4>
+          <div class="detalle-item">
+            <strong>ID: </strong> <span>{{ mascota.ID }}</span>
+          </div>
+          <div class="detalle-item">
+            <strong>Nombre: </strong> <span>{{ mascota.nombre }}</span>
+          </div>
+          <div class="detalle-item">
+            <strong>Peso: </strong> <span>{{ mascota.peso }} kg</span>
+          </div>
+          <div class="detalle-item">
+            <strong>Edad: </strong> <span>{{ mascota.edad }} años</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</main>

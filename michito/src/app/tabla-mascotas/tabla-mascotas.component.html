@@ -46,11 +46,7 @@
               <img src="{{ Mascotas.foto }}" class="foto_mascota" />
             </td>
             <td>
-              <a
-                th:href="@{/Mascotas/detalle/{id}(id=${Mascotas.id})}"
-                class="btn btn-green"
-                >Ver</a
-              >
+              <button class="btn btn-green" (click)="verMascota(Mascotas)">Ver</button>
             </td>
             <td>
               <button class="btn btn-sm btn-edit" (click)="editarMascota(Mascotas)">
