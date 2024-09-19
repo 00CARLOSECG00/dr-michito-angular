@@ -59,15 +59,6 @@
           </tr>
         </tbody>
       </table>
-
-      <div *ngIf="mascotaSeleccionada || !modoEdicion">
-        <app-create-mascota
-          [mascota]="mascotaSeleccionada"
-          [modoEdicion]="modoEdicion"
-          (mascotaCreada)="agregarMascota($event)"
-          (mascotaActualizada)="actualizarMascotaActualizada($event)"
-        ></app-create-mascota>
-      </div>
     </div>
 
   </main>
