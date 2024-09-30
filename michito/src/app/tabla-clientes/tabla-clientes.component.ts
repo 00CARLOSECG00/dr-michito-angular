@@ -48,4 +48,5 @@ export class TablaClientesComponent implements OnInit {
     this.loadClientes();
   }
   
+  
 }

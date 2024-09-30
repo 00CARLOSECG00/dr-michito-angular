@@ -3,11 +3,11 @@ import { Mascota } from '../Model/mascota';
 import { HttpClient } from '@angular/common/http';  // Importamos HttpClient para hacer peticiones
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
-
+import { CreateMascotaComponent } from '../create-mascota/create-mascota.component';
 @Component({
   selector: 'app-tabla-mascotas',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, CreateMascotaComponent],
   templateUrl: './tabla-mascotas.component.html',
   styleUrl: './tabla-mascotas.component.css',
 })

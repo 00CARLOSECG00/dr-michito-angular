@@ -12,7 +12,7 @@ import { DetallesMascotaComponent } from "../detalles-mascota/detalles-mascota.c
   standalone: true,
   imports: [
     CommonModule,
-    HttpClientModule,  // HttpClientModule aquí
+    HttpClientModule,  
     BarraLateralComponent, 
     TablaClientesComponent,
     TablaMascotasComponent, 
@@ -25,11 +25,11 @@ export class CrudGeneralComponent implements OnInit {
   tipoUsuario: string = '';
   componenteSeleccionado: string = '';
 
-  constructor(private route: ActivatedRoute) {}  // La inyección de ActivatedRoute debe estar aquí
+  constructor(private route: ActivatedRoute) {} 
 
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {
-      this.tipoUsuario = params['usuario'];  // Asegúrate de que 'usuario' esté disponible en los parámetros
+      this.tipoUsuario = params['usuario'];  
     });
   }
 

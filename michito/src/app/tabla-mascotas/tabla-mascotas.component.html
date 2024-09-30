@@ -7,23 +7,21 @@
     <div
       class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom"
     >
-      <a onclick="history.back()" class="btn btn-outline-secondary">
-        <img
-          src="/images/iconos/arrow-circle-left-purple.png"
-          alt="Icono Atras"
-        />
-      </a>
+      
       <h1>Mascotas</h1>
       <div class="btn-toolbar mb-2 mb-md-0">
         <div class="btn-group mr-2">
-          <button class="btn btn-green" (click)="mascotaSeleccionada = null; modoEdicion = false">
+          <button class="btn btn-green" (click)="mascotaSeleccionada = null; modoEdicion = true">
             + Agregar Mascota
           </button>
         </div>
       </div>
     </div>
+    <div *ngIf="modoEdicion">
+      <app-create-mascota></app-create-mascota>
+    </div>
     <!--TABLA-->
-    <div id="mascotas_table">
+    <div *ngIf="!modoEdicion" id="mascotas_table">
       <table class="table table-striped table-hover">
         <thead class="table-hover">
           <tr>
