@@ -33,7 +33,7 @@
         </thead>
         <tbody>
           <tr *ngFor="let Mascotas of mascotas">
-            <td>{{ Mascotas.ID }}</td>
+            <td>{{ Mascotas.id }}</td>
             <td>{{ Mascotas.nombre }}</td>
             <td>{{ Mascotas.edad }}</td>
             <td>{{ Mascotas.peso }}</td>
@@ -41,11 +41,7 @@
               <img src="{{ Mascotas.foto }}" class="foto_mascota" />
             </td>
             <td>
-              <a
-                th:href="@{/Mascotas/detalle/{id}(id=${Mascotas.id})}"
-                class="btn btn-green"
-                >Ver</a
-              >
+              <button class="btn btn-green" (click)="verMascota(Mascotas)">Ver</button>
             </td>
             <td>
               <button class="btn btn-sm btn-edit" (click)="editarMascota(Mascotas)">
@@ -58,15 +54,6 @@
           </tr>
         </tbody>
       </table>
-
-      <div *ngIf="mascotaSeleccionada || !modoEdicion">
-        <app-create-mascota
-          [mascota]="mascotaSeleccionada"
-          [modoEdicion]="modoEdicion"
-          (mascotaCreada)="agregarMascota($event)"
-          (mascotaActualizada)="actualizarMascotaActualizada($event)"
-        ></app-create-mascota>
-      </div>
     </div>
 
   </main>
