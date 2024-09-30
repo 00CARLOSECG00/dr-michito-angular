@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Mascota } from './mascota';
+import { Mascota } from '../Model/mascota';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import internal from 'node:stream';
 

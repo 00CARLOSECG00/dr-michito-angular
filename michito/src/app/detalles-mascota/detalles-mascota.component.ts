@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { Mascota } from '../mascota';
-import { MascotaService } from '../mascota.service';
+import { Mascota } from '../Model/mascota';
+import { MascotaService } from '../Services/mascota.service';
 import { Router } from '@angular/router';
 import { BarraLateralComponent } from "../componentes/barra-lateral/barra-lateral.component";
 

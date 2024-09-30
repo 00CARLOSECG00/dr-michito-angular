@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, Output, output } from '@angular/core';
 import { FormsModule } from '@angular/forms';  
 import { CommonModule } from '@angular/common';
-import { Mascota } from '../mascota';
+import { Mascota } from '../Model/mascota';
 import { BarraLateralComponent } from '../componentes/barra-lateral/barra-lateral.component';
 import { Router } from '@angular/router';
 

@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { BarraLateralComponent } from '../componentes/barra-lateral/barra-lateral.component';
-import { Mascota } from '../mascota';
+import { Mascota } from '../Model/mascota';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { CreateMascotaComponent } from '../create-mascota/create-mascota.component';
-import { MascotaService } from '../mascota.service';
+import { MascotaService } from '../Services/mascota.service';
 
 @Component({
   selector: 'app-tabla-mascotas',
