@@ -3,9 +3,6 @@ import{MainPageComponent} from'./main-page/main-page.component'
 import{LoginComponent}from'./login/login.component'
 import{LoginPortalInternoComponent}from'./login-portal-interno/login-portal-interno.component'
 import { CrudGeneralComponent } from './crud-general/crud-general.component';
-import { DetallesMascotaComponent } from './detalles-mascota/detalles-mascota.component';
-import {TablaMascotasComponent} from './tabla-mascotas/tabla-mascotas.component'
-
 
 
 export const routes: Routes = [
@@ -24,12 +21,5 @@ export const routes: Routes = [
     { 
         path: 'crud-general', 
         component: CrudGeneralComponent
-    },
-    {
-        path: 'detalles-mascota',
-        component: DetallesMascotaComponent
-    },{ 
-        path: 'Clientes/Mascotas/:id', 
-        component: CrudGeneralComponent 
     }
 ];

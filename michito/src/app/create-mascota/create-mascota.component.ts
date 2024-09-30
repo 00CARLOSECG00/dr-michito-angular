@@ -1,14 +1,14 @@
 import { Component, EventEmitter, Input, Output, output } from '@angular/core';
 import { FormsModule } from '@angular/forms';  
 import { CommonModule } from '@angular/common';
-import { Mascota } from '../Model/mascota';
+import { Mascota } from '../mascota';
 import { BarraLateralComponent } from '../componentes/barra-lateral/barra-lateral.component';
 import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-create-mascota',
   standalone: true,
-  imports: [FormsModule, CommonModule], 
+  imports: [FormsModule, CommonModule, BarraLateralComponent], 
   templateUrl: './create-mascota.component.html',
   styleUrls: ['./create-mascota.component.css']
 })

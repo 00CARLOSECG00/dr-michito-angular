@@ -1,5 +1,5 @@
 import { Component,OnInit } from '@angular/core';
-import{Login}from'../Model/login'
+import{Login}from'../login'
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router'  // Asegúrate de importar FormsModule
