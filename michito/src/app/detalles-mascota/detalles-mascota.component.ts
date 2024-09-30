@@ -13,16 +13,16 @@ import { BarraLateralComponent } from "../componentes/barra-lateral/barra-latera
 })
 export class DetallesMascotaComponent {
 
-  mascota: Mascota = { ID: 0, nombre: '', peso: 0, edad: 0, foto: '' };
+  mascota: Mascota = { id: 0, nombre: '', peso: 0, edad: 0, foto: '' };
 
   constructor(private mascotaService: MascotaService, private router: Router) {}
 
   ngOnInit() {
+    // Suscribirse al BehaviorSubject para obtener la mascota seleccionada
     this.mascotaService.mascotaSeleccionada$.subscribe((mascota) => {
       if (mascota) {
-        this.mascota = mascota; // Solo asigna si no es null
+        this.mascota = mascota; // Asigna la mascota si no es null
       }
     });
   }
-  
 }

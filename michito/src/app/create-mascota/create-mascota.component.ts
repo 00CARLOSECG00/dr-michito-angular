@@ -8,7 +8,7 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-create-mascota',
   standalone: true,
-  imports: [FormsModule, CommonModule, BarraLateralComponent], 
+  imports: [FormsModule, CommonModule], 
   templateUrl: './create-mascota.component.html',
   styleUrls: ['./create-mascota.component.css']
 })

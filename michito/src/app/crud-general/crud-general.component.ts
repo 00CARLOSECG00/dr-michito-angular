@@ -16,7 +16,7 @@ import { DetallesMascotaComponent } from "../detalles-mascota/detalles-mascota.c
     BarraLateralComponent, 
     TablaClientesComponent,
     TablaMascotasComponent, 
-    DetallesMascotaComponent
+    //DetallesMascotaComponent
   ],
   templateUrl: './crud-general.component.html',
   styleUrls: ['./crud-general.component.css']
