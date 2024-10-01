@@ -20,7 +20,7 @@ export class CreateMascotaComponent {
   sendMascota!:Mascota;
   mostrarError: boolean = false;
   formMascota: Mascota = {
-    ID: 0, 
+    id: 0, 
     nombre: '',
     peso: 0,
     edad: 0,
@@ -52,7 +52,7 @@ export class CreateMascotaComponent {
 
   limpiarFormulario() {
     this.formMascota = {
-      ID: 0, 
+      id: 0, 
       nombre: '',
       peso: 0,
       edad: 0,

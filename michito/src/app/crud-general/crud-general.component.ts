@@ -6,18 +6,19 @@ import { BarraLateralComponent } from '../componentes/barra-lateral/barra-latera
 import { TablaClientesComponent } from '../tabla-clientes/tabla-clientes.component';  
 import { TablaMascotasComponent } from '../tabla-mascotas/tabla-mascotas.component';
 import { DetallesMascotaComponent } from "../detalles-mascota/detalles-mascota.component";
+import { TablaMedicamentosComponent } from "../tabla-medicamentos/tabla-medicamentos.component";
 
 @Component({
   selector: 'app-crud-general',
   standalone: true,
   imports: [
     CommonModule,
-    HttpClientModule,  // HttpClientModule aquí
-    BarraLateralComponent, 
+    HttpClientModule, // HttpClientModule aquí
+    BarraLateralComponent,
     TablaClientesComponent,
-    TablaMascotasComponent, 
-    //DetallesMascotaComponent
-  ],
+    TablaMascotasComponent,
+    TablaMedicamentosComponent
+],
   templateUrl: './crud-general.component.html',
   styleUrls: ['./crud-general.component.css']
 })
@@ -35,5 +36,6 @@ export class CrudGeneralComponent implements OnInit {
 
   seleccionarComponente(componente: string): void {
     this.componenteSeleccionado = componente;
+    console.log('Componente seleccionado:', this.componenteSeleccionado);
   }
 }

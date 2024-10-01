@@ -1,8 +1,8 @@
 export class Medicamento {
-    public ID!:number;
-    public nombre!:string;
-    public tipo!:string;
-    public descripcion!:string;
-    public fechaVencimiento!:Date;
-    public stock!:number;
+    public id!: number;
+    public nombre!: string;
+    public precioVenta!: number;
+    public precioCompra!: number;
+    public unidadesDisponibles!: number;
+    public unidadesVendidas!: number;
 }
