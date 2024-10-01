@@ -1,8 +1,7 @@
-import { Component, EventEmitter, Input, Output, output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';  
 import { CommonModule } from '@angular/common';
 import { Mascota } from '../Model/mascota';
-import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 
 @Component({
@@ -13,66 +12,67 @@ import { HttpClient } from '@angular/common/http';
   styleUrls: ['./create-mascota.component.css']
 })
 export class CreateMascotaComponent {
-  @Output() mascotaCreada = new EventEmitter<Mascota>(); 
-  @Input() mascota!: Mascota | null; // Recibe la mascota para editar
-  @Input() modoEdicion: boolean = false; // Indica si estamos en edición o creación
-  @Output() mascotaActualizada = new EventEmitter<Mascota>(); // Emitir para edición
+  @Input() mascota!: Mascota | null; 
+  @Input() modoEdicion: boolean = false; 
+  @Output() volver: EventEmitter<void> = new EventEmitter<void>();
 
-  
-
-  sendMascota!:Mascota;
-  mostrarError: boolean = false;
   formMascota: Mascota = {
-    id: 0, 
+    id: 0,
     nombre: '',
     peso: 0,
     edad: 0,
     foto: ''
-  }
+  };
+  
   private ROOT_URL = 'http://localhost:8080/Mascotas';
-  constructor(private router: Router, private http: HttpClient) {}
+  mostrarError: boolean = false;
+
+  constructor(private http: HttpClient) {}
+
 
   ngOnChanges() {
     if (this.mascota) {
       this.formMascota = { ...this.mascota }; 
+    } else {
+      this.limpiarFormulario();
     }
   }
   
 
   guardar() {
-    if (this.modoEdicion) {
-      console.log('Mascota Actualizada:', this.formMascota);
-      this.mascotaActualizada.emit(this.formMascota);
-    } else {
-      console.log('Mascota a enviar:', this.formMascota); 
-      this.http.post<Mascota>(`${this.ROOT_URL}/agregar`, this.formMascota).subscribe({
+    if (!this.modoEdicion) {
+      const cedulaCliente = (document.getElementById('cedulaCliente') as HTMLInputElement).value;
+      console.log('Datos enviados:', { ...this.formMascota, clienteCedula: cedulaCliente });  // Verifica los datos que envías
+  
+      this.http.post<Mascota>(`${this.ROOT_URL}/agregar`, { ...this.formMascota, clienteCedula: cedulaCliente }).subscribe({
         next: (mascotaAgregada) => {
           console.log('Mascota agregada:', mascotaAgregada);
-          this.mascotaCreada.emit(mascotaAgregada);
+          this.volver.emit();
         },
         error: (error) => {
           console.error('Error al agregar la mascota:', error);
           this.mostrarError = true;
         }
       });
+    } else {
+      this.volver.emit();
     }
-    this.limpiarFormulario();
   }
+  
+  
 
   limpiarFormulario() {
     this.formMascota = {
-      id: 0, 
+      id: 0,
       nombre: '',
       peso: 0,
       edad: 0,
       foto: ''
     };
-
-    this.modoEdicion = false;
-    this.mascota = null;
   }
 
-  goBack() {
-    history.back();
+  // Al volver, emite el evento para indicar que se sale de la vista
+  onVolver() {
+    this.volver.emit();  // Emite 'false' para notificar al padre que se ha salido del modo creación/edición
   }
 }

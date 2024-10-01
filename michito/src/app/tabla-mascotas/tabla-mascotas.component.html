@@ -9,8 +9,13 @@
     </div>
     
     <div *ngIf="modoCreacion">
-      <app-create-mascota></app-create-mascota>
+      <app-create-mascota
+      [mascota]="mascotaSeleccionada"
+      [modoEdicion]="modoEdicion"
+      (volver)="modoCreacion = false">
+      </app-create-mascota>
     </div>
+    
     <div *ngIf="modoVer && mascotaSeleccionada">
       <app-detalles-mascota 
         [mascota]="mascotaSeleccionada" 
@@ -26,7 +31,7 @@
         <h1>Mascotas</h1>
         <div class="btn-toolbar mb-2 mb-md-0">
           <div class="btn-group mr-2">
-            <button class="btn btn-green" (click)="mascotaSeleccionada = null; modoEdicion = true">
+            <button class="btn btn-green" (click)="agregarMascota()">
               + Agregar Mascota
             </button>
           </div>

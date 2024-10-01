@@ -8,11 +8,8 @@
     <div
       class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom"
     >
-    <a  class="btn btn-outline-secondary">
-      <img
-        src="/images/iconos/arrow-circle-left-purple.png"
-        alt="Icono Atras"
-      />
+    <a class="btn btn-outline-secondary" (click)="onVolver()">
+      <img src="/images/iconos/arrow-circle-left-purple.png" alt="Icono Atras" />
     </a>
     
     </div>
@@ -22,13 +19,7 @@
         <h2 class="text-center agregar-mascota-titulo">
           {{ modoEdicion ? 'Editar Mascota' : 'Agregar Mascota' }}
         </h2>
-
-        <!-- Mostrar el mensaje de error si 'mostrarError' es true -->
-        <ng-container *ngIf="mostrarError">
-          <div class="alert alert-danger">
-            <p>Usuario o contraseña incorrecta</p>
-          </div>
-        </ng-container>
+        
 
         <form (ngSubmit)="guardar()" #mascotaForm="ngForm">
           <div class="mb-3">

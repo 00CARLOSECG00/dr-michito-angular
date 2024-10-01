@@ -46,15 +46,7 @@ export class TablaMascotasComponent implements OnInit {
     this.modoEdicion = true;  // Activa el modo edición
   }
 
-  // Actualiza la mascota después de la edición
-  actualizarMascotaActualizada(mascotaActualizada: Mascota) {
-    const index = this.mascotas.findIndex(m => m.id === mascotaActualizada.id);
-    if (index !== -1) {
-      this.mascotas[index] = mascotaActualizada;
-    }
-    this.mascotaSeleccionada = null;
-    this.modoEdicion = false;
-  }
+  
 
   // Elimina la mascota haciendo una petición DELETE al backend
   eliminarMascota(mascota: Mascota) {
@@ -70,20 +62,11 @@ export class TablaMascotasComponent implements OnInit {
     }
   }
 
-  // Agregar una nueva mascota haciendo una petición POST al backend
-  agregarMascota(nuevaMascota: Mascota): void {
+  // Agregar una nueva mascota 
+  agregarMascota(): void {
     this.mascotaSeleccionada = null;
     this.modoEdicion = false;
-
-    this.http.post<Mascota>(`${this.ROOT_URL}/agregar`, nuevaMascota).subscribe({
-      next: (mascotaAgregada) => {
-        this.mascotas.push(mascotaAgregada);
-        console.log('Mascota agregada:', mascotaAgregada);
-      },
-      error: (error) => {
-        console.error('Error al agregar la mascota:', error);
-      }
-    });
+    this.modoCreacion = true;
   }
 
   // Inicializa el componente cargando las mascotas desde el backend
