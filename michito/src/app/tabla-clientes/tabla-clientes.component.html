@@ -1,3 +1,10 @@
+<div *ngIf="modoCreacion">
+  <app-create-cliente
+      
+      [modoEdicion]="modoEdicion"
+      (volver)="modoCreacion = false">
+      </app-create-cliente>
+</div>
 <div class="contenedor-principal">
   <!-- Main content -->
   <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4 contenido-principal">
@@ -7,7 +14,7 @@
       <h1>Clientes</h1>
       <div class="btn-toolbar mb-2 mb-md-0">
         <div class="btn-group mr-2">
-          <a routerLink="/Clientes/agregar" class="btn btn-green">
+          <a routerLink="/Clientes/agregar" class="btn btn-green" (click)="crearCliente()">
             + Agregar Cliente
           </a>
         </div>

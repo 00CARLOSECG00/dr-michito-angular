@@ -3,21 +3,25 @@ import { HttpClient } from '@angular/common/http';
 import { Cliente } from '../Model/cliente';
 import { RouterModule } from '@angular/router';  // Importar RouterModule para usar routerLink
 import { CommonModule } from '@angular/common';  // Importar CommonModule para usar directivas como ngFor, ngIf
-
+import { CreateClienteComponent } from '../create-cliente/create-cliente.component';
 @Component({
   selector: 'app-tabla-clientes',
   standalone: true,
   imports: [
     CommonModule,    // Importa CommonModule para habilitar ngFor, ngIf, etc.
-    RouterModule     // Importa RouterModule para habilitar routerLink
+    RouterModule,     // Importa RouterModule para habilitar routerLink
+    CreateClienteComponent
   ],
   templateUrl: './tabla-clientes.component.html',
   styleUrls: ['./tabla-clientes.component.css']
 })
 export class TablaClientesComponent implements OnInit {
   clientes: Cliente[] = [];
-  private ROOT_URL = 'http://localhost:8080/Clientes';  // URL base de tu API
+  modoCreacion: boolean = false;
+  modoEdicion: boolean = false;
+  clienteSeleccionado!: Cliente | null;
 
+  private ROOT_URL = 'http://localhost:8080/Clientes';  // URL base del backend
   constructor(private http: HttpClient) {}
 
   ngOnInit(): void {
@@ -47,6 +51,10 @@ export class TablaClientesComponent implements OnInit {
     }
     this.loadClientes();
   }
-  
+  crearCliente(): void {
+    this.modoCreacion = true;
+    this.modoEdicion = false;
+    this.clienteSeleccionado = null;
+  }
   
 }
