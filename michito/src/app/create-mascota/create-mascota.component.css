@@ -37,10 +37,4 @@
 }
 
 
-/*-----------------> Linea*/
-.barra-lateral .linea{
-    width: 100%;
-    height: 1px;
-    margin-top: 15px;
-    background-color: var(--color-linea);
-}
+

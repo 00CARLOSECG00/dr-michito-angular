@@ -4,10 +4,11 @@ import { HttpClient } from '@angular/common/http';  // Importamos HttpClient par
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { CreateMascotaComponent } from '../create-mascota/create-mascota.component';
+import { DetallesMascotaComponent } from '../detalles-mascota/detalles-mascota.component';
 @Component({
   selector: 'app-tabla-mascotas',
   standalone: true,
-  imports: [CommonModule, CreateMascotaComponent],
+  imports: [CommonModule, CreateMascotaComponent, DetallesMascotaComponent],
   templateUrl: './tabla-mascotas.component.html',
   styleUrl: './tabla-mascotas.component.css',
 })
@@ -16,23 +17,29 @@ export class TablaMascotasComponent implements OnInit {
   mascotas!: Mascota[];
   mascotaSeleccionada!: Mascota | null;
   modoEdicion: boolean = false;
+  modoCreacion: boolean = false;
+  modoVer: boolean = false;
   private ROOT_URL = 'http://localhost:8080/Mascotas';  // URL base del backend
 
   constructor(private http: HttpClient, private router: Router) {}
 
-  // Navegar a la vista de detalles de la mascota seleccionada
+  /*** Navegar a la vista de detalles de la mascota seleccionada
   verMascota(mascota: Mascota) {
     this.http.get<Mascota>(`${this.ROOT_URL}/vistaDetalle/${mascota.id}`).subscribe({
       next: (detallesMascota) => {
         this.mascotaSeleccionada = detallesMascota;
-        this.router.navigate(['/detalles-mascota']);  // Navega al componente de detalles
+        this.modoVer = true;
       },
       error: (error) => {
         console.error('Error al cargar detalles de la mascota:', error);
       }
     });
-  }
-
+  }*/
+ verMascota(mascota: Mascota) {
+   this.mascotaSeleccionada = { ...mascota };
+   this.modoVer = true;
+   console.log('Mascota seleccionada:', this.mascotaSeleccionada); // Debugging
+ }
   // Activar el modo edición para editar la mascota seleccionada
   editarMascota(mascota: Mascota) {
     this.mascotaSeleccionada = { ...mascota };  // Clona la mascota seleccionada

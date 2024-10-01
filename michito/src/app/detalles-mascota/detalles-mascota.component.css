@@ -1,5 +1,6 @@
 
 .contenedor-principal {
+    margin-left: 0px;
     display: flex;
     height: 100vh;
 }
@@ -31,7 +32,7 @@ button,a{
 }
 
 main{
-    margin-left: 250px;
+    margin-left: 0px;
     padding: 20px;
     transition: margin-left 0.5s ease;
 }
