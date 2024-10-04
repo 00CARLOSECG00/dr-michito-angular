@@ -1,13 +1,21 @@
-<div *ngIf="modoCreacion">
-  <app-create-cliente
-      
+
+
+    
+
+
+
+
+
+  <!-- Main content -->
+  <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4 contenido-principal">
+    <div *ngIf="modoCreacion">
+      <app-create-cliente
+        
       [modoEdicion]="modoEdicion"
       (volver)="modoCreacion = false">
       </app-create-cliente>
-</div>
-<div class="contenedor-principal">
-  <!-- Main content -->
-  <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4 contenido-principal">
+    </div>
+    <div *ngIf="!modoCreacion">
     <div
       class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom"
     >
@@ -22,7 +30,7 @@
     </div>
 
     <!--TABLA-->
-    <div id="mascotas_table">
+    <div id="mascotas_table" >
       <table class="table table-striped table-hover">
         <thead class="table-hover">
           <tr>
@@ -89,5 +97,6 @@
         -->
       </ul>
     </nav>
+  </div>
   </main>
-</div>
+

@@ -1,1 +1,91 @@
-<h1>Create component</h1>
+<div class="contenedor-principal">
+    <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4 contenido-principal">
+      <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+        <a class="btn btn-outline-secondary" (click)="onVolver()">
+          <img src="/images/iconos/arrow-circle-left-purple.png" alt="Icono Atras" />
+        </a>
+      </div>
+  
+      <div class="card agregar-cliente-card">
+        <div class="card-body">
+          <h2 class="text-center agregar-cliente-titulo">
+            {{ modoEdicion ? 'Editar Cliente' : 'Agregar Cliente' }}
+          </h2>
+          <ng-container *ngIf="mostrarError">
+            <div class="alert alert-danger">
+                <p>Ya existe un cliente con la cédula {{ formCliente.cedula }}</p>
+            </div>
+          </ng-container>
+  
+          <!-- Enlazar correctamente el formulario con ngModel y name -->
+          <form (ngSubmit)="guardar(formCliente)" #clienteForm="ngForm">
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="cedula" class="form-label">Cédula</label>
+                  <input
+                    [(ngModel)]="formCliente.cedula"
+                    name="cedula"
+                    type="text"
+                    id="cedula"
+                    placeholder="Ingresar cédula"
+                    required
+                    class="form-control"
+                  />
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="nombre" class="form-label">Nombre</label>
+                  <input
+                    [(ngModel)]="formCliente.nombre"
+                    name="nombre"
+                    type="text"
+                    id="nombre"
+                    placeholder="Ingresar nombre"
+                    required
+                    class="form-control"
+                  />
+                </div>
+              </div>
+            </div>
+  
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="correo" class="form-label">Correo</label>
+                  <input
+                    [(ngModel)]="formCliente.correo"
+                    name="correo"
+                    type="email"
+                    id="correo"
+                    placeholder="Ingresar correo"
+                    required
+                    class="form-control"
+                  />
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="celular" class="form-label">Celular</label>
+                  <input
+                    [(ngModel)]="formCliente.celular"
+                    name="celular"
+                    type="number"
+                    id="celular"
+                    placeholder="Ingresar celular"
+                    required
+                    class="form-control"
+                  />
+                </div>
+              </div>
+            </div>
+            <button type="submit" class="btn btn-dark w-100">
+              {{ modoEdicion ? 'Actualizar' : 'Guardar' }}
+            </button>
+          </form>
+        </div>
+      </div>
+    </main>
+  </div>
+  
