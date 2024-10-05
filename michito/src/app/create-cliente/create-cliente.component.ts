@@ -31,27 +31,47 @@ export class CreateClienteComponent {
   constructor(private http: HttpClient) {}
 
 
-  // Método para agregar cliente
+  // Método para agregar y editar cliente
   guardar(cliente: Cliente) {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json'
     });
   
-    console.log('Datos que se envían al backend:', cliente);  // Verifica que el objeto tenga los datos correctos
-    console.log(JSON.stringify(cliente));  // Esto te muestra el JSON que se enviará
-
-  
-    this.http.post('http://localhost:8080/Clientes/agregar', cliente, { headers })
-      .subscribe(
-        (response) => {
-          console.log('Cliente agregado con éxito:', response);
-        },
-        (error) => {
-          console.error('Error al agregar cliente:', error);
-        }
-      );
+    if (this.modoEdicion) {
+      // Actualizar cliente (PUT)
+      this.http.put<Cliente>(`http://localhost:8080/Clientes/update/${cliente.id}`, cliente, { headers })
+        .subscribe(
+          (response) => {
+            console.log('Cliente actualizado con éxito:', response);
+            this.volver.emit();  // Volver al padre después de la edición
+          },
+          (error) => {
+            console.error('Error al actualizar cliente:', error);
+          }
+        );
+    } else {
+      // Crear cliente (POST)
+      this.http.post<Cliente>('http://localhost:8080/Clientes/agregar', cliente, { headers })
+        .subscribe(
+          (response) => {
+            console.log('Cliente agregado con éxito:', response);
+            this.volver.emit();  // Volver al padre después de la creación
+          },
+          (error) => {
+            console.error('Error al agregar cliente:', error);
+          }
+        );
+    }
   }
   
+  
+  
+  ngOnChanges() {
+    if (this.cliente) {
+      // Si se pasa un cliente, cargar sus datos en el formulario para edición
+      this.formCliente = { ...this.cliente };
+    }
+  }
   
   
   

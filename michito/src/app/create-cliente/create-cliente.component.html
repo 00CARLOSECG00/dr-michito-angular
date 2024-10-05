@@ -8,9 +8,10 @@
   
       <div class="card agregar-cliente-card">
         <div class="card-body">
-          <h2 class="text-center agregar-cliente-titulo">
-            {{ modoEdicion ? 'Editar Cliente' : 'Agregar Cliente' }}
-          </h2>
+            <h2 class="text-center agregar-cliente-titulo">
+                {{ modoEdicion ? 'Editar Cliente' : 'Agregar Cliente' }}
+            </h2>
+              
           <ng-container *ngIf="mostrarError">
             <div class="alert alert-danger">
                 <p>Ya existe un cliente con la cédula {{ formCliente.cedula }}</p>

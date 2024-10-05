@@ -53,8 +53,25 @@ export class TablaClientesComponent implements OnInit {
   }
   crearCliente(): void {
     this.modoCreacion = true;
+    this.modoEdicion = false;  // Desactiva el modo edición
+    this.clienteSeleccionado = null;  // No hay cliente seleccionado para creación
+  }
+  
+  
+  // Activar el modo edición para editar la mascota seleccionada
+  editarCliente(cliente: Cliente) {
+    this.clienteSeleccionado = { ...cliente };  // Clonar el cliente seleccionado para evitar modificar el original
+    this.modoEdicion = true;
+    this.modoCreacion = false;  // Asegurarse de que no está en modo creación
+  }
+  
+  cerrarFormulario() {
+    this.modoCreacion = false;
     this.modoEdicion = false;
     this.clienteSeleccionado = null;
+    this.loadClientes();  // Recarga la lista de clientes para reflejar el cambio
   }
+  
+  
   
 }
