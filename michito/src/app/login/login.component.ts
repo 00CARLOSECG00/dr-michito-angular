@@ -29,7 +29,7 @@ export class LoginComponent {
       (response) => {
         console.log('Cliente encontrado:', response);
         this.clienteService.setCliente(response);
-        this.router.navigate(['/vista-cliente']);
+        this.router.navigate(['/crud-general'], { queryParams: { usuario: 'cliente'} });
       },
       (error) => {
         console.error('Error al obtener el cliente:', error);
