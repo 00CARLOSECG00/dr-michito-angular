@@ -38,7 +38,7 @@ export class CreateClienteComponent {
     });
   
     if (this.modoEdicion) {
-      // Actualizar cliente (PUT)
+      // Actualizar 
       this.http.put<Cliente>(`http://localhost:8080/Clientes/update/${cliente.id}`, cliente, { headers })
         .subscribe(
           (response) => {
@@ -50,7 +50,7 @@ export class CreateClienteComponent {
           }
         );
     } else {
-      // Crear cliente (POST)
+      // Crear
       this.http.post<Cliente>('http://localhost:8080/Clientes/agregar', cliente, { headers })
         .subscribe(
           (response) => {
@@ -68,7 +68,6 @@ export class CreateClienteComponent {
   
   ngOnChanges() {
     if (this.cliente) {
-      // Si se pasa un cliente, cargar sus datos en el formulario para edición
       this.formCliente = { ...this.cliente };
     }
   }
@@ -76,11 +75,7 @@ export class CreateClienteComponent {
   
   
   
-  
-  
-  
-
   onVolver() {
-    this.volver.emit();  // Emite para notificar al padre que se ha salido del modo creación/edición
+    this.volver.emit();  
   }
 }

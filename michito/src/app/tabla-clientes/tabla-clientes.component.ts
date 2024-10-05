@@ -1,15 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Cliente } from '../Model/cliente';
-import { RouterModule } from '@angular/router';  // Importar RouterModule para usar routerLink
-import { CommonModule } from '@angular/common';  // Importar CommonModule para usar directivas como ngFor, ngIf
+import { RouterModule } from '@angular/router';  
+import { CommonModule } from '@angular/common';  
 import { CreateClienteComponent } from '../create-cliente/create-cliente.component';
 @Component({
   selector: 'app-tabla-clientes',
   standalone: true,
   imports: [
-    CommonModule,    // Importa CommonModule para habilitar ngFor, ngIf, etc.
-    RouterModule,     // Importa RouterModule para habilitar routerLink
+    CommonModule,   
+    RouterModule,     
     CreateClienteComponent
   ],
   templateUrl: './tabla-clientes.component.html',
@@ -40,11 +40,9 @@ export class TablaClientesComponent implements OnInit {
     });
   }
 
-  // Método para confirmar y eliminar el cliente
   confirmDelete(id: number): void {
     const confirmed = confirm('¿Estás seguro de que deseas eliminar este cliente?');
     if (confirmed) {
-      // Petición DELETE al servidor para eliminar el cliente
       this.http.delete(`${this.ROOT_URL}/delete/${id}`).subscribe();
       this.loadClientes();
       
@@ -53,23 +51,22 @@ export class TablaClientesComponent implements OnInit {
   }
   crearCliente(): void {
     this.modoCreacion = true;
-    this.modoEdicion = false;  // Desactiva el modo edición
-    this.clienteSeleccionado = null;  // No hay cliente seleccionado para creación
+    this.modoEdicion = false; 
+    this.clienteSeleccionado = null;  
   }
   
   
-  // Activar el modo edición para editar la mascota seleccionada
   editarCliente(cliente: Cliente) {
-    this.clienteSeleccionado = { ...cliente };  // Clonar el cliente seleccionado para evitar modificar el original
+    this.clienteSeleccionado = { ...cliente };  
     this.modoEdicion = true;
-    this.modoCreacion = false;  // Asegurarse de que no está en modo creación
+    this.modoCreacion = false;  
   }
   
   cerrarFormulario() {
     this.modoCreacion = false;
     this.modoEdicion = false;
     this.clienteSeleccionado = null;
-    this.loadClientes();  // Recarga la lista de clientes para reflejar el cambio
+    this.loadClientes(); 
   }
   
   
