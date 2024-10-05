@@ -3,7 +3,11 @@
   <main
     role="main"
     class="col-md-9 ml-sm-auto col-lg-10 px-4 contenido-principal">
-    
+    <div *ngIf="mostrarTodas==false && !modoCreacion && !modoEdicion && !modoVer">
+      <a class="btn btn-outline-secondary" (click)="onVolver()">
+        <img src="/images/iconos/arrow-circle-left-purple.png" alt="Icono Atras" />
+      </a>
+    </div>
     <div *ngIf="modoEdicion">
       <app-create-mascota></app-create-mascota>
     </div>
@@ -28,7 +32,12 @@
 
       <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
       
-        <h1>Mascotas</h1>
+        <div *ngIf="mostrarTodas==true">
+          <h1>Mascotas</h1>
+        </div>
+        <div *ngIf="mostrarTodas==false">
+          <h1>Mascotas de {{ nombreCliente }}</h1>
+        </div>
         <div class="btn-toolbar mb-2 mb-md-0">
           <div class="btn-group mr-2">
             <button class="btn btn-green" (click)="agregarMascota()">

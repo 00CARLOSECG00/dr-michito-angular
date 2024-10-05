@@ -4,13 +4,15 @@ import { Cliente } from '../Model/cliente';
 import { RouterModule } from '@angular/router';  
 import { CommonModule } from '@angular/common';  
 import { CreateClienteComponent } from '../create-cliente/create-cliente.component';
+import { TablaMascotasComponent} from '../tabla-mascotas/tabla-mascotas.component';
 @Component({
   selector: 'app-tabla-clientes',
   standalone: true,
   imports: [
     CommonModule,   
     RouterModule,     
-    CreateClienteComponent
+    CreateClienteComponent,
+    TablaMascotasComponent
   ],
   templateUrl: './tabla-clientes.component.html',
   styleUrls: ['./tabla-clientes.component.css']
@@ -20,6 +22,7 @@ export class TablaClientesComponent implements OnInit {
   modoCreacion: boolean = false;
   modoEdicion: boolean = false;
   clienteSeleccionado!: Cliente | null;
+  modoVisualizacion: boolean = false;
 
   private ROOT_URL = 'http://localhost:8080/Clientes';  // URL base del backend
   constructor(private http: HttpClient) {}
@@ -69,6 +72,15 @@ export class TablaClientesComponent implements OnInit {
     this.loadClientes(); 
   }
   
+  verMascotas(cliente: Cliente): void {
+    this.clienteSeleccionado = cliente; // Guardar el cliente seleccionado
+    this.modoVisualizacion = true; // Cambiar a modo de visualización de mascotas
+    console.log('cliente seleccionado ' + this.clienteSeleccionado.id);
+  }
   
+  cerrarMascotas(): void {
+    this.modoVisualizacion = false; // Volver al modo anterior
+    this.clienteSeleccionado = null;
+  }
   
 }
