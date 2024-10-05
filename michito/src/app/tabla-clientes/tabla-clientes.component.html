@@ -1,7 +1,15 @@
-  <!-- Main content -->
-  <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4 contenido-principal">
+<div class="contenedor-principal">
+<main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4 contenido-principal">
 
-
+  <div *ngIf="modoVisualizacion">
+    <app-tabla-mascotas
+      [idCliente]="clienteSeleccionado?.id"
+      [nombreCliente]="clienteSeleccionado?.nombre"
+      [mostrarTodas]="false" 
+      (volvercliente)="modoVisualizacion = false">
+    </app-tabla-mascotas>
+  </div>
+  
 <!-- Formulario para crear o editar cliente -->
 <div *ngIf="modoCreacion || modoEdicion">
   <app-create-cliente
@@ -12,7 +20,7 @@
 </div>
 
 <!-- Tabla de clientes, solo visible si no estamos en modo creación ni edición -->
-<div *ngIf="!modoCreacion && !modoEdicion">
+<div *ngIf="!modoCreacion && !modoEdicion && !modoVisualizacion">
   <div
     class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom"
   >
@@ -48,7 +56,7 @@
           <td>{{ cliente.correo }}</td>
           <td>{{ cliente.celular }}</td>
           <td>
-            <a [routerLink]="['/Clientes/Mascotas', cliente.id]" class="btn btn-green">
+            <a class="btn btn-green" (click)="verMascotas(cliente)">
               Ver
             </a>
           </td>
@@ -67,4 +75,4 @@
 </div>
 
   </main>
-
+</div>
