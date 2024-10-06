@@ -19,7 +19,7 @@ export class CreateMascotaComponent implements OnChanges {
   @Output() volver: EventEmitter<void> = new EventEmitter<void>();
 
   formMascota: Mascota = {
-    id: 0,
+    id: 0, 
     nombre: '',
     peso: 0,
     edad: 0,
@@ -120,7 +120,7 @@ export class CreateMascotaComponent implements OnChanges {
 
   limpiarFormulario() {
     this.formMascota = {
-      id: 0,
+      id: 0, 
       nombre: '',
       peso: 0,
       edad: 0,

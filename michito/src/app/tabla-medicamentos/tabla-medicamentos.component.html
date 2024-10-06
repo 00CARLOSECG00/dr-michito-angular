@@ -1,0 +1,52 @@
+<div class="contenedor-principal">
+    <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4 contenido-principal">
+  
+
+      <!-- Tabla de medicamentos, solo visible si no estamos en modo creación ni edición -->
+      <div>
+        <div
+          class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom"
+        >
+          <h1>Medicamentos</h1>
+
+        </div>
+  
+        <!-- TABLA -->
+        <div id="medicamentos_table">
+          <table class="table table-striped table-hover">
+            <thead class="table-hover">
+              <tr>
+                <th>Id</th>
+                <th>Nombre</th>
+                <th>Precio Compra</th>
+                <th>Precio Venta</th>
+                <th>Uni. Disponibles</th>
+                <th>Uni. Vendidas</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let medicamento of medicamentos">
+                <td>{{ medicamento.id }}</td>
+                <td>{{ medicamento.nombre }}</td>
+                <td>{{ medicamento.precioCompra | currency}}</td>
+                <td>{{ medicamento.precioVenta | currency}}</td>
+                <td>{{ medicamento.unidadesDisponibles}}</td>
+                <td>{{ medicamento.unidadesVendidas}}</td>
+                <td>
+                  <button class="btn btn-sm btn-edit" >
+                    <img src="/images/iconos/editIcon.png" alt="Editar" class="action-icon" />
+                  </button>
+                  <a  class="btn btn-sm btn-delete">
+                    <img src="/images/iconos/trashIcon.png" alt="Eliminar" class="action-icon" />
+                  </a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+  
+    </main>
+  </div>
+  
