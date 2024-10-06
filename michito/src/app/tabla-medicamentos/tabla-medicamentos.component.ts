@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
+import { HttpClient } from '@angular/common/http';  // Importa HttpClient
 import { Medicamento } from '../Model/medicamento';
-import { MedicamentoService } from '../Services/medicamento.service';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -8,22 +8,22 @@ import { CommonModule } from '@angular/common';
   standalone: true,
   imports: [CommonModule],
   templateUrl: './tabla-medicamentos.component.html',
-  styleUrl: './tabla-medicamentos.component.css'
+  styleUrls: ['./tabla-medicamentos.component.css']  // Corrige el nombre de styleUrls
 })
 export class TablaMedicamentosComponent {
 
   medicamentos: Medicamento[] = [];
+  private ROOT_URL = 'http://localhost:8080/Medicamentos';  // Ajusta la URL de tu API
 
-  constructor(private servicioMedicamento: MedicamentoService) {}
+  constructor(private http: HttpClient) {}  // Inyecta HttpClient directamente
 
   ngOnInit(): void {
     this.cargarMedicamentos();
-    console.log(this.medicamentos);
   }
 
-  // Método para cargar todos los medicamentos
+  // Método para cargar todos los medicamentos directamente desde el componente
   cargarMedicamentos(): void {
-    this.servicioMedicamento.obtenerMedicamentos().subscribe({
+    this.http.get<Medicamento[]>(`${this.ROOT_URL}/all`).subscribe({
       next: (data: Medicamento[]) => {
         this.medicamentos = data;
       },
@@ -35,12 +35,12 @@ export class TablaMedicamentosComponent {
       }
     });
   }
-  
+
   eliminarMedicamento(_t23: any) {
     console.log("Eliminar no implementado");
   }
+
   editarMedicamento(_t23: any) {
     console.log("Editar no implementado");
   }
-
 }
