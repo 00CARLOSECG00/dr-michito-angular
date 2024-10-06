@@ -1,18 +1,24 @@
 <div class="contenedor-principal">
-    <p>holaaa funcionando</p>
+  <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4 contenido-principal">
     
-    <div *ngIf="modoVer">
-      <app-detalles-mascota 
-        [mascota]="mascotaSeleccionada" 
-        (volver)="modoVer = false">
-      </app-detalles-mascota>
-    </div>
-  
+    <!-- Mostrar lista de tarjetas de mascotas cuando modoVer es false -->
     <div *ngIf="!modoVer">
-      <h1>Bienvenido</h1>
-      
+      <h1>Bienvenido {{ clienteSeleccionado.nombre  }}</h1>
       <h2>Tus Mascotas</h2>
-      
+
+      <!-- Contenedor principal con la clase row -->
+      <div class="row mascotas-lista">
+        <!-- Recorre la lista de mascotas y muestra una tarjeta para cada una -->
+        <div class="col-md-4 col-sm-12 mb-4" *ngFor="let mascota of mascotas">
+          <app-tarjeta-mascota-cliente [mascota]="mascota" (detalles)="onVerDetalles($event)"></app-tarjeta-mascota-cliente>
+        </div>
+      </div>
     </div>
-  </div>
-  
+
+    <!-- Aquí puedes agregar el código para el modoVer si es necesario -->
+    <div *ngIf="modoVer">
+      <app-detalles-mascota [mascota]="mascotaSeleccionada" (volver)="onVolverALista()"></app-detalles-mascota>
+    </div>
+    
+  </main>
+</div>

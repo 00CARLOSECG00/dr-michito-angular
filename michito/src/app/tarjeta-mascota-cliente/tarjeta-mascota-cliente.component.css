@@ -1,57 +1,539 @@
-.mascota-card {
-    width: 100%; /* Ocupa el ancho completo */
-    max-width: 300px; /* Ancho máximo */
-    margin: 20px auto; /* Margen vertical */
-    border: 1px solid #ddd; /* Borde ligero */
-    border-radius: 8px; /* Bordes redondeados */
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Sombra sutil */
-    overflow: hidden; /* Evita que el contenido se salga de los bordes */
-    transition: transform 0.2s; /* Efecto de hover */
+:root {
+  --color-barra-lateral: #44344f;
+
+  --color-texto: #ffffff;
+  --color-texto-menu: #ffffff;
+
+  --color-menu-hover: #65558F;
+  --color-menu-hover-texto: #ffffff;
+
+  --color-linea: #C2F970;
+
+  --color-switch-base: rgb(201, 202, 206);
+  --color-switch-circulo: rgb(241, 241, 241);
+
+  --color-scroll: rgb(192, 192, 192);
+  --color-scroll-hover: rgb(134, 134, 134);
+
+  /*========== Cartas ==========*/
+  /*========== Colors ==========*/
+  /*Color mode HSL(hue, saturation, lightness)*/
+  --first-color: #c2f970;
+  --first-color-light: rgb(240, 176, 117);
+  --black-color: rgb(243, 240, 240);
+  --text-color: #44344f;
+  --body-color: rgb(255, 252, 250);
+  /*========== Font and typography ==========*/
+  /*.5rem = 8px | 1rem = 16px ...*/
+  --color-morado: #44344f;
+  --body-font: Roboto, serif;
+  --h3-font-size: 1.125rem;
+  --smaller-font-size: .9rem;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Roboto', serif;
+  background-color: #f8f9fa;
+}
+
+.contenedor-principal {
+  display: flex;
+  height: 100vh;
+}
+
+/*-----------------Botones*/
+button,
+a {
+  margin-top: 18px;
+}
+
+/*-----------------Menu*/
+.menu {
+  font-family: Roboto, serif;
+  font-weight: bold;
+  position: fixed;
+  width: 50px;
+  height: 50px;
+  font-size: 30px;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  cursor: pointer;
+  background-color: var(--color-boton);
+  color: var(--color-boton-texto);
+  right: 15px;
+  top: 15px;
+  z-index: 100;
+}
+
+
+/*----------------Barra Lateral*/
+.barra-lateral {
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 250px;
+  height: 100%;
+  overflow: hidden;
+  padding: 20px 15px;
+  background-color: var(--color-barra-lateral);
+  transition: width 0.5s ease, background-color 0.3s ease, left 0.5s ease;
+  z-index: 50;
+}
+
+.mini-barra-lateral {
+  width: 100px;
+}
+
+.barra-lateral span {
+  width: 100px;
+  white-space: nowrap;
+  font-size: 18px;
+  text-align: left;
+  opacity: 1;
+  transition: opacity 0.5s ease, width 0.5s ease;
+}
+
+.barra-lateral span.oculto {
+  opacity: 0;
+  width: 0;
+}
+
+/*------------> Nombre de la página */
+.barra-lateral .nombre-pagina {
+  margin-top: 40px;
+  width: 100%;
+  height: 45px;
+  color: var(--color-texto);
+  margin-bottom: 40px;
+  display: flex;
+  align-items: center;
+}
+
+/*------------> Icono de la página */
+.barra-lateral .nombre-pagina img {
+  min-width: 70px;
+  max-width: 70px;
+  cursor: pointer;
+}
+
+.barra-lateral .nombre-pagina span {
+  margin-left: 5px;
+  font-size: 25px;
+}
+
+/*--------------> Menu Navegación*/
+.barra-lateral .navegacion {
+  height: 100%;
+  width: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.barra-lateral .navegacion::-webkit-scrollbar {
+  width: 5px;
+}
+
+.barra-lateral .navegacion::-webkit-scrollbar-thumb {
+  background-color: var(--color-scroll);
+  border-radius: 5px;
+}
+
+.barra-lateral .navegacion::-webkit-scrollbar-thumb:hover {
+  background-color: var(--color-scroll-hover);
+}
+
+.barra-lateral .navegacion ul {
+  width: 100%;
+  margin-top: 10px;
+  padding: 5px;
+}
+
+.barra-lateral .navegacion li {
+  list-style: none;
+  display: flex;
+  margin-bottom: 5px;
+}
+
+.barra-lateral .navegacion a:hover {
+  background-color: var(--color-menu-hover);
+  color: var(--color-menu-hover-texto);
+}
+
+.barra-lateral .navegacion a {
+  width: 100%;
+  height: 45px;
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  justify-content: center;
+  /* Cambia a flex-start */
+  padding-left: 10px;
+  /* Añade algo de padding a la izquierda */
+  border-radius: 10px;
+  color: var(--color-texto-menu);
+}
+
+.barra-lateral .navegacion img {
+  max-width: 30px;
+  margin-right: 10px;
+}
+
+.barra-lateral .navegacion span {
+  font-weight: 500;
+  font-size: 18px;
+  flex: 1;
+}
+
+/*-----------------> Linea*/
+.barra-lateral .linea {
+  width: 100%;
+  height: 1px;
+  margin-top: 15px;
+  background-color: var(--color-linea);
+}
+
+/*---------------> Usuario*/
+.barra-lateral .usuario {
+  width: 100%;
+  display: flex;
+}
+
+.barra-lateral .usuario img {
+  width: 50px;
+  min-width: 50px;
+  border-radius: 10px;
+}
+
+.barra-lateral .usuario .info-usuario {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: var(--color-texto);
+  overflow: hidden;
+}
+
+.barra-lateral .usuario .nombre-email {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  margin-left: 5px;
+}
+
+.barra-lateral .usuario .nombre {
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.barra-lateral .usuario .email {
+  font-size: 13px;
+}
+
+.barra-lateral .usuario ion-icon {
+  font-size: 20px;
+}
+
+
+/*-------------main*/
+
+#inbox {
+  background-color: var(--color-menu-hover);
+  color: var(--color-menu-hover-texto);
+}
+
+main {
+  margin-left: 250px;
+  padding: 20px;
+  transition: margin-left 0.5s ease;
+}
+
+main.min-main {
+  margin-left: 100px;
+}
+
+/* Estilo del contenido principal */
+.contenido-principal {
+  flex-grow: 1;
+  /* Hace que el main ocupe todo el espacio restante */
+  padding: 20px;
+  transition: margin-left 0.5s ease;
+}
+
+/* Estilo del encabezado */
+h1 {
+  font-family: 'Jomhuria', serif;
+  letter-spacing: 4px;
+  color: #5a4076;
+  font-size: 80px;
+}
+
+h2 {
+  font-family: 'Jomhuria', serif;
+  letter-spacing: 4px;
+  color: #5a4076;
+  font-size: 60px;
+  padding: 0;
+}
+
+
+/* Estilo de la tabla */
+.table th,
+.table td {
+  vertical-align: middle;
+  text-align: center;
+}
+
+.table-responsive {
+  margin-top: 20px;
+}
+
+.table-striped tbody tr:nth-of-type(odd) {
+  background-color: #f2f2f2;
+}
+
+.table-hover tbody tr:hover {
+  background-color: #adcc9f;
+}
+
+/* Redimensionar y redondear la imagen */
+.foto_mascota {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 3px solid #c0c0c0;
+}
+
+.btn-edit {
+  margin-right: 10px;
+}
+
+.btn-green {
+  background-color: #C2F970;
+  border-color: #C2F970;
+  color: #44344F;
+  font-weight: 600;
+}
+
+.btn-primary {
+  background-color: #6f42c1;
+  border-color: #6f42c1;
+}
+
+.pagination .page-item .page-link {
+  color: #6f42c1;
+}
+
+.pagination .page-item.active .page-link {
+  background-color: #6f42c1;
+  border-color: #6f42c1;
+  color: white;
+}
+
+/* Estilo de la tarjeta de agregar mascota */
+.agregar-mascota-card {
+  margin: auto;
+  max-width: 600px;
+  border-radius: 20px;
+  padding: 20px;
+  background-color: #B49FCC;
+  font-family: 'Roboto', serif;
+}
+
+/* Estilo del título */
+.agregar-mascota-titulo {
+  font-family: Jomhuria, serif;
+  letter-spacing: 4px;
+  color: #5a4076;
+  font-size: 80px;
+}
+
+/*=============== CARD ===============*/
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+
+.container {
+  height: 100vh;
+  margin-inline: 1.5rem;
+  display: grid;
+  place-items: center;
+}
+
+.row {
+  row-gap: 60px; /* Espacio vertical entre filas */
+}
+
+.card {
+  position: relative;
+  min-width: 250px;
+  width: flex;
+  background-color: var(--black-color);
+  padding: 1.25rem 2rem 3rem;
+  border-radius: 1.5rem;
+  text-align: center;
+  box-shadow: 0 1px 10px #8eab62;
+}
+
+.card__img {
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover; /* Asegura que la imagen mantenga su proporción */
+  object-position: center; /* Centra la imagen dentro del contenedor */
+}
+
+.card__border {
+  width: 110px;
+  height: 110px;
+  border: 5px solid var(--first-color);
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  margin: 0 auto 0.75rem;
+}
+
+.card br{
+  margin-bottom: 0.0rem; /* Reducir el margen inferior */
+}
+.card__name {
+  color: var(--color-morado);
+  font-family: Roboto, serif;
+  padding-bottom: 0.5rem;
+  font-weight: 600;
+}
+
+.card__age {
+  color: var(--text-color);
+  font-size: var(--smaller-font-size);
+  font-weight: 500;
+  margin-bottom: 0.1rem; /* Reducir el margen inferior */
+}
+
+.card__weight {
+  color: var(--text-color);
+  font-size: var(--smaller-font-size);
+  font-weight: 500;
+}
+
+.card__details {
+  width: 200px;
+  height: 60px;
+  background-color: #C2F970;
+  padding: 0.75rem;
+  border-radius: 3rem;
+  text-align: initial;
+  box-shadow: 0 8px 24px hsla(29, 75%, 56%, 0.3);
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1.75rem;
+  margin: 0 auto;
+  overflow: hidden;
+  transform-origin: 18px 17px;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Cambios al pasar el mouse */
+.card__details:hover {
+  background-color: #B3E35E; /* Color más oscuro o diferente */
+  box-shadow: 0 12px 32px hsla(29, 75%, 56%, 0.5); /* Sombra más intensa */
+}
+
+.card__details-control {
+  position: relative;
+  transform-origin: 18px 18px;
+  transition: transform 0.45s ease;
+  transform: rotate(0);
+}
+
+.card__details-image {
+  width: 35px; /* Ajusta el tamaño según sea necesario */
+  height: 35px;
+  display: inline-block;
+  cursor: pointer;
+}
+
+.card__details-text {
+  display: block;
+  color: var(--text-color);
+  font-size: var(--smaller-font-size);
+  font-weight: 600;
+  position: absolute;
+  top: 0.5rem;
+  left: 0.5rem;
+  right: 0;
+  padding-left: 3.25rem;
+}
+
+
+.btn-info {
+  background-color: #4a2d5e;
+  border: none;
+  padding: 10px 20px;
+}
+
+.btn-info:hover {
+  background-color: #3a215d;
+}
+
+.col-md-3 {
+  margin-bottom: 200px;
+  /* Espacio entre tarjetas */
+}
+
+.row {
+  margin-left: 0;
+  margin-right: 0;
+}
+
+
+/*------------------> Responsive*/
+@media (max-height: 660px) {
+  .barra-lateral .nombre-pagina {
+      margin-bottom: 5px;
   }
-  
-  .mascota-card:hover {
-    transform: scale(1.05); /* Aumenta ligeramente al pasar el ratón */
+
+  .barra-lateral .modo-oscuro {
+      margin-bottom: 3px;
   }
-  
-  .card__border {
-    height: 200px; /* Altura del contenedor de la imagen */
-    overflow: hidden; /* Oculta el desbordamiento */
+}
+
+@media (max-width: 600px) {
+  .barra-lateral {
+      position: fixed;
+      left: -250px;
   }
-  
-  .card__img {
-    height: 100%; /* Imagen ocupa toda la altura */
-    width: 100%; /* Imagen ocupa todo el ancho */
-    object-fit: cover; /* Mantiene la proporción de la imagen */
+
+  .max-barra-lateral {
+      left: 0;
   }
-  
-  .card__name {
-    font-size: 1.5rem; /* Tamaño del nombre */
-    margin: 10px 0; /* Espacio superior e inferior */
+
+  .menu {
+      display: flex;
   }
-  
-  .card__age, .card__weight {
-    display: block; /* Muestra en bloque */
-    margin-bottom: 5px; /* Espacio entre elementos */
+
+  .menu ion-icon:nth-child(2) {
+      display: none;
   }
-  
-  .card__details {
-    margin-top: 10px; /* Espacio superior */
+
+  main {
+      margin-left: 0;
   }
-  
-  .card__details-control {
-    display: flex; /* Flexbox para alinear el contenido */
-    align-items: center; /* Centra verticalmente */
+
+  main.min-main {
+      margin-left: 0;
   }
-  
-  .card__details-toggle {
-    display: flex; /* Flexbox para alinear la imagen y el texto */
-    align-items: center; /* Centra verticalmente */
-    cursor: pointer; /* Cambia el cursor al pasar el ratón */
-  }
-  
-  .card__details-image {
-    width: 20px; /* Ancho de la imagen de detalles */
-    height: 20px; /* Alto de la imagen de detalles */
-    margin-right: 5px; /* Espacio a la derecha */
-  }
-  
+
+}

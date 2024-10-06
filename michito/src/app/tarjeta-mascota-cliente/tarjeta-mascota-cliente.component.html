@@ -1,21 +1,24 @@
 <div class="mascota-card">
-    <div class="card">
-      <div class="card__border">
-        <img src="URL_DE_LA_IMAGEN_DE_LA_MASCOTA" alt="Nombre de la Mascota" class="card__img">
-      </div>
-      <h3 class="card__name">Nombre de la Mascota</h3>
-      <span class="card__age">Edad: <span th:text="${mascota.edad}">Edad</span> años</span>
-      <span class="card__weight">Peso: <span th:text="${mascota.peso}">Peso</span> kg</span>
-      <div class="card__details" id="card-details">
-        <div class="card__details-control">
-          <a th:href="@{/Mascotas/vistaDetalle/{id}(id=${mascota.id})}">
-            <div class="card__details-toggle" id="card-toggle">
-              <img th:src="@{/images/iconos/plus-circle.png}" alt="Ver Detalles" class="card__details-image">
-            </div>
-            <span class="card__details-text">Ver Detalles</span>
-          </a>
-        </div>
+  <div class="card">
+    <div class="card__border">
+      <img [src]="mascota.foto" alt="{{mascota.nombre}}" class="card__img">
+    </div>
+    <h3 class="card__name">{{ mascota.nombre }}</h3>
+    <span class="card__age">Edad: {{ mascota.edad }} años</span>
+    <span class="card__weight">Peso: {{ mascota.peso }} kg</span>
+    <div class="card__details" id="card-details">
+      <div class="card__details-control">
+        <!-- Este es el botón para ver más detalles -->
+        <a (click)="verDetalles()">
+          <div class="card__details-toggle" id="card-toggle">
+            <img src="/images/iconos/plus-circle.png" alt="Ver Detalles" class="card__details-image">
+          </div>
+          <span class="card__details-text">Ver Detalles</span>
+        </a>
       </div>
     </div>
   </div>
-  
+</div>
+<div>
+
+</div>
