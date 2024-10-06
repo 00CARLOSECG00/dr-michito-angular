@@ -57,6 +57,7 @@
     min-width: calc(100% / 3);
     box-sizing: border-box;
     text-align: center;
+    padding: 20px;
   }
   
   img {
