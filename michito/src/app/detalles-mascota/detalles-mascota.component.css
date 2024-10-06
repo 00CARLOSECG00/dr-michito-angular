@@ -1,8 +1,22 @@
-
 .contenedor-principal {
     margin-left: 0px;
     display: flex;
     height: 100vh;
+}
+
+/* Fila superior con fondo de imagen */
+.fila-superior {
+    height: 120px; /* Altura reducida para la fila superior */
+    background-image: url("../../../public/images/fondos/fondoDetallesMascota.png"); /* Ruta relativa a la carpeta assets */
+    background-size: cover;   /* Para que la imagen cubra todo el área */
+    background-position: center; /* Para centrar la imagen */
+    height: 150px;
+    color: white; /* Título en blanco sobre la imagen */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
 }
 
 h1 {
@@ -10,169 +24,73 @@ h1 {
     letter-spacing: 4px;
     color: #5a4076;
     font-size: 80px;
+    margin-bottom: 20px;
 }
 
-h2 {
+h4 {
     font-family: 'Jomhuria', serif;
-    letter-spacing: 4px;
-    color: #5a4076;
+    letter-spacing: 2px;
     font-size: 60px;
-    padding: 0;
-}
-
-/*-----------------Botones*/
-button,a{
-    margin-top: 18px;
+    color: #fff; /* Texto blanco en la fila superior */
+    margin-bottom: 0; /* Sin margen para mejor alineación */
 }
 
 
-#inbox{
-    background-color: var(--color-menu-hover);
-    color: var(--color-menu-hover-texto);
-}
-
-main{
-    margin-left: 0px;
+/* Fila inferior más grande */
+.fila-inferior {
     padding: 20px;
-    transition: margin-left 0.5s ease;
-}
-main.min-main{
-    margin-left: 100px;
+    height: auto;
 }
 
-/* Estilo del contenido principal */
-.contenido-principal {
-    flex-grow: 1; /* Hace que el main ocupe todo el espacio restante */
-    padding: 20px;
-    transition: margin-left 0.5s ease;
-}
-
-/* Estilo de la tabla */
-.table th, .table td {
-    vertical-align: middle;
-    text-align: center;
-}
-
-.table-responsive {
-    margin-top: 20px;
-    flex-grow: 1;
-}
-
-.table-striped tbody tr:nth-of-type(odd) {
-    background-color: #f2f2f2;
-}
-
-.table-hover tbody tr:hover {
-    background-color: #adcc9f;
-}
-
-/* Redimensionar y redondear la imagen */
+/* Imagen circular más grande */
 .foto_mascota {
-    width: 80px;
-    height: 80px;
+    width: 180px;   /* Aumentado el tamaño */
+    height: 180px;  /* Aumentado el tamaño */
     object-fit: cover;
-    border-radius: 50%;
-    border: 3px solid #c0c0c0;
+    border-radius: 50%; /* Imagen circular */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra ligera */
+    transition: transform 0.3s ease;
 }
 
-/* Estilo de los botones de acción */
-.action-icon {
-    width: 20px;
-    height: 20px;
+/* Eliminar el borde */
+.foto_mascota:hover {
+    transform: scale(1.05); /* Efecto de zoom */
 }
 
-.btn-edit {
-    margin-right: 10px;
-    margin-bottom: 0%;
-    margin-top: 0%;
+.detalle-item {
+    margin-bottom: 16px;
+    font-size: 18px;
 }
 
-.btn-delete {
-    margin-bottom: 0%;
-    margin-top: 0%;
+.detalle-item strong {
+    color: #5a4076;
 }
 
+/* Botón volver estilizado */
 .btn-green {
     background-color: #C2F970;
     border-color: #C2F970;
     color: #44344F;
     font-weight: 600;
+    padding: 10px 20px;
     margin-bottom: 4px;
     margin-top: 4px;
+    transition: background-color 0.3s ease;
 }
 
-.btn-primary {
-    background-color: #6f42c1;
-    border-color: #6f42c1;
+.btn-green:hover {
+    background-color: #b2e860;
 }
 
-/* Estilo de la barra de paginación */
-.pagination {
-    position: sticky; /* Fija la paginación al fondo del contenedor */
-    bottom: 10px; /* Ajusta la distancia desde la parte inferior */
-    background-color: white; /* Asegura un fondo consistente */
-    padding-top: 10px;
-    margin-top: auto; /* Empuja la paginación hacia la parte inferior */
-    justify-content: center;
-}
-.pagination .page-item .page-link {
-    color: #6f42c1;
-    font-size: 0.875rem;
-    padding: 0.25rem 0.5rem;
-    border-radius: 50%;
-    border: none;
-}
-
-.pagination .page-item.active .page-link {
-    background-color: #6f42c1;
-    color: white;
-    border: none;
-    border-radius: 50%;
-    width: 36px;
-    height: 36px;
-    line-height: 36px;
-    text-align: center;
+/* Estilo general de la tarjeta */
+.card {
+    border-radius: 10px;
+    border: 1px solid #e0e0e0;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
     padding: 0;
+    overflow: hidden; /* Para el fondo de la fila superior */
 }
 
-.pagination .page-item {
-    margin: 0 0.25rem; 
-}
-
-/* Estilo de la tarjeta de agregar mascota */
-.agregar-mascota-card {
-    margin: auto;
-    max-width: 600px;
-    border-radius: 20px;
-    padding: 20px;
-    background-color: #B49FCC;
-    font-family: 'Roboto', serif;
-}
-
-/* Estilo del título */
-.agregar-mascota-titulo {
-    font-family: Jomhuria, serif;
-    letter-spacing: 4px;
-    color: #5a4076;
-    font-size: 80px;
-}
-
-/* Botones */
-.btn-outline-secondary {
-    border: none;
-    background: transparent;
-}
-
-.btn-outline-secondary:hover {
-    background: #6f42c1;
-    color: white;
-}
-
-.btn-dark {
-    background-color: #5a4076;
-    border-color: #5a4076;
-}
-
-.btn-dark:hover {
-    background-color: #44344f;
+.card-body {
+    padding: 40px 50px;
 }

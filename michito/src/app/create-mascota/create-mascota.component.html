@@ -14,7 +14,7 @@
     
     </div>
 
-    <div class="card agregar-mascota-card">
+    <div class="card agregar-mascota-card"> 
       <div class="card-body">
         <h2 class="text-center agregar-mascota-titulo">
           {{ modoEdicion ? 'Editar Mascota' : 'Agregar Mascota' }}
@@ -30,8 +30,8 @@
               id="cedulaCliente"
               name="cedulaCliente"
               placeholder="Ingrese la cédula del cliente"
-              [(ngModel)]="cedulaCliente"  
-              (input)="onSearch(cedulaCliente)"  
+              [(ngModel)]="formMascota.cedulaCliente"  
+              (input)="onSearch(formMascota.cedulaCliente)"  
               [disabled]="modoEdicion"
               required
             />

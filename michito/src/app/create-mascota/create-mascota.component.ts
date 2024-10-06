@@ -5,6 +5,7 @@ import { Mascota } from '../Model/mascota';
 import { HttpClient } from '@angular/common/http';
 import { Subject, of } from 'rxjs';
 import { debounceTime, distinctUntilChanged, switchMap, catchError } from 'rxjs/operators';
+import { MascotaDTO } from '../Model/mascota-dto';
 
 @Component({
   selector: 'app-create-mascota',
@@ -18,12 +19,13 @@ export class CreateMascotaComponent implements OnChanges {
   @Input() modoEdicion: boolean = false;
   @Output() volver: EventEmitter<void> = new EventEmitter<void>();
 
-  formMascota: Mascota = {
+  formMascota: MascotaDTO = {
     id: 0, 
     nombre: '',
     peso: 0,
     edad: 0,
     foto: '',
+    cedulaCliente: ''
   };
 
   cedulaCliente: string = '';
@@ -38,7 +40,7 @@ export class CreateMascotaComponent implements OnChanges {
 
   ngOnChanges() {
     if (this.mascota) {
-      this.formMascota = { ...this.mascota };
+      this.formMascota = { ...this.mascota , cedulaCliente: this.cedulaCliente };
     } else {
       this.limpiarFormulario();
     }
@@ -46,7 +48,6 @@ export class CreateMascotaComponent implements OnChanges {
 
   // Comienza la búsqueda usando switchMap
   ngOnInit() {
-    
     this.searchTerms.pipe(
       debounceTime(300),  // Espera 300 ms después de cada pulsación
       distinctUntilChanged(),  // Solo pasa si la búsqueda ha cambiado
@@ -76,7 +77,7 @@ export class CreateMascotaComponent implements OnChanges {
 
   // Método para seleccionar un cliente del dropdown
   seleccionarCliente(cliente: any) {
-    this.cedulaCliente = cliente.cedula; // Actualiza el campo de cédula con la selección
+    this.formMascota.cedulaCliente = cliente.cedula; // Actualiza el campo de cédula con la selección
     this.clientesSugeridos = []; // Limpia las sugerencias después de la selección
   }
 
@@ -85,11 +86,10 @@ export class CreateMascotaComponent implements OnChanges {
     if (!this.modoEdicion) {
       const body = {
         ...this.formMascota,
-        clienteCedula: cedulaCliente,
       };
       console.log('Datos enviados (creación):', body);
 
-      this.http.post<Mascota>(`${this.ROOT_URL}/agregar`, body).subscribe({
+      this.http.post<MascotaDTO>(`${this.ROOT_URL}/agregar`, body).subscribe({
         next: (mascotaAgregada) => {
           console.log('Mascota agregada:', mascotaAgregada);
           this.volver.emit();
@@ -102,10 +102,9 @@ export class CreateMascotaComponent implements OnChanges {
     } else {
       const body = {
         ...this.formMascota,
-        clienteCedula: cedulaCliente,
       };
       console.log('Datos enviados (edición):', body);
-      this.http.put<Mascota>(`${this.ROOT_URL}/editar/${this.formMascota.id}`, body).subscribe({
+      this.http.put<MascotaDTO>(`${this.ROOT_URL}/editar/${this.formMascota.id}`, body).subscribe({
         next: (mascotaEditada) => {
           console.log('Mascota editada:', mascotaEditada);
           this.volver.emit();
@@ -125,6 +124,7 @@ export class CreateMascotaComponent implements OnChanges {
       peso: 0,
       edad: 0,
       foto: '',
+      cedulaCliente: ''
     };
   }
 
