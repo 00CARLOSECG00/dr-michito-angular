@@ -30,10 +30,23 @@
               id="cedulaCliente"
               name="cedulaCliente"
               placeholder="Ingrese la cédula del cliente"
-              required
+              [(ngModel)]="cedulaCliente"  
+              (input)="onSearch(cedulaCliente)"  
               [disabled]="modoEdicion"
+              required
             />
+            
+            <!-- Mostrar dropdown solo si hay coincidencias -->
+            <ul *ngIf="clientesSugeridos.length > 0" class="list-group">
+              <li 
+                class="list-group-item"
+                *ngFor="let cliente of clientesSugeridos" 
+                (click)="seleccionarCliente(cliente)">
+                {{ cliente.cedula }} - {{ cliente.nombre }}
+              </li>
+            </ul>
           </div>
+
           <div class="mb-3">
             <label for="nombre" class="form-label">Nombre</label>
             <input
