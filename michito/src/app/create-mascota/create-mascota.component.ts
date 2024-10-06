@@ -1,53 +1,121 @@
-import { Component, EventEmitter, Input, Output, output } from '@angular/core';
-import { FormsModule } from '@angular/forms';  
+import { Component, EventEmitter, Input, Output, OnChanges } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Mascota } from '../Model/mascota';
-import { BarraLateralComponent } from '../componentes/barra-lateral/barra-lateral.component';
-import { Router } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
+import { Subject, of } from 'rxjs';
+import { debounceTime, distinctUntilChanged, switchMap, catchError } from 'rxjs/operators';
 
 @Component({
   selector: 'app-create-mascota',
   standalone: true,
-  imports: [FormsModule, CommonModule], 
+  imports: [FormsModule, CommonModule],
   templateUrl: './create-mascota.component.html',
-  styleUrls: ['./create-mascota.component.css']
+  styleUrls: ['./create-mascota.component.css'],
 })
-export class CreateMascotaComponent {
-  @Output() mascotaCreada = new EventEmitter<Mascota>(); 
-  @Input() mascota!: Mascota | null; // Recibe la mascota para editar
-  @Input() modoEdicion: boolean = false; // Indica si estamos en edición o creación
-  @Output() mascotaActualizada = new EventEmitter<Mascota>(); // Emitir para edición
-  sendMascota!:Mascota;
-  mostrarError: boolean = false;
+export class CreateMascotaComponent implements OnChanges {
+  @Input() mascota!: Mascota | null;
+  @Input() modoEdicion: boolean = false;
+  @Output() volver: EventEmitter<void> = new EventEmitter<void>();
+
   formMascota: Mascota = {
     id: 0, 
     nombre: '',
     peso: 0,
     edad: 0,
-    foto: ''
-  }
+    foto: '',
+  };
 
-  constructor(private router: Router) {}
+  cedulaCliente: string = '';
+  clientesSugeridos: any[] = [];
+  private searchTerms = new Subject<string>();  // Sujeto para escuchar el input
+
+  private ROOT_URL = 'http://localhost:8080/Mascotas';
+  private CLIENTE_URL = 'http://localhost:8080/Clientes';
+  mostrarError: boolean = false;
+
+  constructor(private http: HttpClient) {}
 
   ngOnChanges() {
     if (this.mascota) {
-      this.formMascota = { ...this.mascota }; 
+      this.formMascota = { ...this.mascota };
+    } else {
+      this.limpiarFormulario();
     }
   }
 
+  // Comienza la búsqueda usando switchMap
+  ngOnInit() {
+    
+    this.searchTerms.pipe(
+      debounceTime(300),  // Espera 300 ms después de cada pulsación
+      distinctUntilChanged(),  // Solo pasa si la búsqueda ha cambiado
+      switchMap((term: string) => 
+        term.length > 2 ? this.buscarClientes(term) : of([])  // Si hay menos de 3 caracteres, no busca
+      ),
+      catchError(error => {
+        console.error('Error al buscar clientes:', error);
+        return of([]);  // Devuelve un observable vacío en caso de error
+      })
+    ).subscribe((clientes) => {
+      this.clientesSugeridos = clientes;  // Actualiza la lista de sugerencias
+    });
+  }
+
+  // Empuja la búsqueda hacia el observable
+  buscarClientes(term: string) {
+    return this.http.get<any[]>(`${this.CLIENTE_URL}/buscar?cedula=${term}`);
+  }
+
+  // Escucha cuando el usuario escribe en el input
+  onSearch(term: string): void {
+    console.log('Buscando...'),
+    console.log('Term:', term);
+    this.searchTerms.next(term);  // Envía los términos de búsqueda
+  }
+
+  // Método para seleccionar un cliente del dropdown
+  seleccionarCliente(cliente: any) {
+    this.cedulaCliente = cliente.cedula; // Actualiza el campo de cédula con la selección
+    this.clientesSugeridos = []; // Limpia las sugerencias después de la selección
+  }
 
   guardar() {
-    if (this.modoEdicion) {
-      console.log('Mascota Actualizada:', this.formMascota);
-      this.mascotaActualizada.emit(this.formMascota);
-    } else {
-      console.log('Mascota creada:', this.formMascota);
-      this.sendMascota = Object.assign({}, this.formMascota);
-      this.mascotaCreada.emit(this.sendMascota);
+    const cedulaCliente = this.cedulaCliente;
+    if (!this.modoEdicion) {
+      const body = {
+        ...this.formMascota,
+        clienteCedula: cedulaCliente,
+      };
+      console.log('Datos enviados (creación):', body);
 
+      this.http.post<Mascota>(`${this.ROOT_URL}/agregar`, body).subscribe({
+        next: (mascotaAgregada) => {
+          console.log('Mascota agregada:', mascotaAgregada);
+          this.volver.emit();
+        },
+        error: (error) => {
+          console.error('Error al agregar la mascota:', error);
+          this.mostrarError = true;
+        },
+      });
+    } else {
+      const body = {
+        ...this.formMascota,
+        clienteCedula: cedulaCliente,
+      };
+      console.log('Datos enviados (edición):', body);
+      this.http.put<Mascota>(`${this.ROOT_URL}/editar/${this.formMascota.id}`, body).subscribe({
+        next: (mascotaEditada) => {
+          console.log('Mascota editada:', mascotaEditada);
+          this.volver.emit();
+        },
+        error: (error) => {
+          console.error('Error al editar la mascota:', error);
+          this.mostrarError = true;
+        },
+      });
     }
-    this.limpiarFormulario();
-    this.router.navigate(['/mascotas']);
   }
 
   limpiarFormulario() {
@@ -56,14 +124,11 @@ export class CreateMascotaComponent {
       nombre: '',
       peso: 0,
       edad: 0,
-      foto: ''
+      foto: '',
     };
-
-    this.modoEdicion = false;
-    this.mascota = null;
   }
 
-  goBack() {
-    history.back();
+  onVolver() {
+    this.volver.emit();
   }
 }

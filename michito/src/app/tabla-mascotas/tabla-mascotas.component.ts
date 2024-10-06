@@ -1,97 +1,109 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Mascota } from '../Model/mascota';
-import { HttpClient } from '@angular/common/http';  // Importamos HttpClient para hacer peticiones
+import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { CreateMascotaComponent } from '../create-mascota/create-mascota.component';
+import { DetallesMascotaComponent } from '../detalles-mascota/detalles-mascota.component';
 
 @Component({
   selector: 'app-tabla-mascotas',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, CreateMascotaComponent, DetallesMascotaComponent],
   templateUrl: './tabla-mascotas.component.html',
-  styleUrl: './tabla-mascotas.component.css',
+  styleUrls: ['./tabla-mascotas.component.css'],
 })
 export class TablaMascotasComponent implements OnInit {
-
-  mascotas!: Mascota[];
+  @Input() idCliente!: undefined | number;  // Recibe las mascotas del cliente (si aplica)
+  @Input() nombreCliente!: undefined | string;
+  @Input() mostrarTodas: boolean = false;
+  @Output() volvercliente: EventEmitter<void> = new EventEmitter<void>();
+  mascotas: Mascota[] = [];
   mascotaSeleccionada!: Mascota | null;
   modoEdicion: boolean = false;
+  modoCreacion: boolean = false;
+  modoVer: boolean = false;
   private ROOT_URL = 'http://localhost:8080/Mascotas';  // URL base del backend
+  private ROOT_URL2 = 'http://localhost:8080/Clientes';
 
   constructor(private http: HttpClient, private router: Router) {}
 
-  // Navegar a la vista de detalles de la mascota seleccionada
-  verMascota(mascota: Mascota) {
-    this.http.get<Mascota>(`${this.ROOT_URL}/vistaDetalle/${mascota.id}`).subscribe({
-      next: (detallesMascota) => {
-        this.mascotaSeleccionada = detallesMascota;
-        this.router.navigate(['/detalles-mascota']);  // Navega al componente de detalles
-      },
-      error: (error) => {
-        console.error('Error al cargar detalles de la mascota:', error);
-      }
-    });
-  }
-
-  // Activar el modo edición para editar la mascota seleccionada
-  editarMascota(mascota: Mascota) {
-    this.mascotaSeleccionada = { ...mascota };  // Clona la mascota seleccionada
-    this.modoEdicion = true;  // Activa el modo edición
-  }
-
-  // Actualiza la mascota después de la edición
-  actualizarMascotaActualizada(mascotaActualizada: Mascota) {
-    const index = this.mascotas.findIndex(m => m.id === mascotaActualizada.id);
-    if (index !== -1) {
-      this.mascotas[index] = mascotaActualizada;
-    }
-    this.mascotaSeleccionada = null;
+  resetModo(): void {
     this.modoEdicion = false;
+    this.modoCreacion = false;
+    this.modoVer = false;
   }
 
-  // Elimina la mascota haciendo una petición DELETE al backend
+  verMascota(mascota: Mascota) {
+    this.resetModo();
+    this.mascotaSeleccionada = { ...mascota };
+    this.modoVer = true;
+  }
+
+  editarMascota(mascota: Mascota) {
+    this.resetModo();
+    this.mascotaSeleccionada = { ...mascota };
+    this.modoEdicion = true;
+  }
+
   eliminarMascota(mascota: Mascota) {
     const confirmacion = confirm(`¿Estás seguro de que deseas eliminar a ${mascota.nombre}?`);
     if (confirmacion) {
       this.http.delete(`${this.ROOT_URL}/eliminar/${mascota.id}`).subscribe({
         next: () => {
-          // Eliminar la mascota localmente después de la eliminación exitosa
           this.mascotas = this.mascotas.filter((m) => m.id !== mascota.id);
-          this.listarMascotas();
+          if (this.mostrarTodas) {
+            this.listarMascotas();
+          } else {
+            this.mostrarMascotasCliente();
+          }
         }
       });
     }
   }
 
-  // Agregar una nueva mascota haciendo una petición POST al backend
-  agregarMascota(nuevaMascota: Mascota): void {
-    this.mascotaSeleccionada = null;
+  agregarMascota(): void {
+    this.resetModo();
+    this.modoCreacion = true;
     this.modoEdicion = false;
-
-    this.http.post<Mascota>(`${this.ROOT_URL}/agregar`, nuevaMascota).subscribe({
-      next: (mascotaAgregada) => {
-        this.mascotas.push(mascotaAgregada);
-        console.log('Mascota agregada:', mascotaAgregada);
-      },
-      error: (error) => {
-        console.error('Error al agregar la mascota:', error);
-      }
-    });
   }
 
-  // Inicializa el componente cargando las mascotas desde el backend
   ngOnInit(): void {
-   this.listarMascotas();
+    if (this.mostrarTodas) {
+      this.listarMascotas();
+    } else {
+      this.mostrarMascotasCliente();
+    }
   }
-  listarMascotas(){
+
+  listarMascotas() {
     this.http.get<Mascota[]>(`${this.ROOT_URL}/all`).subscribe({
       next: (mascotas) => {
-        this.mascotas = mascotas;  // Asigna el arreglo de mascotas al componente
-        console.log('Mascotas obtenidas:', this.mascotas);
+        this.mascotas = mascotas;
       },
       error: (error) => {
         console.error('Error al obtener las mascotas:', error);
       }
     });
+  }
+
+  mostrarMascotasCliente() {
+    this.http.get<Mascota[]>(`${this.ROOT_URL2}/Mascotas/${this.idCliente}`).subscribe({
+      next: (mascotas) => {
+        this.mascotas = mascotas;
+      },
+      error: (error) => {
+        console.error('Error al obtener las mascotas:', error);
+      }
+    });
+  }
+
+  onVolver() {
+    this.resetModo();
+    if (this.mostrarTodas) {
+      this.listarMascotas();
+    } else {
+      this.mostrarMascotasCliente();
+    }
   }
 }

@@ -5,9 +5,10 @@
 <div class="contenido-derecho">
   <!-- Mostrar el componente dinámico -->
   <ng-container [ngSwitch]="componenteSeleccionado">
-    <app-tabla-mascotas *ngSwitchCase="'mascotas'"></app-tabla-mascotas>
+    <app-tabla-mascotas [mostrarTodas]="true" *ngSwitchCase="'mascotas'"></app-tabla-mascotas>
     <app-tabla-clientes *ngSwitchCase="'clientes'"></app-tabla-clientes>
     <app-tabla-medicamentos *ngSwitchCase="'medicamentos'"></app-tabla-medicamentos>
+    <app-vista-mascotas-cliente *ngSwitchCase="'mismascotas'"></app-vista-mascotas-cliente>
     <!-- Agrega más componentes según los botones -->
      <!--
     <div *ngSwitchCase="'dashboard'">Dashboard Component Placeholder</div>

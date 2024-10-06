@@ -8,13 +8,10 @@
     <div
       class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom"
     >
-      <a onclick="history.back()" class="btn btn-outline-secondary">
-        <img
-          src="/images/iconos/arrow-circle-left-purple.png"
-          alt="Icono Atras"
-          s
-        />
-      </a>
+    <a class="btn btn-outline-secondary" (click)="onVolver()">
+      <img src="/images/iconos/arrow-circle-left-purple.png" alt="Icono Atras" />
+    </a>
+    
     </div>
 
     <div class="card agregar-mascota-card">
@@ -22,13 +19,7 @@
         <h2 class="text-center agregar-mascota-titulo">
           {{ modoEdicion ? 'Editar Mascota' : 'Agregar Mascota' }}
         </h2>
-
-        <!-- Mostrar el mensaje de error si 'mostrarError' es true -->
-        <ng-container *ngIf="mostrarError">
-          <div class="alert alert-danger">
-            <p>Usuario o contraseña incorrecta</p>
-          </div>
-        </ng-container>
+        
 
         <form (ngSubmit)="guardar()" #mascotaForm="ngForm">
           <div class="mb-3">
@@ -39,9 +30,23 @@
               id="cedulaCliente"
               name="cedulaCliente"
               placeholder="Ingrese la cédula del cliente"
+              [(ngModel)]="cedulaCliente"  
+              (input)="onSearch(cedulaCliente)"  
+              [disabled]="modoEdicion"
               required
             />
+            
+            <!-- Mostrar dropdown solo si hay coincidencias -->
+            <ul *ngIf="clientesSugeridos.length > 0" class="list-group">
+              <li 
+                class="list-group-item"
+                *ngFor="let cliente of clientesSugeridos" 
+                (click)="seleccionarCliente(cliente)">
+                {{ cliente.cedula }} - {{ cliente.nombre }}
+              </li>
+            </ul>
           </div>
+
           <div class="mb-3">
             <label for="nombre" class="form-label">Nombre</label>
             <input
@@ -96,8 +101,6 @@
             {{ modoEdicion ? 'Actualizar' : 'Guardar' }}
           </button>
         </form>
-        {{ formMascota.nombre }}
-        {{ formMascota.edad }}
       </div>
     </div>
   </main>

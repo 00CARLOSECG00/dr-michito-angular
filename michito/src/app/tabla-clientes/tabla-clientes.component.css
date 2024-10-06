@@ -1,4 +1,7 @@
-
+.contenedor-principal {
+    display: flex;
+    height: 100vh;
+}
 :root{
     --color-barra-lateral:#44344f;
 
@@ -85,7 +88,7 @@ button,a{
 }
 
 main{
-    margin-left: 250px;
+    margin-left: 0px;
     padding: 20px;
     transition: margin-left 0.5s ease;
 }

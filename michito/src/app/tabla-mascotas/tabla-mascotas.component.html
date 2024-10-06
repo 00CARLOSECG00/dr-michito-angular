@@ -2,28 +2,53 @@
   <!-- Main content -->
   <main
     role="main"
-    class="col-md-9 ml-sm-auto col-lg-10 px-4 contenido-principal"
-  >
-    <div
-      class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom"
-    >
-      <a onclick="history.back()" class="btn btn-outline-secondary">
-        <img
-          src="/images/iconos/arrow-circle-left-purple.png"
-          alt="Icono Atras"
-        />
+    class="col-md-9 ml-sm-auto col-lg-10 px-4 contenido-principal">
+    <div *ngIf="mostrarTodas==false && !modoCreacion && !modoEdicion && !modoVer">
+      <a class="btn btn-outline-secondary" (click)="onVolver()">
+        <img src="/images/iconos/arrow-circle-left-purple.png" alt="Icono Atras" />
       </a>
-      <h1>Mascotas</h1>
-      <div class="btn-toolbar mb-2 mb-md-0">
-        <div class="btn-group mr-2">
-          <button class="btn btn-green" (click)="mascotaSeleccionada = null; modoEdicion = false">
-            + Agregar Mascota
-          </button>
+    </div>
+    <div *ngIf="modoEdicion">
+      <app-create-mascota 
+        [mascota]="mascotaSeleccionada"
+        [modoEdicion]="modoEdicion"
+        (volver)="onVolver()">
+      </app-create-mascota>
+    </div>
+    
+    <div *ngIf="modoCreacion">
+      <app-create-mascota
+        [modoEdicion]="modoEdicion" 
+        (volver)="onVolver()">
+      </app-create-mascota>
+    </div>
+    
+    <div *ngIf="modoVer && mascotaSeleccionada">
+      <app-detalles-mascota 
+        [mascota]="mascotaSeleccionada" 
+        (volver)="modoVer = false">
+      </app-detalles-mascota>
+    </div>
+    
+    <div *ngIf="!modoEdicion && !modoCreacion && !modoVer">
+
+      <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+      
+        <div *ngIf="mostrarTodas==true">
+          <h1>Mascotas</h1>
+        </div>
+        <div *ngIf="mostrarTodas==false">
+          <h1>Mascotas de {{ nombreCliente }}</h1>
+        </div>
+        <div class="btn-toolbar mb-2 mb-md-0">
+          <div class="btn-group mr-2">
+            <button class="btn btn-green" (click)="agregarMascota()">
+              + Agregar Mascota
+            </button>
+          </div>
         </div>
       </div>
-    </div>
-    <!--TABLA-->
-    <div id="mascotas_table">
+      
       <table class="table table-striped table-hover">
         <thead class="table-hover">
           <tr>

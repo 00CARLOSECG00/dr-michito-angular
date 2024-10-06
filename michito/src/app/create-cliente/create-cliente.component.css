@@ -1,5 +1,5 @@
-/* Estilo de la tarjeta de agregar mascota */
-.agregar-mascota-card {
+/* Estilo de la tarjeta de agregar cliente */
+.agregar-cliente-card {
     margin: auto;
     max-width: 600px;
     border-radius: 20px;
@@ -9,7 +9,7 @@
 }
 
 /* Estilo del título */
-.agregar-mascota-titulo {
+.agregar-cliente-titulo {
     font-family: Jomhuria, serif;
     letter-spacing: 4px;
     color: #5a4076;
@@ -36,5 +36,8 @@
     background-color: #dddddd;
 }
 
+button{
+    margin-top: 20px;
+}
 
 

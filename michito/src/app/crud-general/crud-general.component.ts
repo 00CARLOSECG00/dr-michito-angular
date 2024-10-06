@@ -7,6 +7,7 @@ import { TablaClientesComponent } from '../tabla-clientes/tabla-clientes.compone
 import { TablaMascotasComponent } from '../tabla-mascotas/tabla-mascotas.component';
 import { DetallesMascotaComponent } from "../detalles-mascota/detalles-mascota.component";
 import { TablaMedicamentosComponent } from "../tabla-medicamentos/tabla-medicamentos.component";
+import { VistaMascotasClienteComponent } from '../vista-mascotas-cliente/vista-mascotas-cliente.component';
 
 @Component({
   selector: 'app-crud-general',
@@ -17,8 +18,10 @@ import { TablaMedicamentosComponent } from "../tabla-medicamentos/tabla-medicame
     BarraLateralComponent,
     TablaClientesComponent,
     TablaMascotasComponent,
-    TablaMedicamentosComponent
+    TablaMedicamentosComponent,
+    VistaMascotasClienteComponent
 ],
+
   templateUrl: './crud-general.component.html',
   styleUrls: ['./crud-general.component.css']
 })
@@ -26,11 +29,11 @@ export class CrudGeneralComponent implements OnInit {
   tipoUsuario: string = '';
   componenteSeleccionado: string = '';
 
-  constructor(private route: ActivatedRoute) {}  // La inyección de ActivatedRoute debe estar aquí
+  constructor(private route: ActivatedRoute) {} 
 
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {
-      this.tipoUsuario = params['usuario'];  // Asegúrate de que 'usuario' esté disponible en los parámetros
+      this.tipoUsuario = params['usuario'];  
     });
   }
 

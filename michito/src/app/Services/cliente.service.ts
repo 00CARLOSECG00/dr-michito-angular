@@ -1,17 +1,22 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { Cliente } from '../Model/cliente'; 
 
 @Injectable({
-  providedIn: 'root'  // Esto asegura que el servicio sea global
+  providedIn: 'root'  
 })
 export class ClienteService {
-  private ROOT_URL = 'http://localhost:8080';  // URL de tu API
+  private clienteSubject = new BehaviorSubject<Cliente|null  >(null);
+  cliente$ = this.clienteSubject.asObservable();
 
-  constructor(private http: HttpClient) {}
+  constructor() {}
 
-  getClientes(): Observable<Cliente[]> {
-    return this.http.get<Cliente[]>(`${this.ROOT_URL}/Clientes/all`);
-  }
+    setCliente(cliente: Cliente): void {
+      console.log('Cambia el cliente:', cliente);
+      this.clienteSubject.next(cliente);  
+    }
+  
+    getCliente(): Cliente | null {
+      return this.clienteSubject.getValue(); 
+    }
 }
