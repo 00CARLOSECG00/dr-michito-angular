@@ -9,14 +9,17 @@
       </a>
     </div>
     <div *ngIf="modoEdicion">
-      <app-create-mascota></app-create-mascota>
+      <app-create-mascota 
+        [mascota]="mascotaSeleccionada"
+        [modoEdicion]="modoEdicion"
+        (volver)="onVolver()">
+      </app-create-mascota>
     </div>
     
     <div *ngIf="modoCreacion">
       <app-create-mascota
-      [mascota]="mascotaSeleccionada"
-      [modoEdicion]="modoEdicion"
-      (volver)="modoCreacion = false">
+        [modoEdicion]="modoEdicion" 
+        (volver)="onVolver()">
       </app-create-mascota>
     </div>
     
@@ -27,7 +30,6 @@
       </app-detalles-mascota>
     </div>
     
-    <!--TABLA-->
     <div *ngIf="!modoEdicion && !modoCreacion && !modoVer">
 
       <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">

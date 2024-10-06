@@ -1,6 +1,6 @@
-import { Component, OnInit, Input , Output, EventEmitter} from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Mascota } from '../Model/mascota';
-import { HttpClient } from '@angular/common/http';  // Importamos HttpClient para hacer peticiones
+import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { CreateMascotaComponent } from '../create-mascota/create-mascota.component';
@@ -11,7 +11,7 @@ import { DetallesMascotaComponent } from '../detalles-mascota/detalles-mascota.c
   standalone: true,
   imports: [CommonModule, CreateMascotaComponent, DetallesMascotaComponent],
   templateUrl: './tabla-mascotas.component.html',
-  styleUrl: './tabla-mascotas.component.css',
+  styleUrls: ['./tabla-mascotas.component.css'],
 })
 export class TablaMascotasComponent implements OnInit {
   @Input() idCliente!: undefined | number;  // Recibe las mascotas del cliente (si aplica)
@@ -40,52 +40,46 @@ export class TablaMascotasComponent implements OnInit {
     this.modoVer = true;
   }
 
-  // Activar el modo edición para editar la mascota seleccionada
   editarMascota(mascota: Mascota) {
     this.resetModo();
-    this.mascotaSeleccionada = { ...mascota };  // Clona la mascota seleccionada
-    this.modoEdicion = true;  // Activa el modo edición
+    this.mascotaSeleccionada = { ...mascota };
+    this.modoEdicion = true;
   }
 
-  // Elimina la mascota haciendo una petición DELETE al backend
   eliminarMascota(mascota: Mascota) {
     const confirmacion = confirm(`¿Estás seguro de que deseas eliminar a ${mascota.nombre}?`);
     if (confirmacion) {
       this.http.delete(`${this.ROOT_URL}/eliminar/${mascota.id}`).subscribe({
         next: () => {
-          // Eliminar la mascota localmente después de la eliminación exitosa
           this.mascotas = this.mascotas.filter((m) => m.id !== mascota.id);
           if (this.mostrarTodas) {
-            this.listarMascotas();  // Opcional: Si prefieres recargar todas las mascotas después de eliminar
+            this.listarMascotas();
           } else {
-            this.mostrarMascotasCliente();  // Actualiza la lista de mascotas del cliente
+            this.mostrarMascotasCliente();
           }
         }
       });
     }
   }
 
-  // Agregar una nueva mascota 
   agregarMascota(): void {
     this.resetModo();
     this.modoCreacion = true;
+    this.modoEdicion = false;
   }
 
-  // Inicializa el componente
   ngOnInit(): void {
     if (this.mostrarTodas) {
-      this.listarMascotas();  // Cargar todas las mascotas si mostrarTodas es true
+      this.listarMascotas();
     } else {
-      this.mostrarMascotasCliente();  // Mostrar solo las mascotas del cliente si mostrarTodas es false
+      this.mostrarMascotasCliente();
     }
   }
 
-  // Método para listar todas las mascotas desde el backend
   listarMascotas() {
     this.http.get<Mascota[]>(`${this.ROOT_URL}/all`).subscribe({
       next: (mascotas) => {
-        this.mascotas = mascotas;  // Asigna el arreglo de mascotas al componente
-        console.log('Mascotas obtenidas:', this.mascotas);
+        this.mascotas = mascotas;
       },
       error: (error) => {
         console.error('Error al obtener las mascotas:', error);
@@ -93,19 +87,23 @@ export class TablaMascotasComponent implements OnInit {
     });
   }
 
-  // Método para mostrar las mascotas del cliente
   mostrarMascotasCliente() {
     this.http.get<Mascota[]>(`${this.ROOT_URL2}/Mascotas/${this.idCliente}`).subscribe({
       next: (mascotas) => {
-        this.mascotas = mascotas;  // Asigna el arreglo de mascotas al componente
-        console.log('Mascotas obtenidas:', this.mascotas);
+        this.mascotas = mascotas;
       },
       error: (error) => {
         console.error('Error al obtener las mascotas:', error);
       }
     });
   }
+
   onVolver() {
-    this.volvercliente.emit();
+    this.resetModo();
+    if (this.mostrarTodas) {
+      this.listarMascotas();
+    } else {
+      this.mostrarMascotasCliente();
+    }
   }
 }
