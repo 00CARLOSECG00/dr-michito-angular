@@ -6,6 +6,7 @@ import { BarraLateralComponent } from '../componentes/barra-lateral/barra-latera
 import { TablaClientesComponent } from '../tabla-clientes/tabla-clientes.component';  
 import { TablaMascotasComponent } from '../tabla-mascotas/tabla-mascotas.component';
 import { DetallesMascotaComponent } from "../detalles-mascota/detalles-mascota.component";
+import { VistaMascotasClienteComponent } from '../vista-mascotas-cliente/vista-mascotas-cliente.component';
 
 @Component({
   selector: 'app-crud-general',
@@ -16,7 +17,7 @@ import { DetallesMascotaComponent } from "../detalles-mascota/detalles-mascota.c
     BarraLateralComponent, 
     TablaClientesComponent,
     TablaMascotasComponent, 
-    //DetallesMascotaComponent
+    VistaMascotasClienteComponent
   ],
   templateUrl: './crud-general.component.html',
   styleUrls: ['./crud-general.component.css']

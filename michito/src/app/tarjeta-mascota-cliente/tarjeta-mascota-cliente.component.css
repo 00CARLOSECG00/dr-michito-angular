@@ -1,0 +1,57 @@
+.mascota-card {
+    width: 100%; /* Ocupa el ancho completo */
+    max-width: 300px; /* Ancho máximo */
+    margin: 20px auto; /* Margen vertical */
+    border: 1px solid #ddd; /* Borde ligero */
+    border-radius: 8px; /* Bordes redondeados */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Sombra sutil */
+    overflow: hidden; /* Evita que el contenido se salga de los bordes */
+    transition: transform 0.2s; /* Efecto de hover */
+  }
+  
+  .mascota-card:hover {
+    transform: scale(1.05); /* Aumenta ligeramente al pasar el ratón */
+  }
+  
+  .card__border {
+    height: 200px; /* Altura del contenedor de la imagen */
+    overflow: hidden; /* Oculta el desbordamiento */
+  }
+  
+  .card__img {
+    height: 100%; /* Imagen ocupa toda la altura */
+    width: 100%; /* Imagen ocupa todo el ancho */
+    object-fit: cover; /* Mantiene la proporción de la imagen */
+  }
+  
+  .card__name {
+    font-size: 1.5rem; /* Tamaño del nombre */
+    margin: 10px 0; /* Espacio superior e inferior */
+  }
+  
+  .card__age, .card__weight {
+    display: block; /* Muestra en bloque */
+    margin-bottom: 5px; /* Espacio entre elementos */
+  }
+  
+  .card__details {
+    margin-top: 10px; /* Espacio superior */
+  }
+  
+  .card__details-control {
+    display: flex; /* Flexbox para alinear el contenido */
+    align-items: center; /* Centra verticalmente */
+  }
+  
+  .card__details-toggle {
+    display: flex; /* Flexbox para alinear la imagen y el texto */
+    align-items: center; /* Centra verticalmente */
+    cursor: pointer; /* Cambia el cursor al pasar el ratón */
+  }
+  
+  .card__details-image {
+    width: 20px; /* Ancho de la imagen de detalles */
+    height: 20px; /* Alto de la imagen de detalles */
+    margin-right: 5px; /* Espacio a la derecha */
+  }
+  

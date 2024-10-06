@@ -1,0 +1,18 @@
+<div class="contenedor-principal">
+    <p>holaaa funcionando</p>
+    
+    <div *ngIf="modoVer">
+      <app-detalles-mascota 
+        [mascota]="mascotaSeleccionada" 
+        (volver)="modoVer = false">
+      </app-detalles-mascota>
+    </div>
+  
+    <div *ngIf="!modoVer">
+      <h1>Bienvenido</h1>
+      
+      <h2>Tus Mascotas</h2>
+      
+    </div>
+  </div>
+  
