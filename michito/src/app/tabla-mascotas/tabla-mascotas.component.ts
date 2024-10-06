@@ -104,6 +104,10 @@ export class TablaMascotasComponent implements OnInit {
       this.listarMascotas();
     } else {
       this.mostrarMascotasCliente();
+      
     }
+  }
+  atras() {
+    this.volvercliente.emit();
   }
 }
