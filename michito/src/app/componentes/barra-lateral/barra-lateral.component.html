@@ -15,7 +15,13 @@
           <span>Dashboard</span>
         </a>
       </li>
-
+      <!-- El botón 'Cuenta' solo está visible para el admin -->
+      <li *ngIf="tipoUsuario === 'cliente'">
+        <a id="dashboard" (click)="onClick('Cuenta')">
+          <img src="/images/iconos/barraLateral/identification.png" alt="dashboard" />
+          <span>Cuenta</span>
+        </a>
+      </li>
       <!-- El botón 'Personal' solo está visible para el admin -->
       <li *ngIf="tipoUsuario === 'admin'">
         <a id="personal" (click)="onClick('personal')">
@@ -33,13 +39,18 @@
       </li>
 
       <!-- El botón 'Mascotas' visible para todos -->
-      <li>
+      <li *ngIf="tipoUsuario === 'admin' || tipoUsuario === 'veterinario'">
         <a id="mascotas" (click)="onClick('mascotas')">
           <img src="/images/iconos/barraLateral/Dog.png" alt="mascotas" />
           <span>Mascotas</span>
         </a>
       </li>
-
+      <li *ngIf="tipoUsuario === 'cliente'">
+        <a id="mascotas" (click)="onClick('mismascotas')">
+          <img src="/images/iconos/barraLateral/Dog.png" alt="mascotas" />
+          <span>Mis Mascotas</span>
+        </a>
+      </li>
       <!-- El botón 'Clientes' visible para admin y veterinario -->
       <li *ngIf="tipoUsuario === 'admin' || tipoUsuario === 'veterinario'">
         <a id="clientes" (click)="onClick('clientes')">
@@ -48,8 +59,8 @@
         </a>
       </li>
 
-      <!-- El botón 'Tratamientos' visible para admin y veterinario -->
-      <li *ngIf="tipoUsuario === 'admin' || tipoUsuario === 'veterinario'">
+      <!-- El botón 'Tratamientos' visible para todos -->
+      <li >
         <a id="tratamientos" (click)="onClick('tratamientos')">
           <img src="/images/iconos/barraLateral/Stetoscope.png" alt="tratamientos" />
           <span>Tratamientos</span>
