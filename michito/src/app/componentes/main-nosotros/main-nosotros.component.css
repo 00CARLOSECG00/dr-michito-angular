@@ -1,3 +1,6 @@
+
+
+ 
  /****************Sobre nosotros y nuestro equipo *******************/
  #nosotros {
     background-color: #B49FCC;
@@ -31,67 +34,56 @@
     margin-bottom: 5px; /* Reducir el margen */
     margin-top: 5px;
   }
+  .carousel-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    width: 80%;
+    margin: auto;
+  }
+  
+  .carousel-track-container {
+    overflow: hidden;
+    width: 80%;
+  }
   
   .team-carousel {
-    background-color: #44344F;
     display: flex;
-    align-items: stretch;
-    padding: 30px; /* Reducir el padding */
-    border-radius: 15px;
-    margin: 60px; /* Reducir el margen */
-    position: relative;
-    margin-top: 10px;
-    margin-bottom: 10px;
-    height: 100%; /* Asegurar que el contenedor use todo el espacio disponible */
-  }
-  .team-member {
-    background-color: #44344F;
-    padding: 20px;
-    border-radius: 10px;
-    text-align: center;
-    margin: 0 10px;
-    color: #fff;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    flex-grow: 1; /* Permite que los elementos crezcan para llenar el espacio disponible */
-    min-height: 450px; /* Ajustar según sea necesario */
-  }
-  .team-member img {
-    width: 170px;  /* Puedes ajustar el tamaño según sea necesario */
-    height: 170px; /* Puedes ajustar el tamaño según sea necesario */
-    display: block;
-    margin: 0 auto 10px;
-    object-fit: contain; /* Asegura que las imágenes mantengan su proporción original */
-  }
-  .team-member h3 {
-    font-size: 30px;
-    color: #fff;
-    margin-bottom: 10px;
-  }
-  .team-member p {
-    font-size: 14px;
-    color: #BEB2C8;
-    margin: 0;
+    transition: transform 0.3s ease-in-out;
   }
   
-  .slick-arrow {
-    width: 30px;
-    height: 30px;
-    font-size: 0;
-    color: transparent;
+  .team-member {
+    min-width: calc(100% / 3);
+    box-sizing: border-box;
+    text-align: center;
+  }
+  
+  img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+  }
+  
+  button {
+    background-color: transparent;
+    border: none;
+    font-size: 2rem;
+    cursor: pointer;
+    user-select: none;
+  }
+  
+  .prev-btn, .next-btn {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    border: none;
   }
-  .slick-prev {
-    left: -50px; /* Ajustar la posición de la flecha izquierda */
-    background: url("../../../../public/images/iconos/arrow-previous.png");
-    background-size: 100%;
+  
+  .prev-btn {
+    left: 0;
   }
-  .slick-next {
-    right: -50px; /* Ajustar la posición de la flecha derecha */
-    background: url("../../../../public/images/iconos/arrow-next.png");
-    background-size: 100%;
+  
+  .next-btn {
+    right: 0;
   }
+  
