@@ -5,11 +5,12 @@ import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { CreateMascotaComponent } from '../create-mascota/create-mascota.component';
 import { DetallesMascotaComponent } from '../detalles-mascota/detalles-mascota.component';
+import { NgxPaginationModule } from 'ngx-pagination'; 
 
 @Component({
   selector: 'app-tabla-mascotas',
   standalone: true,
-  imports: [CommonModule, CreateMascotaComponent, DetallesMascotaComponent],
+  imports: [CommonModule, CreateMascotaComponent, DetallesMascotaComponent, NgxPaginationModule],
   templateUrl: './tabla-mascotas.component.html',
   styleUrls: ['./tabla-mascotas.component.css'],
 })
@@ -18,11 +19,14 @@ export class TablaMascotasComponent implements OnInit {
   @Input() nombreCliente!: undefined | string;
   @Input() mostrarTodas: boolean = false;
   @Output() volvercliente: EventEmitter<void> = new EventEmitter<void>();
+
+  page: number = 1;
   mascotas: Mascota[] = [];
   mascotaSeleccionada!: Mascota | null;
   modoEdicion: boolean = false;
   modoCreacion: boolean = false;
   modoVer: boolean = false;
+
   private ROOT_URL = 'http://localhost:8080/Mascotas';  // URL base del backend
   private ROOT_URL2 = 'http://localhost:8080/Clientes';
 

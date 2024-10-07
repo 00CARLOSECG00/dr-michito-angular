@@ -1,43 +1,48 @@
 <div class="contenedor-principal">
-  <!-- Main content -->
   <main
     role="main"
-    class="col-md-9 ml-sm-auto col-lg-10 px-4 contenido-principal">
-    <div *ngIf="mostrarTodas==false && !modoCreacion && !modoEdicion && !modoVer">
+    class="col-md-9 ml-sm-auto col-lg-10 px-4 contenido-principal"
+  >
+    <div
+      *ngIf="mostrarTodas == false && !modoCreacion && !modoEdicion && !modoVer"
+    >
       <a class="btn btn-outline-secondary" (click)="atras()">
-        <img src="/images/iconos/arrow-circle-left-purple.png" alt="Icono Atras" />
+        <img
+          src="/images/iconos/arrow-circle-left-purple.png"
+          alt="Icono Atras"
+        />
       </a>
     </div>
     <div *ngIf="modoEdicion">
-      <app-create-mascota 
+      <app-create-mascota
         [mascota]="mascotaSeleccionada"
         [modoEdicion]="modoEdicion"
-        (volver)="onVolver()">
+        (volver)="onVolver()"
+      >
       </app-create-mascota>
     </div>
-    
+
     <div *ngIf="modoCreacion">
-      <app-create-mascota
-        [modoEdicion]="modoEdicion" 
-        (volver)="onVolver()">
+      <app-create-mascota [modoEdicion]="modoEdicion" (volver)="onVolver()">
       </app-create-mascota>
     </div>
-    
+
     <div *ngIf="modoVer && mascotaSeleccionada">
-      <app-detalles-mascota 
-        [mascota]="mascotaSeleccionada" 
-        (volver)="modoVer = false">
+      <app-detalles-mascota
+        [mascota]="mascotaSeleccionada"
+        (volver)="modoVer = false"
+      >
       </app-detalles-mascota>
     </div>
-    
-    <div *ngIf="!modoEdicion && !modoCreacion && !modoVer">
 
-      <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-      
-        <div *ngIf="mostrarTodas==true">
+    <div *ngIf="!modoEdicion && !modoCreacion && !modoVer">
+      <div
+        class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom"
+      >
+        <div *ngIf="mostrarTodas == true">
           <h1>Mascotas</h1>
         </div>
-        <div *ngIf="mostrarTodas==false">
+        <div *ngIf="mostrarTodas == false">
           <h1>Mascotas de {{ nombreCliente }}</h1>
         </div>
         <div class="btn-toolbar mb-2 mb-md-0">
@@ -48,7 +53,7 @@
           </div>
         </div>
       </div>
-      
+
       <table class="table table-striped table-hover">
         <thead class="table-hover">
           <tr>
@@ -62,7 +67,13 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let Mascotas of mascotas">
+          <!-- Añadir el pipe `paginate` para paginar los elementos -->
+          <tr
+            *ngFor="
+              let Mascotas of mascotas
+                | paginate : { itemsPerPage: 6, currentPage: page }
+            "
+          >
             <td>{{ Mascotas.id }}</td>
             <td>{{ Mascotas.nombre }}</td>
             <td>{{ Mascotas.edad }}</td>
@@ -71,20 +82,46 @@
               <img src="{{ Mascotas.foto }}" class="foto_mascota" />
             </td>
             <td>
-              <button class="btn btn-green" (click)="verMascota(Mascotas)">Ver</button>
+              <button class="btn btn-green" (click)="verMascota(Mascotas)">
+                Ver
+              </button>
             </td>
             <td>
-              <button class="btn btn-sm btn-edit" (click)="editarMascota(Mascotas)">
-                <img src="/images/iconos/editIcon.png" alt="Editar" class="action-icon" />
+              <button
+                class="btn btn-sm btn-edit"
+                (click)="editarMascota(Mascotas)"
+              >
+                <img
+                  src="/images/iconos/editIcon.png"
+                  alt="Editar"
+                  class="action-icon"
+                />
               </button>
-              <button class="btn btn-sm btn-delete" (click)="eliminarMascota(Mascotas)">
-                <img src="/images/iconos/trashIcon.png" alt="Eliminar" class="action-icon" />
+              <button
+                class="btn btn-sm btn-delete"
+                (click)="eliminarMascota(Mascotas)"
+              >
+                <img
+                  src="/images/iconos/trashIcon.png"
+                  alt="Eliminar"
+                  class="action-icon"
+                />
               </button>
             </td>
           </tr>
         </tbody>
       </table>
-    </div>
 
+      <!-- Añadir controles de paginación -->
+      <div class="paginacion text-center">
+        <pagination-controls
+          (pageChange)="page = $event" 
+          [maxSize]="7"
+          previousLabel="Anterior"
+          nextLabel="Siguiente"
+          class="my-pagination"
+        ></pagination-controls>
+      </div>
+    </div>
   </main>
 </div>

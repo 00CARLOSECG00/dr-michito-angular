@@ -5,6 +5,7 @@ import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';  
 import { CreateClienteComponent } from '../create-cliente/create-cliente.component';
 import { TablaMascotasComponent} from '../tabla-mascotas/tabla-mascotas.component';
+import { NgxPaginationModule } from 'ngx-pagination'; 
 @Component({
   selector: 'app-tabla-clientes',
   standalone: true,
@@ -12,12 +13,14 @@ import { TablaMascotasComponent} from '../tabla-mascotas/tabla-mascotas.componen
     CommonModule,   
     RouterModule,     
     CreateClienteComponent,
-    TablaMascotasComponent
+    TablaMascotasComponent,
+    NgxPaginationModule
   ],
   templateUrl: './tabla-clientes.component.html',
   styleUrls: ['./tabla-clientes.component.css']
 })
 export class TablaClientesComponent implements OnInit {
+  page: number = 1;
   clientes: Cliente[] = [];
   modoCreacion: boolean = false;
   modoEdicion: boolean = false;

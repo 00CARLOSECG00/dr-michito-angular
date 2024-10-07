@@ -4,14 +4,13 @@
     height: 100vh;
 }
 
-/* Fila superior con fondo de imagen */
 .fila-superior {
-    height: 120px; /* Altura reducida para la fila superior */
-    background-image: url("../../../public/images/fondos/fondoDetallesMascota.png"); /* Ruta relativa a la carpeta assets */
-    background-size: cover;   /* Para que la imagen cubra todo el área */
-    background-position: center; /* Para centrar la imagen */
+    height: 120px; 
+    background-image: url("../../../public/images/fondos/fondoDetallesMascota.png"); 
+    background-size: cover;   
+    background-position: center; 
     height: 150px;
-    color: white; /* Título en blanco sobre la imagen */
+    color: white;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -31,30 +30,27 @@ h4 {
     font-family: 'Jomhuria', serif;
     letter-spacing: 2px;
     font-size: 60px;
-    color: #fff; /* Texto blanco en la fila superior */
-    margin-bottom: 0; /* Sin margen para mejor alineación */
+    color: #fff; 
+    margin-bottom: 0; 
 }
 
 
-/* Fila inferior más grande */
 .fila-inferior {
     padding: 20px;
     height: auto;
 }
 
-/* Imagen circular más grande */
 .foto_mascota {
-    width: 180px;   /* Aumentado el tamaño */
-    height: 180px;  /* Aumentado el tamaño */
+    width: 180px;  
+    height: 180px; 
     object-fit: cover;
-    border-radius: 50%; /* Imagen circular */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra ligera */
+    border-radius: 50%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s ease;
 }
 
-/* Eliminar el borde */
 .foto_mascota:hover {
-    transform: scale(1.05); /* Efecto de zoom */
+    transform: scale(1.05);
 }
 
 .detalle-item {
@@ -66,7 +62,6 @@ h4 {
     color: #5a4076;
 }
 
-/* Botón volver estilizado */
 .btn-green {
     background-color: #C2F970;
     border-color: #C2F970;
@@ -82,7 +77,6 @@ h4 {
     background-color: #b2e860;
 }
 
-/* Estilo general de la tarjeta */
 .card {
     border-radius: 10px;
     border: 1px solid #e0e0e0;

@@ -16,3 +16,7 @@
     --color-scroll:rgb(192,192,192);
     --color-scroll-hover:rgb(134,134,134);
 }
+
+.my-pagination ::ng-deep .ngx-pagination .current {
+    background: red;
+}

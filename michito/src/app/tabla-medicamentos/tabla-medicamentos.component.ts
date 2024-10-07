@@ -2,16 +2,18 @@ import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';  // Importa HttpClient
 import { Medicamento } from '../Model/medicamento';
 import { CommonModule } from '@angular/common';
+import { NgxPaginationModule } from 'ngx-pagination'; 
 
 @Component({
   selector: 'app-tabla-medicamentos',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, NgxPaginationModule],
   templateUrl: './tabla-medicamentos.component.html',
   styleUrls: ['./tabla-medicamentos.component.css']  // Corrige el nombre de styleUrls
 })
 export class TablaMedicamentosComponent {
 
+  page: number = 1;
   medicamentos: Medicamento[] = [];
   private ROOT_URL = 'http://localhost:8080/Medicamentos';  // Ajusta la URL de tu API
 

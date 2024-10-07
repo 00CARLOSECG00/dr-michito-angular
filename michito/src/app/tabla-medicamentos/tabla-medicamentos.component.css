@@ -48,6 +48,7 @@ main.min-main{
 
 /* Estilo de la tabla */
 .table th, .table td {
+    padding: 14.5px 10px;
     vertical-align: middle;
     text-align: center;
 }
@@ -108,34 +109,30 @@ main.min-main{
 }
 
 /* Estilo de la barra de paginación */
-.pagination {
-    position: sticky; /* Fija la paginación al fondo del contenedor */
-    bottom: 10px; /* Ajusta la distancia desde la parte inferior */
-    background-color: white; /* Asegura un fondo consistente */
-    padding-top: 10px;
-    margin-top: auto; /* Empuja la paginación hacia la parte inferior */
-    justify-content: center;
-}
-.pagination .page-item .page-link {
-    color: #6f42c1;
-    font-size: 0.875rem;
-    padding: 0.25rem 0.5rem;
-    border-radius: 50%;
-    border: none;
+.paginacion {
+    display: flex;
+    justify-content: center;  /* Centra los elementos dentro del contenedor */
+    margin-top: 20px;         /* Añadir un margen superior si es necesario */
+  }
+  
+.my-pagination ::ng-deep .ngx-pagination .current {
+  background: #6f42c1;
+  border-color: #6f42c1;
+  color: white;
+  border-radius: 50%;
 }
 
-.pagination .page-item.active .page-link {
-    background-color: #6f42c1;
-    color: white;
-    border: none;
-    border-radius: 50%;
-    width: 36px;
-    height: 36px;
-    line-height: 36px;
-    text-align: center;
-    padding: 0;
+.my-pagination ::ng-deep .ngx-pagination li {
+  color: #8f8c8c; /* Color del enlace */
+  
 }
 
-.pagination .page-item {
-    margin: 0 0.25rem; 
+.my-pagination ::ng-deep .ngx-pagination .page-item.active .page-link {
+  background-color: #6f42c1; /* Color de fondo del enlace activo */
+  border-color: #6f42c1; /* Color del borde del enlace activo */
+  color: white; /* Color del texto del enlace activo */
+}
+
+.my-pagination ::ng-deep .ngx-pagination li:hover {
+  color: #6f42c1; /* Color del texto cuando pasas el ratón */
 }

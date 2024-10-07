@@ -1,141 +1,137 @@
-
-*{
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 body {
-    font-family: 'Roboto', serif;
-    background-color: #f8f9fa;
+  font-family: "Roboto", serif;
+  background-color: #f8f9fa;
 }
 
 .contenedor-principal {
-    display: flex;
-    height: 100vh;
+  display: flex;
+  height: 100vh;
 }
 
 h1 {
-    font-family: 'Jomhuria', serif;
-    letter-spacing: 4px;
-    color: #5a4076;
-    font-size: 80px;
+  font-family: "Jomhuria", serif;
+  letter-spacing: 4px;
+  color: #5a4076;
+  font-size: 80px;
 }
 
 h2 {
-    font-family: 'Jomhuria', serif;
-    letter-spacing: 4px;
-    color: #5a4076;
-    font-size: 60px;
-    padding: 0;
+  font-family: "Jomhuria", serif;
+  letter-spacing: 4px;
+  color: #5a4076;
+  font-size: 60px;
+  padding: 0;
 }
 
-
-main{
-    padding: 20px;
-    transition: margin-left 0.5s ease;
+main {
+  padding: 20px;
+  transition: margin-left 0.5s ease;
 }
-main.min-main{
-    margin-left: 100px;
+main.min-main {
+  margin-left: 100px;
 }
 
 /* Estilo del contenido principal */
 .contenido-principal {
-    flex-grow: 1; /* Hace que el main ocupe todo el espacio restante */
-    padding: 20px;
-    transition: margin-left 0.5s ease;
+  flex-grow: 1; /* Hace que el main ocupe todo el espacio restante */
+  padding: 20px;
+  transition: margin-left 0.5s ease;
 }
 
 /* Estilo de la tabla */
-.table th, .table td {
-    vertical-align: middle;
-    text-align: center;
+.table th,
+.table td {
+  vertical-align: middle;
+  text-align: center;
 }
 
 .table-responsive {
-    margin-top: 20px;
-    flex-grow: 1;
+  margin-top: 20px;
+  flex-grow: 1;
 }
 
 .table-striped tbody tr:nth-of-type(odd) {
-    background-color: #f2f2f2;
+  background-color: #f2f2f2;
 }
 
 .table-hover tbody tr:hover {
-    background-color: #adcc9f;
+  background-color: #adcc9f;
 }
 
 /* Redimensionar y redondear la imagen */
 .foto_mascota {
-    width: 80px;
-    height: 80px;
-    object-fit: cover;
-    border-radius: 50%;
-    border: 3px solid #c0c0c0;
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 3px solid #c0c0c0;
 }
 
 /* Estilo de los botones de acción */
 .action-icon {
-    width: 20px;
-    height: 20px;
+  width: 20px;
+  height: 20px;
 }
 
 .btn-edit {
-    margin-right: 10px;
-    margin-bottom: 0%;
-    margin-top: 0%;
+  margin-right: 10px;
+  margin-bottom: 0%;
+  margin-top: 0%;
 }
 
 .btn-delete {
-    margin-bottom: 0%;
-    margin-top: 0%;
+  margin-bottom: 0%;
+  margin-top: 0%;
 }
 
 .btn-green {
-    background-color: #C2F970;
-    border-color: #C2F970;
-    min-height: 30px;
-    width: 100px;
-    color: #44344F;
-    font-weight: 600;
-    margin-bottom: 4px;
-    margin-top: 4px;
+  background-color: #c2f970;
+  border-color: #c2f970;
+  min-height: 30px;
+  width: 100px;
+  color: #44344f;
+  font-weight: 600;
+  margin-bottom: 4px;
+  margin-top: 4px;
 }
 
 .btn-primary {
-    background-color: #6f42c1;
-    border-color: #6f42c1;
+  background-color: #6f42c1;
+  border-color: #6f42c1;
 }
 
 /* Estilo de la barra de paginación */
-.pagination {
-    position: sticky; /* Fija la paginación al fondo del contenedor */
-    bottom: 10px; /* Ajusta la distancia desde la parte inferior */
-    background-color: white; /* Asegura un fondo consistente */
-    padding-top: 10px;
-    margin-top: auto; /* Empuja la paginación hacia la parte inferior */
-    justify-content: center;
-}
-.pagination .page-item .page-link {
-    color: #6f42c1;
-    font-size: 0.875rem;
-    padding: 0.25rem 0.5rem;
-    border-radius: 50%;
-    border: none;
+
+.paginacion {
+    display: flex;
+    justify-content: center;  /* Centra los elementos dentro del contenedor */
+    margin-top: 20px;         /* Añadir un margen superior si es necesario */
+  }
+  
+.my-pagination ::ng-deep .ngx-pagination .current {
+  background: #6f42c1;
+  border-color: #6f42c1;
+  color: white;
+  border-radius: 50%;
 }
 
-.pagination .page-item.active .page-link {
-    background-color: #6f42c1;
-    color: white;
-    border: none;
-    border-radius: 50%;
-    width: 36px;
-    height: 36px;
-    line-height: 36px;
-    text-align: center;
-    padding: 0;
+.my-pagination ::ng-deep .ngx-pagination li {
+  color: #8f8c8c; /* Color del enlace */
+  
 }
 
-.pagination .page-item {
-    margin: 0 0.25rem; 
+.my-pagination ::ng-deep .ngx-pagination .page-item.active .page-link {
+  background-color: #6f42c1; /* Color de fondo del enlace activo */
+  border-color: #6f42c1; /* Color del borde del enlace activo */
+  color: white; /* Color del texto del enlace activo */
+}
+
+.my-pagination ::ng-deep .ngx-pagination li:hover {
+  color: #6f42c1; /* Color del texto cuando pasas el ratón */
 }

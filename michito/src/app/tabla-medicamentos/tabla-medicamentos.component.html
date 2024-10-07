@@ -26,7 +26,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let medicamento of medicamentos">
+              <tr *ngFor="let medicamento of medicamentos | paginate : { itemsPerPage: 10, currentPage: page }" >
                 <td>{{ medicamento.id }}</td>
                 <td>{{ medicamento.nombre }}</td>
                 <td>{{ medicamento.precioCompra | currency}}</td>
@@ -44,6 +44,16 @@
               </tr>
             </tbody>
           </table>
+
+          <div class="paginacion text-center">
+            <pagination-controls
+              (pageChange)="page = $event" 
+              [maxSize]="7"
+              previousLabel="Anterior"
+              nextLabel="Siguiente"
+              class="my-pagination"
+            ></pagination-controls>
+          </div>
         </div>
       </div>
   

@@ -1,78 +1,110 @@
 <div class="contenedor-principal">
-<main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4 contenido-principal">
-
-  <div *ngIf="modoVisualizacion">
-    <app-tabla-mascotas
-      [idCliente]="clienteSeleccionado?.id"
-      [nombreCliente]="clienteSeleccionado?.nombre"
-      [mostrarTodas]="false" 
-      (volvercliente)="modoVisualizacion = false">
-    </app-tabla-mascotas>
-  </div>
-  
-<!-- Formulario para crear o editar cliente -->
-<div *ngIf="modoCreacion || modoEdicion">
-  <app-create-cliente
-    [cliente]="clienteSeleccionado"
-    [modoEdicion]="modoEdicion"
-    (volver)="cerrarFormulario()">
-  </app-create-cliente>
-</div>
-
-<!-- Tabla de clientes, solo visible si no estamos en modo creación ni edición -->
-<div *ngIf="!modoCreacion && !modoEdicion && !modoVisualizacion">
-  <div
-    class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom"
+  <main
+    role="main"
+    class="col-md-9 ml-sm-auto col-lg-10 px-4 contenido-principal"
   >
-    <h1>Clientes</h1>
-    <div class="btn-toolbar mb-2 mb-md-0">
-      <div class="btn-group mr-2">
-        <a class="btn btn-green" (click)="crearCliente()">
-          + Agregar Cliente
-        </a>
+    <div *ngIf="modoVisualizacion">
+      <app-tabla-mascotas
+        [idCliente]="clienteSeleccionado?.id"
+        [nombreCliente]="clienteSeleccionado?.nombre"
+        [mostrarTodas]="false"
+        (volvercliente)="modoVisualizacion = false"
+      >
+      </app-tabla-mascotas>
+    </div>
+
+    <!-- Formulario para crear o editar cliente -->
+    <div *ngIf="modoCreacion || modoEdicion">
+      <app-create-cliente
+        [cliente]="clienteSeleccionado"
+        [modoEdicion]="modoEdicion"
+        (volver)="cerrarFormulario()"
+      >
+      </app-create-cliente>
+    </div>
+
+    <!-- Tabla de clientes, solo visible si no estamos en modo creación ni edición -->
+    <div *ngIf="!modoCreacion && !modoEdicion && !modoVisualizacion">
+      <div
+        class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom"
+      >
+        <h1>Clientes</h1>
+        <div class="btn-toolbar mb-2 mb-md-0">
+          <div class="btn-group mr-2">
+            <a class="btn btn-green" (click)="crearCliente()">
+              + Agregar Cliente
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- TABLA -->
+      <div id="mascotas_table">
+        <table class="table table-striped table-hover">
+          <thead class="table-hover">
+            <tr>
+              <th>Id</th>
+              <th>Cédula</th>
+              <th>Nombre</th>
+              <th>Correo</th>
+              <th>Celular</th>
+              <th>Mascotas</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr
+              *ngFor="
+                let cliente of clientes
+                  | paginate : { itemsPerPage: 8, currentPage: page }
+              "
+            >
+              <td>{{ cliente.id }}</td>
+              <td>{{ cliente.cedula }}</td>
+              <td>{{ cliente.nombre }}</td>
+              <td>{{ cliente.correo }}</td>
+              <td>{{ cliente.celular }}</td>
+              <td>
+                <a class="btn btn-green" (click)="verMascotas(cliente)">
+                  Ver
+                </a>
+              </td>
+              <td>
+                <button
+                  class="btn btn-sm btn-edit"
+                  (click)="editarCliente(cliente)"
+                >
+                  <img
+                    src="/images/iconos/editIcon.png"
+                    alt="Editar"
+                    class="action-icon"
+                  />
+                </button>
+                <a
+                  (click)="confirmDelete(cliente.id)"
+                  class="btn btn-sm btn-delete"
+                >
+                  <img
+                    src="/images/iconos/trashIcon.png"
+                    alt="Eliminar"
+                    class="action-icon"
+                  />
+                </a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="paginacion text-center">
+          <pagination-controls
+            (pageChange)="page = $event"
+            [maxSize]="7"
+            previousLabel="Anterior"
+            nextLabel="Siguiente"
+            class="my-pagination"
+          ></pagination-controls>
+        </div>
       </div>
     </div>
-  </div>
-
-  <!-- TABLA -->
-  <div id="mascotas_table">
-    <table class="table table-striped table-hover">
-      <thead class="table-hover">
-        <tr>
-          <th>Id</th>
-          <th>Cédula</th>
-          <th>Nombre</th>
-          <th>Correo</th>
-          <th>Celular</th>
-          <th>Mascotas</th>
-          <th>Acciones</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let cliente of clientes">
-          <td>{{ cliente.id }}</td>
-          <td>{{ cliente.cedula }}</td>
-          <td>{{ cliente.nombre }}</td>
-          <td>{{ cliente.correo }}</td>
-          <td>{{ cliente.celular }}</td>
-          <td>
-            <a class="btn btn-green" (click)="verMascotas(cliente)">
-              Ver
-            </a>
-          </td>
-          <td>
-            <button class="btn btn-sm btn-edit" (click)="editarCliente(cliente)">
-              <img src="/images/iconos/editIcon.png" alt="Editar" class="action-icon" />
-            </button>
-            <a (click)="confirmDelete(cliente.id)" class="btn btn-sm btn-delete">
-              <img src="/images/iconos/trashIcon.png" alt="Eliminar" class="action-icon" />
-            </a>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-</div>
-
   </main>
 </div>
