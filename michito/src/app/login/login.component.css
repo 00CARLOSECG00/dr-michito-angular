@@ -42,8 +42,9 @@ h2 {
 }
 
 .left-panel h2 {
-  margin: 20px;
-  padding: 80px 0px;
+  margin: 20px 0 20px 0;
+  padding-bottom: 160px;
+  padding-top: 0px;
   font-size: 80px;
   line-height: 80px;
   font-weight: 400;
