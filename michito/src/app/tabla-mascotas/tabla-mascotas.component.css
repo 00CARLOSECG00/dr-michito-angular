@@ -135,3 +135,42 @@ main.min-main {
 .my-pagination ::ng-deep .ngx-pagination li:hover {
   color: #6f42c1; /* Color del texto cuando pasas el ratón */
 }
+.search-container {
+  display: flex;
+  margin-bottom: 20px;
+  width: 100%; /* Asegura que el contenedor ocupe todo el ancho disponible */
+  max-width: 600px; /* Ajusta este valor para controlar el ancho máximo */
+  margin-left: 30px;
+  margin-right: 30px;
+}
+
+.search-input {
+  flex-grow: 1;
+  padding: 10px 15px; /* Aumentado el padding horizontal para más anchura */
+  border: 1px solid #ced4da;
+  border-radius: 25px 25px 25px 25px; /* Aumentado el border-radius */
+  font-size: 16px;
+  min-width: 0; /* Permite que el input se encoja si es necesario */
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: #6f42c1;
+  box-shadow: 0 0 0 0.2rem rgba(111, 66, 193, 0.25);
+}
+
+
+
+/* Ajuste responsive */
+@media (max-width: 576px) {
+  .search-container {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .search-input{
+    width: 100%;
+    border-radius: 25px; /* Border-radius completo para ambos en móviles */
+  }
+
+}

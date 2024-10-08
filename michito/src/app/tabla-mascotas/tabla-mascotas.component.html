@@ -3,7 +3,7 @@
     role="main"
     class="col-md-9 ml-sm-auto col-lg-10 px-4 contenido-principal"
   >
-    <div
+    <div 
       *ngIf="mostrarTodas == false && !modoCreacion && !modoEdicion && !modoVer"
     >
       <a class="btn btn-outline-secondary" (click)="atras()">
@@ -45,6 +45,16 @@
         <div *ngIf="mostrarTodas == false">
           <h1>Mascotas de {{ nombreCliente }}</h1>
         </div>
+        <div class="mb-3 search-container">
+          <input 
+            type="text" 
+            class="form-control search-input" 
+            placeholder="Buscar mascota por nombre..." 
+            [(ngModel)]="searchTerm" 
+            (input)="onSearch()"
+          >
+        </div>
+        
         <div class="btn-toolbar mb-2 mb-md-0">
           <div class="btn-group mr-2">
             <button class="btn btn-green" (click)="agregarMascota()">
@@ -70,7 +80,7 @@
           <!-- Añadir el pipe `paginate` para paginar los elementos -->
           <tr
             *ngFor="
-              let Mascotas of mascotas
+              let Mascotas of mascotasMostradas
                 | paginate : { itemsPerPage: 6, currentPage: page }
             "
           >
@@ -111,7 +121,9 @@
           </tr>
         </tbody>
       </table>
-
+      <div *ngIf="mascotasMostradas.length === 0" class="alert alert-info">
+        No se encontraron mascotas que coincidan con la búsqueda.
+      </div>
       <!-- Añadir controles de paginación -->
       <div class="paginacion text-center">
         <pagination-controls

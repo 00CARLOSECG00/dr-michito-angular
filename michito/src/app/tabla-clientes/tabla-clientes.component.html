@@ -29,6 +29,15 @@
         class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom"
       >
         <h1>Clientes</h1>
+        <div class="mb-3 search-container">
+          <input 
+            type="text" 
+            class="form-control search-input" 
+            placeholder="Buscar cliente por nombre..." 
+            [(ngModel)]="searchTerm" 
+            (input)="onSearch()"
+          >
+        </div>
         <div class="btn-toolbar mb-2 mb-md-0">
           <div class="btn-group mr-2">
             <a class="btn btn-green" (click)="crearCliente()">
@@ -55,7 +64,7 @@
           <tbody>
             <tr
               *ngFor="
-                let cliente of clientes
+                let cliente of clientesMostrados
                   | paginate : { itemsPerPage: 8, currentPage: page }
               "
             >
@@ -94,7 +103,9 @@
             </tr>
           </tbody>
         </table>
-
+        <div *ngIf="clientesMostrados.length === 0" class="alert alert-info">
+          No se encontraron mascotas que coincidan con la búsqueda.
+        </div>
         <div class="paginacion text-center">
           <pagination-controls
             (pageChange)="page = $event"

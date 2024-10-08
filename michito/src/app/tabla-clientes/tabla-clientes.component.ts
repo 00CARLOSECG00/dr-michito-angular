@@ -6,6 +6,7 @@ import { CommonModule } from '@angular/common';
 import { CreateClienteComponent } from '../create-cliente/create-cliente.component';
 import { TablaMascotasComponent} from '../tabla-mascotas/tabla-mascotas.component';
 import { NgxPaginationModule } from 'ngx-pagination'; 
+import { FormsModule } from '@angular/forms';
 @Component({
   selector: 'app-tabla-clientes',
   standalone: true,
@@ -14,7 +15,8 @@ import { NgxPaginationModule } from 'ngx-pagination';
     RouterModule,     
     CreateClienteComponent,
     TablaMascotasComponent,
-    NgxPaginationModule
+    NgxPaginationModule,
+    FormsModule
   ],
   templateUrl: './tabla-clientes.component.html',
   styleUrls: ['./tabla-clientes.component.css']
@@ -26,6 +28,8 @@ export class TablaClientesComponent implements OnInit {
   modoEdicion: boolean = false;
   clienteSeleccionado!: Cliente | null;
   modoVisualizacion: boolean = false;
+  clientesMostrados: Cliente[] = [];
+  searchTerm: string = '';
 
   private ROOT_URL = 'http://localhost:8080/Clientes';  // URL base del backend
   constructor(private http: HttpClient) {}
@@ -39,6 +43,7 @@ export class TablaClientesComponent implements OnInit {
     this.http.get<Cliente[]>(`${this.ROOT_URL}/all`).subscribe({
       next: (data: Cliente[]) => {
         this.clientes = data;
+        this.clientesMostrados = data;
       },
       error: (error) => {
         console.error('Error al obtener los clientes:', error);
@@ -84,6 +89,23 @@ export class TablaClientesComponent implements OnInit {
   cerrarMascotas(): void {
     this.modoVisualizacion = false; // Volver al modo anterior
     this.clienteSeleccionado = null;
+  }
+
+  onSearch() {
+    this.filterClientes();
+  }
+
+  private filterClientes() {
+    if (this.searchTerm.trim() === '') {
+      // Si no hay término de búsqueda, mostrar todas las mascotas
+      this.clientesMostrados = this.clientes;
+    } else {
+      // Filtrar las mascotas basándose en el término de búsqueda
+      this.clientesMostrados = this.clientes.filter(cliente =>
+        cliente.nombre.toLowerCase().includes(this.searchTerm.toLowerCase())
+      );
+    }
+    this.page = 1; // Reset a la primera página cuando se realiza una búsqueda
   }
   
 }

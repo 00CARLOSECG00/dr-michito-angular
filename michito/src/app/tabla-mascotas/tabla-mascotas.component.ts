@@ -6,11 +6,12 @@ import { CommonModule } from '@angular/common';
 import { CreateMascotaComponent } from '../create-mascota/create-mascota.component';
 import { DetallesMascotaComponent } from '../detalles-mascota/detalles-mascota.component';
 import { NgxPaginationModule } from 'ngx-pagination'; 
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-tabla-mascotas',
   standalone: true,
-  imports: [CommonModule, CreateMascotaComponent, DetallesMascotaComponent, NgxPaginationModule],
+  imports: [CommonModule, CreateMascotaComponent, DetallesMascotaComponent, NgxPaginationModule, FormsModule],
   templateUrl: './tabla-mascotas.component.html',
   styleUrls: ['./tabla-mascotas.component.css'],
 })
@@ -22,10 +23,12 @@ export class TablaMascotasComponent implements OnInit {
 
   page: number = 1;
   mascotas: Mascota[] = [];
+  mascotasMostradas: Mascota[] = [];
   mascotaSeleccionada!: Mascota | null;
   modoEdicion: boolean = false;
   modoCreacion: boolean = false;
   modoVer: boolean = false;
+  searchTerm: string = '';
 
   private ROOT_URL = 'http://localhost:8080/Mascotas';  // URL base del backend
   private ROOT_URL2 = 'http://localhost:8080/Clientes';
@@ -84,6 +87,7 @@ export class TablaMascotasComponent implements OnInit {
     this.http.get<Mascota[]>(`${this.ROOT_URL}/all`).subscribe({
       next: (mascotas) => {
         this.mascotas = mascotas;
+        this.mascotasMostradas = mascotas;
       },
       error: (error) => {
         console.error('Error al obtener las mascotas:', error);
@@ -95,6 +99,7 @@ export class TablaMascotasComponent implements OnInit {
     this.http.get<Mascota[]>(`${this.ROOT_URL2}/Mascotas/${this.idCliente}`).subscribe({
       next: (mascotas) => {
         this.mascotas = mascotas;
+        this.mascotasMostradas = mascotas;
       },
       error: (error) => {
         console.error('Error al obtener las mascotas:', error);
@@ -113,5 +118,21 @@ export class TablaMascotasComponent implements OnInit {
   }
   atras() {
     this.volvercliente.emit();
+  }
+  onSearch() {
+    this.filterMascotas();
+  }
+
+  private filterMascotas() {
+    if (this.searchTerm.trim() === '') {
+      // Si no hay término de búsqueda, mostrar todas las mascotas
+      this.mascotasMostradas = this.mascotas;
+    } else {
+      // Filtrar las mascotas basándose en el término de búsqueda
+      this.mascotasMostradas = this.mascotas.filter(mascota =>
+        mascota.nombre.toLowerCase().includes(this.searchTerm.toLowerCase())
+      );
+    }
+    this.page = 1; // Reset a la primera página cuando se realiza una búsqueda
   }
 }
