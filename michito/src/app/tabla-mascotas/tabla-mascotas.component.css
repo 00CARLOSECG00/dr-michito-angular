@@ -12,6 +12,7 @@ body {
 .contenedor-principal {
   display: flex;
   height: 100vh;
+  margin-left: 250px;
 }
 
 h1 {

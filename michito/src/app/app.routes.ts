@@ -2,9 +2,12 @@ import { Routes } from '@angular/router';
 import{MainPageComponent} from'./main-page/main-page.component'
 import{LoginComponent}from'./login/login.component'
 import{LoginPortalInternoComponent}from'./login-portal-interno/login-portal-interno.component'
-import { CrudGeneralComponent } from './crud-general/crud-general.component';
-import { DetallesMascotaComponent } from './detalles-mascota/detalles-mascota.component';
 import {TablaMascotasComponent} from './tabla-mascotas/tabla-mascotas.component'
+import { DetallesMascotaComponent } from './detalles-mascota/detalles-mascota.component';
+import { CreateMascotaComponent } from './create-mascota/create-mascota.component';
+import { TablaClientesComponent } from './tabla-clientes/tabla-clientes.component';
+import { CreateClienteComponent } from './create-cliente/create-cliente.component';
+import { TablaMedicamentosComponent } from './tabla-medicamentos/tabla-medicamentos.component';
 
 
 
@@ -22,14 +25,27 @@ export const routes: Routes = [
         component: LoginPortalInternoComponent
     },
     { 
-        path: 'crud-general', 
-        component: CrudGeneralComponent
+        path: 'Mascotas', 
+        component: TablaMascotasComponent
     },
     {
-        path: 'detalles-mascota',
+        path: 'Clientes',
+        component: TablaClientesComponent
+    },
+    {
+        path: 'DetalleMascota',
         component: DetallesMascotaComponent
-    },{ 
-        path: 'Clientes/Mascotas/:id', 
-        component: CrudGeneralComponent 
+    },
+    {
+        path: 'AgregarMascota',
+        component: CreateMascotaComponent
+    },
+    {
+        path: 'Create-Cliente',
+        component: CreateClienteComponent
+    },
+    {
+        path: 'Medicamentos',
+        component: TablaMedicamentosComponent
     }
 ];

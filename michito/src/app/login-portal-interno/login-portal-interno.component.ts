@@ -38,8 +38,8 @@ export class LoginPortalInternoComponent implements OnInit {
           console.log('Contraseña ingresada:', enteredPassword);
 
           if (backendPassword === enteredPassword) {
-            console.log('Redirigiendo a CRUD-General');
-            this.router.navigate(['/crud-general'], { queryParams: { usuario: response.tipo } });
+            console.log('Redirigiendo a tabla de mascotas');
+            this.router.navigate(['/Mascotas']);
           } else {
             console.log('Usuario o contraseña incorrectos');
             this.mostrarError = true;

@@ -1,11 +1,10 @@
+<app-barra-lateral></app-barra-lateral>
 <div class="contenedor-principal">
   <main
     role="main"
-    class="col-md-9 ml-sm-auto col-lg-10 px-4 contenido-principal"
-  >
-    <div 
-      *ngIf="mostrarTodas == false && !modoCreacion && !modoEdicion && !modoVer"
-    >
+    class="col-md-9 ml-sm-auto col-lg-10 px-4 contenido-principal">
+    <!-- Botón para volver atras 
+    <div>
       <a class="btn btn-outline-secondary" (click)="atras()">
         <img
           src="/images/iconos/arrow-circle-left-purple.png"
@@ -13,29 +12,9 @@
         />
       </a>
     </div>
-    <div *ngIf="modoEdicion">
-      <app-create-mascota
-        [mascota]="mascotaSeleccionada"
-        [modoEdicion]="modoEdicion"
-        (volver)="onVolver()"
-      >
-      </app-create-mascota>
-    </div>
+    -->
 
-    <div *ngIf="modoCreacion">
-      <app-create-mascota [modoEdicion]="modoEdicion" (volver)="onVolver()">
-      </app-create-mascota>
-    </div>
 
-    <div *ngIf="modoVer && mascotaSeleccionada">
-      <app-detalles-mascota
-        [mascota]="mascotaSeleccionada"
-        (volver)="modoVer = false"
-      >
-      </app-detalles-mascota>
-    </div>
-
-    <div *ngIf="!modoEdicion && !modoCreacion && !modoVer">
       <div
         class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom"
       >
@@ -134,6 +113,5 @@
           class="my-pagination"
         ></pagination-controls>
       </div>
-    </div>
   </main>
 </div>

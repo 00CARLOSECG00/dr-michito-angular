@@ -1,81 +1,72 @@
-import { Component } from '@angular/core';
-import { Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnChanges } from '@angular/core';
 import { Cliente } from '../Model/cliente';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { FormsModule } from '@angular/forms';  
+import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { BarraLateralComponent } from '../componentes/barra-lateral/barra-lateral.component';
+import { Router } from '@angular/router';
+import { HttpClient, HttpClientModule, HttpErrorResponse } from '@angular/common/http';
+import { ClienteService } from '../Services/cliente.service';
 
 @Component({
   selector: 'app-create-cliente',
   standalone: true,
-  imports: [FormsModule, CommonModule],
+  imports: [FormsModule, CommonModule, BarraLateralComponent],
   templateUrl: './create-cliente.component.html',
-  styleUrl: './create-cliente.component.css'
+  styleUrls: ['./create-cliente.component.css']
 })
-export class CreateClienteComponent {
+export class CreateClienteComponent implements OnChanges {
   mostrarError: boolean = false;
-  @Input() cliente!: Cliente | null; 
-  @Input() modoEdicion: boolean = false; 
-  @Output() volver: EventEmitter<void> = new EventEmitter<void>();
-
-  clientes: Cliente[] = [];
+  @Input() cliente!: Cliente | null;
+  @Input() modoEdicion: boolean = false;
 
   formCliente: Cliente = {
-    "id": 0,
-    "cedula": '',
-    "nombre": '',
-    "correo": '',
-    "celular": 0
+    id: 0,
+    cedula: '',
+    nombre: '',
+    correo: '',
+    celular: 0
   };
 
-  constructor(private http: HttpClient) {}
+  constructor(
+    private clienteService: ClienteService,
+    private router: Router
+  ) {}
 
-
-  // Método para agregar y editar cliente
-  guardar(cliente: Cliente) {
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json'
-    });
-  
-    if (this.modoEdicion) {
-      // Actualizar 
-      this.http.put<Cliente>(`http://localhost:8080/Clientes/update/${cliente.id}`, cliente, { headers })
-        .subscribe(
-          (response) => {
-            console.log('Cliente actualizado con éxito:', response);
-            this.volver.emit();  // Volver al padre después de la edición
-          },
-          (error) => {
-            console.error('Error al actualizar cliente:', error);
-          }
-        );
-    } else {
-      // Crear
-      this.http.post<Cliente>('http://localhost:8080/Clientes/agregar', cliente, { headers })
-        .subscribe(
-          (response) => {
-            console.log('Cliente agregado con éxito:', response);
-            this.volver.emit();  // Volver al padre después de la creación
-          },
-          (error) => {
-            console.error('Error al agregar cliente:', error);
-          }
-        );
-    }
-  }
-  
-  
-  
   ngOnChanges() {
     if (this.cliente) {
       this.formCliente = { ...this.cliente };
     }
   }
-  
-  
-  
-  
+
+  guardar(cliente: Cliente) {
+    if (this.modoEdicion) {
+      this.clienteService.updateCliente(cliente).subscribe({
+        next: (response) => {
+          console.log('Cliente actualizado con éxito:', response);
+          this.onVolver();
+        },
+        error: (error) => {
+          console.error('Error al actualizar cliente:', error);
+          this.mostrarError = true;
+        }
+      });
+      this.onVolver();
+    } else {
+      this.clienteService.createCliente(cliente).subscribe({
+        next: (response) => {
+          console.log('Cliente agregado con éxito:', response);
+          this.onVolver();
+        },
+        error: (error) => {
+          console.error('Error al agregar cliente:', error);
+          this.mostrarError = true;
+        }
+      });
+      
+    }
+  }
+
   onVolver() {
-    this.volver.emit();  
+    this.router.navigate(['/Clientes']);
   }
 }

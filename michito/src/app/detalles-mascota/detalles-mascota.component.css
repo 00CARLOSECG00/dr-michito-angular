@@ -1,14 +1,23 @@
+/* Asegura que el contenido principal tenga margen izquierdo para la barra lateral */
 .contenedor-principal {
-    margin-left: 0px;
+    margin-left: 250px; /* Asegura el espacio para la barra lateral */
+    padding: 20px;
     display: flex;
-    height: 100vh;
+    flex-direction: column;
+    position: relative; /* Asegura que el contenedor respete el margen */
+    height: auto;
+    min-height: 100vh;
+    background-color: #f8f9fa;
+}
+* {
+    box-sizing: border-box;
 }
 
+
 .fila-superior {
-    height: 120px; 
-    background-image: url("../../../public/images/fondos/fondoDetallesMascota.png"); 
-    background-size: cover;   
-    background-position: center; 
+    background-image: url("../../../public/images/fondos/fondoDetallesMascota.png");
+    background-size: cover;
+    background-position: center;
     height: 150px;
     color: white;
     display: flex;
@@ -30,10 +39,9 @@ h4 {
     font-family: 'Jomhuria', serif;
     letter-spacing: 2px;
     font-size: 60px;
-    color: #fff; 
-    margin-bottom: 0; 
+    color: #fff;
+    margin-bottom: 0;
 }
-
 
 .fila-inferior {
     padding: 20px;
@@ -41,8 +49,8 @@ h4 {
 }
 
 .foto_mascota {
-    width: 180px;  
-    height: 180px; 
+    width: 180px;
+    height: 180px;
     object-fit: cover;
     border-radius: 50%;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);

@@ -27,6 +27,15 @@ export class MascotaService {
       })
     );
   }
+  obtenerMascotasPorId(id: number): Observable<Mascota> {
+    return this.http.get<Mascota>(`${this.ROOT_URL}/Mascotas/info/${id}`).pipe(
+      map(response => response),
+      catchError(error => {
+        console.error('Error al obtener mascota:', error);
+        throw error;
+      })
+    );
+  }
 
   // Agregar una nueva mascota
   agregarMascota(mascota: Mascota): Observable<Mascota> {
@@ -47,7 +56,7 @@ export class MascotaService {
         throw error;
       })
     );
-  }
+  }  
 
   // Seleccionar una mascota para verla o editarla
   seleccionarMascota(mascota: Mascota) {

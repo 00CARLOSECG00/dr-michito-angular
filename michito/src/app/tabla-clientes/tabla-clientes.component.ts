@@ -1,22 +1,25 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { Cliente } from '../Model/cliente';
-import { RouterModule } from '@angular/router';  
-import { CommonModule } from '@angular/common';  
+import { RouterModule } from '@angular/router';
+import { CommonModule } from '@angular/common';
 import { CreateClienteComponent } from '../create-cliente/create-cliente.component';
 import { TablaMascotasComponent} from '../tabla-mascotas/tabla-mascotas.component';
-import { NgxPaginationModule } from 'ngx-pagination'; 
+import { NgxPaginationModule } from 'ngx-pagination';
 import { FormsModule } from '@angular/forms';
+import { BarraLateralComponent } from '../componentes/barra-lateral/barra-lateral.component';
+import { HttpClient, HttpClientModule, HttpErrorResponse } from '@angular/common/http';
+import { ClienteService } from '../Services/cliente.service';
+import { Router } from '@angular/router';
+
 @Component({
   selector: 'app-tabla-clientes',
   standalone: true,
   imports: [
-    CommonModule,   
-    RouterModule,     
-    CreateClienteComponent,
-    TablaMascotasComponent,
+    CommonModule,
+    RouterModule,
     NgxPaginationModule,
-    FormsModule
+    FormsModule,
+    BarraLateralComponent
   ],
   templateUrl: './tabla-clientes.component.html',
   styleUrls: ['./tabla-clientes.component.css']
@@ -31,16 +34,14 @@ export class TablaClientesComponent implements OnInit {
   clientesMostrados: Cliente[] = [];
   searchTerm: string = '';
 
-  private ROOT_URL = 'http://localhost:8080/Clientes';  // URL base del backend
-  constructor(private http: HttpClient) {}
+  constructor(private clienteService: ClienteService, private http: HttpClient, private router: Router) {}
 
   ngOnInit(): void {
-    this.loadClientes();  
+    this.loadClientes();
   }
 
-  // Método para cargar los clientes
   loadClientes(): void {
-    this.http.get<Cliente[]>(`${this.ROOT_URL}/all`).subscribe({
+    this.clienteService.getAllClientes().subscribe({
       next: (data: Cliente[]) => {
         this.clientes = data;
         this.clientesMostrados = data;
@@ -54,58 +55,41 @@ export class TablaClientesComponent implements OnInit {
   confirmDelete(id: number): void {
     const confirmed = confirm('¿Estás seguro de que deseas eliminar este cliente?');
     if (confirmed) {
-      this.http.delete(`${this.ROOT_URL}/delete/${id}`).subscribe();
-      this.loadClientes();
-      
+      this.clienteService.deleteCliente(id).subscribe({
+        next: () => {
+          this.loadClientes();
+        },
+        error: (error) => {
+          console.error('Error al eliminar el cliente:', error);
+        }
+      });
     }
-    this.loadClientes();
-  }
-  crearCliente(): void {
-    this.modoCreacion = true;
-    this.modoEdicion = false; 
-    this.clienteSeleccionado = null;  
-  }
-  
-  
-  editarCliente(cliente: Cliente) {
-    this.clienteSeleccionado = { ...cliente };  
-    this.modoEdicion = true;
-    this.modoCreacion = false;  
-  }
-  
-  cerrarFormulario() {
-    this.modoCreacion = false;
-    this.modoEdicion = false;
-    this.clienteSeleccionado = null;
-    this.loadClientes(); 
-  }
-  
-  verMascotas(cliente: Cliente): void {
-    this.clienteSeleccionado = cliente; // Guardar el cliente seleccionado
-    this.modoVisualizacion = true; // Cambiar a modo de visualización de mascotas
-    console.log('cliente seleccionado ' + this.clienteSeleccionado.id);
-  }
-  
-  cerrarMascotas(): void {
-    this.modoVisualizacion = false; // Volver al modo anterior
-    this.clienteSeleccionado = null;
   }
 
+  crearCliente(): void {
+    this.router.navigate(['/Create-Cliente']);
+  }
+
+  editarCliente(cliente: Cliente) {
+    
+  }
+
+
+  verMascotas(cliente: Cliente): void {
+    
+  }
   onSearch() {
     this.filterClientes();
   }
 
   private filterClientes() {
     if (this.searchTerm.trim() === '') {
-      // Si no hay término de búsqueda, mostrar todas las mascotas
       this.clientesMostrados = this.clientes;
     } else {
-      // Filtrar las mascotas basándose en el término de búsqueda
       this.clientesMostrados = this.clientes.filter(cliente =>
         cliente.nombre.toLowerCase().includes(this.searchTerm.toLowerCase())
       );
     }
-    this.page = 1; // Reset a la primera página cuando se realiza una búsqueda
+    this.page = 1;
   }
-  
 }

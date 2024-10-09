@@ -5,19 +5,21 @@ import { Mascota } from '../Model/mascota';
 import { HttpClient } from '@angular/common/http';
 import { Subject, of } from 'rxjs';
 import { debounceTime, distinctUntilChanged, switchMap, catchError } from 'rxjs/operators';
-import { MascotaDTO } from '../Model/mascota-dto';
+import { MascotaDTO } from '../Model/mascota-dto'; // Importa CreateMascotaComponent
+import { BarraLateralComponent } from '../componentes/barra-lateral/barra-lateral.component';
+import { Router } from '@angular/router';
+import { MascotaService } from '../Services/mascota.service';
 
 @Component({
   selector: 'app-create-mascota',
   standalone: true,
-  imports: [FormsModule, CommonModule],
+  imports: [FormsModule, CommonModule, BarraLateralComponent],
   templateUrl: './create-mascota.component.html',
   styleUrls: ['./create-mascota.component.css'],
 })
 export class CreateMascotaComponent implements OnChanges {
   @Input() mascota!: Mascota | null;
-  @Input() modoEdicion: boolean = false;
-  @Output() volver: EventEmitter<void> = new EventEmitter<void>();
+
 
   formMascota: MascotaDTO = {
     id: 0, 
@@ -31,12 +33,12 @@ export class CreateMascotaComponent implements OnChanges {
   cedulaCliente: string = '';
   clientesSugeridos: any[] = [];
   private searchTerms = new Subject<string>();  // Sujeto para escuchar el input
-
+  modoEdicion: boolean = false;
   private ROOT_URL = 'http://localhost:8080/Mascotas';
   private CLIENTE_URL = 'http://localhost:8080/Clientes';
   mostrarError: boolean = false;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private router: Router, private mascotaService: MascotaService) {}
 
   ngOnChanges() {
     if (this.mascota) {
@@ -82,17 +84,11 @@ export class CreateMascotaComponent implements OnChanges {
   }
 
   guardar() {
-    const cedulaCliente = this.cedulaCliente;
     if (!this.modoEdicion) {
-      const body = {
-        ...this.formMascota,
-      };
-      console.log('Datos enviados (creación):', body);
-
-      this.http.post<MascotaDTO>(`${this.ROOT_URL}/agregar`, body).subscribe({
+      this.mascotaService.agregarMascota(this.formMascota).subscribe({
         next: (mascotaAgregada) => {
           console.log('Mascota agregada:', mascotaAgregada);
-          this.volver.emit();
+          this.onVolver();
         },
         error: (error) => {
           console.error('Error al agregar la mascota:', error);
@@ -100,20 +96,16 @@ export class CreateMascotaComponent implements OnChanges {
         },
       });
     } else {
-      const body = {
-        ...this.formMascota,
-      };
-      console.log('Datos enviados (edición):', body);
-      this.http.put<MascotaDTO>(`${this.ROOT_URL}/editar/${this.formMascota.id}`, body).subscribe({
-        next: (mascotaEditada) => {
-          console.log('Mascota editada:', mascotaEditada);
-          this.volver.emit();
-        },
-        error: (error) => {
-          console.error('Error al editar la mascota:', error);
-          this.mostrarError = true;
-        },
-      });
+      // this.mascotaService.editarMascota(this.formMascota).subscribe({
+      //   next: (mascotaEditada) => {
+      //     console.log('Mascota editada:', mascotaEditada);
+      //     this.onVolver();
+      //   },
+      //   error: (error) => {
+      //     console.error('Error al editar la mascota:', error);
+      //     this.mostrarError = true;
+      //   },
+      // });
     }
   }
 
@@ -129,6 +121,9 @@ export class CreateMascotaComponent implements OnChanges {
   }
 
   onVolver() {
-    this.volver.emit();
+    console.log('Volver');
+    this.router.navigate(['/Mascotas']);
   }
 }
+
+

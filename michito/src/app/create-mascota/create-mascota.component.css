@@ -1,4 +1,9 @@
 /* Estilo de la tarjeta de agregar mascota */
+.contenedor-principal {
+    display: flex;
+    margin-left: 250px;
+    padding: 20px;
+}
 .agregar-mascota-card {
     margin: auto;
     max-width: 600px;

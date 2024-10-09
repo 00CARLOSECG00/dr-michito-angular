@@ -1,123 +1,94 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Mascota } from '../Model/mascota';
-import { HttpClient } from '@angular/common/http';
-import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { CreateMascotaComponent } from '../create-mascota/create-mascota.component';
-import { DetallesMascotaComponent } from '../detalles-mascota/detalles-mascota.component';
 import { NgxPaginationModule } from 'ngx-pagination'; 
 import { FormsModule } from '@angular/forms';
-
+import { HttpClient, HttpClientModule, HttpErrorResponse } from '@angular/common/http';
+import { BarraLateralComponent } from '../componentes/barra-lateral/barra-lateral.component';
+import { MascotaService } from '../Services/mascota.service';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-tabla-mascotas',
   standalone: true,
-  imports: [CommonModule, CreateMascotaComponent, DetallesMascotaComponent, NgxPaginationModule, FormsModule],
+  imports: [CommonModule, NgxPaginationModule, FormsModule, HttpClientModule, BarraLateralComponent],
   templateUrl: './tabla-mascotas.component.html',
   styleUrls: ['./tabla-mascotas.component.css'],
 })
 export class TablaMascotasComponent implements OnInit {
-  @Input() idCliente!: undefined | number;  // Recibe las mascotas del cliente (si aplica)
-  @Input() nombreCliente!: undefined | string;
-  @Input() mostrarTodas: boolean = false;
-  @Output() volvercliente: EventEmitter<void> = new EventEmitter<void>();
-
+  mostrarTodas: boolean = true;
+  nombreCliente: string ="elmismodesiempre";
   page: number = 1;
   mascotas: Mascota[] = [];
   mascotasMostradas: Mascota[] = [];
   mascotaSeleccionada!: Mascota | null;
-  modoEdicion: boolean = false;
-  modoCreacion: boolean = false;
-  modoVer: boolean = false;
   searchTerm: string = '';
+  
 
-  private ROOT_URL = 'http://localhost:8080/Mascotas';  // URL base del backend
-  private ROOT_URL2 = 'http://localhost:8080/Clientes';
+  // private ROOT_URL = 'http://localhost:8080/Mascotas';  // URL base del backend
+  // private ROOT_URL2 = 'http://localhost:8080/Clientes';
 
-  constructor(private http: HttpClient, private router: Router) {}
-
-  resetModo(): void {
-    this.modoEdicion = false;
-    this.modoCreacion = false;
-    this.modoVer = false;
-  }
-
+  constructor(private http: HttpClient, private mascotaService: MascotaService, private router: Router) {}
   verMascota(mascota: Mascota) {
-    this.resetModo();
-    this.mascotaSeleccionada = { ...mascota };
-    this.modoVer = true;
+    this.router.navigate(['/DetalleMascota'],{ queryParams: { id : mascota.id } });
   }
 
   editarMascota(mascota: Mascota) {
-    this.resetModo();
-    this.mascotaSeleccionada = { ...mascota };
-    this.modoEdicion = true;
+    
   }
 
   eliminarMascota(mascota: Mascota) {
+    // Mostrar ventana de confirmación
     const confirmacion = confirm(`¿Estás seguro de que deseas eliminar a ${mascota.nombre}?`);
+  
     if (confirmacion) {
-      this.http.delete(`${this.ROOT_URL}/eliminar/${mascota.id}`).subscribe({
+      // Llamar al servicio para eliminar la mascota
+      this.mascotaService.eliminarMascota(mascota.id).subscribe({
         next: () => {
-          this.mascotas = this.mascotas.filter((m) => m.id !== mascota.id);
+          // Filtrar las listas locales de mascotas
+          this.mascotas = this.mascotas.filter(m => m.id !== mascota.id);
+          this.mascotasMostradas = this.mascotasMostradas.filter(m => m.id !== mascota.id);
+  
+          // Actualizar las listas según la condición de mostrarTodas
           if (this.mostrarTodas) {
             this.listarMascotas();
           } else {
-            this.mostrarMascotasCliente();
+            
           }
+        },
+        error: (error) => {
+          console.error('Error al eliminar la mascota:', error);
         }
       });
     }
   }
+  
 
   agregarMascota(): void {
-    this.resetModo();
-    this.modoCreacion = true;
-    this.modoEdicion = false;
+    this.router.navigate(['/AgregarMascota']);
   }
 
   ngOnInit(): void {
     if (this.mostrarTodas) {
       this.listarMascotas();
-    } else {
-      this.mostrarMascotasCliente();
-    }
+    } 
   }
 
   listarMascotas() {
-    this.http.get<Mascota[]>(`${this.ROOT_URL}/all`).subscribe({
+    this.mascotaService.obtenerMascotas().subscribe({
       next: (mascotas) => {
         this.mascotas = mascotas;
         this.mascotasMostradas = mascotas;
       },
+
       error: (error) => {
         console.error('Error al obtener las mascotas:', error);
       }
     });
   }
+  
 
-  mostrarMascotasCliente() {
-    this.http.get<Mascota[]>(`${this.ROOT_URL2}/Mascotas/${this.idCliente}`).subscribe({
-      next: (mascotas) => {
-        this.mascotas = mascotas;
-        this.mascotasMostradas = mascotas;
-      },
-      error: (error) => {
-        console.error('Error al obtener las mascotas:', error);
-      }
-    });
-  }
-
-  onVolver() {
-    this.resetModo();
-    if (this.mostrarTodas) {
-      this.listarMascotas();
-    } else {
-      this.mostrarMascotasCliente();
-      
-    }
-  }
   atras() {
-    this.volvercliente.emit();
+    
   }
   onSearch() {
     this.filterMascotas();
@@ -125,14 +96,12 @@ export class TablaMascotasComponent implements OnInit {
 
   private filterMascotas() {
     if (this.searchTerm.trim() === '') {
-      // Si no hay término de búsqueda, mostrar todas las mascotas
       this.mascotasMostradas = this.mascotas;
     } else {
-      // Filtrar las mascotas basándose en el término de búsqueda
       this.mascotasMostradas = this.mascotas.filter(mascota =>
         mascota.nombre.toLowerCase().includes(this.searchTerm.toLowerCase())
       );
     }
-    this.page = 1; // Reset a la primera página cuando se realiza una búsqueda
+    this.page = 1;
   }
 }

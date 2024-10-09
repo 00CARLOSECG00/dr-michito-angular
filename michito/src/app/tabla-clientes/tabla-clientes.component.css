@@ -1,6 +1,7 @@
 .contenedor-principal {
     display: flex;
     height: 100vh;
+    margin-left: 250px;
 }
 :root{
     --color-barra-lateral:#44344f;
