@@ -9,6 +9,7 @@ import { MascotaDTO } from '../Model/mascota-dto'; // Importa CreateMascotaCompo
 import { BarraLateralComponent } from '../componentes/barra-lateral/barra-lateral.component';
 import { Router } from '@angular/router';
 import { MascotaService } from '../Services/mascota.service';
+import { ClienteService } from '../Services/cliente.service';
 
 @Component({
   selector: 'app-create-mascota',
@@ -38,7 +39,8 @@ export class CreateMascotaComponent implements OnChanges {
   private CLIENTE_URL = 'http://localhost:8080/Clientes';
   mostrarError: boolean = false;
 
-  constructor(private http: HttpClient, private router: Router, private mascotaService: MascotaService) {}
+  constructor(private http: HttpClient, private router: Router, private mascotaService: MascotaService, private clienteService: ClienteService) {}
+
 
   ngOnChanges() {
     if (this.mascota) {
@@ -51,24 +53,16 @@ export class CreateMascotaComponent implements OnChanges {
   // Comienza la búsqueda usando switchMap
   ngOnInit() {
     this.searchTerms.pipe(
-      debounceTime(300),  // Espera 300 ms después de cada pulsación
-      distinctUntilChanged(),  // Solo pasa si la búsqueda ha cambiado
-      switchMap((term: string) => 
-        term.length > 2 ? this.buscarClientes(term) : of([])  // Si hay menos de 3 caracteres, no busca
-      ),
-      catchError(error => {
-        console.error('Error al buscar clientes:', error);
-        return of([]);  // Devuelve un observable vacío en caso de error
-      })
+      debounceTime(300),
+      distinctUntilChanged(),
+      switchMap((term: string) => this.clienteService.buscarClientes(term))
     ).subscribe((clientes) => {
-      this.clientesSugeridos = clientes;  // Actualiza la lista de sugerencias
+      this.clientesSugeridos = clientes;
     });
   }
 
   // Empuja la búsqueda hacia el observable
-  buscarClientes(term: string) {
-    return this.http.get<any[]>(`${this.CLIENTE_URL}/buscar?cedula=${term}`);
-  }
+  
 
   // Escucha cuando el usuario escribe en el input
   onSearch(term: string): void {

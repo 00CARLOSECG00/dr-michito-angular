@@ -37,29 +37,29 @@ export class TablaMascotasComponent implements OnInit {
   }
 
   eliminarMascota(mascota: Mascota) {
-    // Mostrar ventana de confirmación
-    const confirmacion = confirm(`¿Estás seguro de que deseas eliminar a ${mascota.nombre}?`);
+    // // Mostrar ventana de confirmación
+    // const confirmacion = confirm(`¿Estás seguro de que deseas eliminar a ${mascota.nombre}?`);
   
-    if (confirmacion) {
-      // Llamar al servicio para eliminar la mascota
-      this.mascotaService.eliminarMascota(mascota.id).subscribe({
-        next: () => {
-          // Filtrar las listas locales de mascotas
-          this.mascotas = this.mascotas.filter(m => m.id !== mascota.id);
-          this.mascotasMostradas = this.mascotasMostradas.filter(m => m.id !== mascota.id);
+    // if (confirmacion) {
+    //   // Llamar al servicio para eliminar la mascota
+    //   this.mascotaService.eliminarMascota(mascota.id).subscribe({
+    //     next: () => {
+    //       // Filtrar las listas locales de mascotas
+    //       this.mascotas = this.mascotas.filter(m => m.id !== mascota.id);
+    //       this.mascotasMostradas = this.mascotasMostradas.filter(m => m.id !== mascota.id);
   
-          // Actualizar las listas según la condición de mostrarTodas
-          if (this.mostrarTodas) {
-            this.listarMascotas();
-          } else {
+    //       // Actualizar las listas según la condición de mostrarTodas
+    //       if (this.mostrarTodas) {
+    //         this.listarMascotas();
+    //       } else {
             
-          }
-        },
-        error: (error) => {
-          console.error('Error al eliminar la mascota:', error);
-        }
-      });
-    }
+    //       }
+    //     },
+    //     error: (error) => {
+    //       console.error('Error al eliminar la mascota:', error);
+    //     }
+    //   });
+    // }
   }
   
 

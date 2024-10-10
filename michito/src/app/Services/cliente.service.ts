@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { Cliente } from '../Model/cliente';
 import { map, catchError } from 'rxjs/operators';
 
@@ -22,7 +22,17 @@ export class ClienteService {
   getCliente(): Cliente | null {
     return this.clienteSubject.getValue();
   }
-
+  buscarClientes(term: string): Observable<Cliente[]> {
+    if (term.length < 3) {
+      return of([]);  // Retorna un observable vacío si el término es muy corto
+    }
+    return this.http.get<Cliente[]>(`${this.ROOT_URL}/buscar?cedula=${term}`).pipe(
+      catchError(error => {
+        console.error('Error al buscar clientes:', error);
+        return of([]);  // Retorna un observable vacío en caso de error
+      })
+    );
+  }
   getAllClientes(): Observable<Cliente[]> {
     return this.http.get<Cliente[]>(`${this.ROOT_URL}/all`).pipe(
       catchError(error => {
