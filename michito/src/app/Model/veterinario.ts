@@ -1,5 +1,5 @@
 export class Veterinario {
-    public ID!:number;
+    public id!:number;
     public cedula!:string;
     public nombre!:string;
     public correo!:string;

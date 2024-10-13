@@ -8,7 +8,7 @@ import { CreateMascotaComponent } from './create-mascota/create-mascota.componen
 import { TablaClientesComponent } from './tabla-clientes/tabla-clientes.component';
 import { CreateClienteComponent } from './create-cliente/create-cliente.component';
 import { TablaMedicamentosComponent } from './tabla-medicamentos/tabla-medicamentos.component';
-
+import {TablaVeterinariosComponent} from './tabla-veterinarios/tabla-veterinarios.component'
 
 
 export const routes: Routes = [
@@ -47,5 +47,9 @@ export const routes: Routes = [
     {
         path: 'Medicamentos',
         component: TablaMedicamentosComponent
+    },
+    {
+        path: 'personal',
+        component: TablaVeterinariosComponent
     }
 ];

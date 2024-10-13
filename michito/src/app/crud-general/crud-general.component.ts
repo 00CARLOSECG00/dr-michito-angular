@@ -8,6 +8,7 @@ import { TablaMascotasComponent } from '../tabla-mascotas/tabla-mascotas.compone
 import { DetallesMascotaComponent } from "../detalles-mascota/detalles-mascota.component";
 import { TablaMedicamentosComponent } from "../tabla-medicamentos/tabla-medicamentos.component";
 import { VistaMascotasClienteComponent } from '../vista-mascotas-cliente/vista-mascotas-cliente.component';
+import {TablaVeterinariosComponent} from '../tabla-veterinarios/tabla-veterinarios.component'
 
 @Component({
   selector: 'app-crud-general',
@@ -19,7 +20,8 @@ import { VistaMascotasClienteComponent } from '../vista-mascotas-cliente/vista-m
     TablaClientesComponent,
     TablaMascotasComponent,
     TablaMedicamentosComponent,
-    VistaMascotasClienteComponent
+    VistaMascotasClienteComponent,
+    TablaVeterinariosComponent
 ],
 
   templateUrl: './crud-general.component.html',
