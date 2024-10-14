@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Mascota } from '../Model/mascota';
+import { MascotaDTO } from '../Model/mascota-dto'; // Importamos MascotaDTO
 import { CommonModule } from '@angular/common';
 import { NgxPaginationModule } from 'ngx-pagination'; 
 import { FormsModule } from '@angular/forms';
@@ -7,6 +8,7 @@ import { HttpClient, HttpClientModule, HttpErrorResponse } from '@angular/common
 import { BarraLateralComponent } from '../componentes/barra-lateral/barra-lateral.component';
 import { MascotaService } from '../Services/mascota.service';
 import { Router } from '@angular/router';
+
 @Component({
   selector: 'app-tabla-mascotas',
   standalone: true,
@@ -16,56 +18,14 @@ import { Router } from '@angular/router';
 })
 export class TablaMascotasComponent implements OnInit {
   mostrarTodas: boolean = true;
-  nombreCliente: string ="elmismodesiempre";
+  nombreCliente: string = "elmismodesiempre";
   page: number = 1;
   mascotas: Mascota[] = [];
   mascotasMostradas: Mascota[] = [];
   mascotaSeleccionada!: Mascota | null;
   searchTerm: string = '';
-  
-
-  // private ROOT_URL = 'http://localhost:8080/Mascotas';  // URL base del backend
-  // private ROOT_URL2 = 'http://localhost:8080/Clientes';
 
   constructor(private http: HttpClient, private mascotaService: MascotaService, private router: Router) {}
-  verMascota(mascota: Mascota) {
-    this.router.navigate(['/DetalleMascota'],{ queryParams: { id : mascota.id } });
-  }
-
-  editarMascota(mascota: Mascota) {
-    
-  }
-
-  eliminarMascota(mascota: Mascota) {
-    // // Mostrar ventana de confirmación
-    // const confirmacion = confirm(`¿Estás seguro de que deseas eliminar a ${mascota.nombre}?`);
-  
-    // if (confirmacion) {
-    //   // Llamar al servicio para eliminar la mascota
-    //   this.mascotaService.eliminarMascota(mascota.id).subscribe({
-    //     next: () => {
-    //       // Filtrar las listas locales de mascotas
-    //       this.mascotas = this.mascotas.filter(m => m.id !== mascota.id);
-    //       this.mascotasMostradas = this.mascotasMostradas.filter(m => m.id !== mascota.id);
-  
-    //       // Actualizar las listas según la condición de mostrarTodas
-    //       if (this.mostrarTodas) {
-    //         this.listarMascotas();
-    //       } else {
-            
-    //       }
-    //     },
-    //     error: (error) => {
-    //       console.error('Error al eliminar la mascota:', error);
-    //     }
-    //   });
-    // }
-  }
-  
-
-  agregarMascota(): void {
-    this.router.navigate(['/AgregarMascota']);
-  }
 
   ngOnInit(): void {
     if (this.mostrarTodas) {
@@ -73,27 +33,76 @@ export class TablaMascotasComponent implements OnInit {
     } 
   }
 
+  // Ver detalle de la mascota
+  verMascota(mascota: Mascota) {
+    this.router.navigate(['/DetalleMascota'], { queryParams: { id: mascota.id } });
+  }
+
+  // Editar una mascota
+  // tabla-mascotas.component.ts
+  editarMascota(mascota: Mascota) {
+    const mascotaDTO = this.convertirMascotaADTO(mascota);  // Convertimos a DTO
+    console.log('Mascota enviada al servicio:', mascotaDTO);  // Verificar en la consola
+    this.mascotaService.setMascotaSeleccionada(mascotaDTO);  // Seteamos la mascota seleccionada
+    this.router.navigate(['/AgregarMascota']);  // Navegar al componente de edición
+  }
+
+
+  private convertirMascotaADTO(mascota: Mascota): MascotaDTO {
+    return{
+      id: mascota.id,
+      nombre: mascota.nombre,
+      peso: mascota.peso,
+      edad: mascota.edad,
+      foto: mascota.foto,
+      // Si 'Mascota' no tiene 'cedulaCliente', pero tiene un cliente vinculado, obtén la cédula del cliente
+      cedulaCliente: mascota.cedulaCliente || ''  // O ajustar si tienes la relación cliente en otro lugar
+    };
+  }
+  
+  
+  
+  // Eliminar una mascota
+  eliminarMascota(mascota: Mascota) {
+    const confirmed = confirm('¿Estás seguro de que deseas eliminar esta mascota?');
+    if (confirmed) {
+      this.mascotaService.eliminarMascota(mascota.id).subscribe({
+        next: (response) => {
+          console.log('Mascota eliminada con éxito:', response);
+          this.listarMascotas();
+        },
+        error: (error) => {
+          console.error('Error al eliminar la mascota:', error);
+        }
+      });
+    }
+  }
+
+  // Agregar nueva mascota
+  agregarMascota(): void {
+    this.mascotaService.setMascotaSeleccionada(null); // Limpiar la mascota seleccionada
+    this.router.navigate(['/AgregarMascota']);
+  }
+
+  // Listar todas las mascotas
   listarMascotas() {
     this.mascotaService.obtenerMascotas().subscribe({
       next: (mascotas) => {
         this.mascotas = mascotas;
         this.mascotasMostradas = mascotas;
       },
-
       error: (error) => {
         console.error('Error al obtener las mascotas:', error);
       }
     });
   }
-  
 
-  atras() {
-    
-  }
+  // Búsqueda de mascotas
   onSearch() {
     this.filterMascotas();
   }
 
+  // Filtrar las mascotas en base al término de búsqueda
   private filterMascotas() {
     if (this.searchTerm.trim() === '') {
       this.mascotasMostradas = this.mascotas;
@@ -103,5 +112,12 @@ export class TablaMascotasComponent implements OnInit {
       );
     }
     this.page = 1;
+  }
+
+  
+
+  // Función para manejar ir hacia atrás o alguna acción de retroceso
+  atras() {
+    // Lógica para manejar la navegación hacia atrás o algún otro evento
   }
 }

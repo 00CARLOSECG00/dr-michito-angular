@@ -1,7 +1,8 @@
-<app-barra-lateral></app-barra-lateral>
+
+    <app-barra-lateral></app-barra-lateral>
 <div class="contenedor-principal">
 
-<div  class="contedor-principal" *ngIf="mascota">
+
   <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4 contenido-principal">
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
       <div class="btn-toolbar mb-2 mb-md-0">
@@ -14,20 +15,15 @@
     <div class="card mb-4">
       <div class="row g-0 fila-superior">
         <div class="col-12 d-flex justify-content-center align-items-center p-3">
-          <h4 class="card-title">Detalles de la Mascota</h4>
+          <h4 class="card-title">Nombre:  {{veterinario.nombre}}<br> Especialidad:  {{veterinario.especialidad}}</h4>
+          <h4 class="card-title"></h4>
       </div>
     </div>
 
     <!-- Fila inferior con la imagen y la información de la mascota -->
       <div class="row g-0 fila-inferior">
         <!-- Columna de la imagen de la mascota -->
-        <div class="col-md-4 d-flex justify-content-center align-items-center p-3">
-          <img
-            [src]="mascota.foto"
-            class="foto_mascota"
-            alt="Foto de la mascota"
-          />
-        </div>
+       
 
         <!-- Columna de los detalles de la mascota -->
         <div class="col-md-8">
@@ -37,20 +33,20 @@
               <!-- Primera columna de detalles -->
               <div class="col-md-6">
                 <div class="detalle-item">
-                  <strong>ID: </strong> <span>{{ mascota.id }}</span>
+                  <strong>ID: </strong> <span>{{veterinario.id}}</span>
                 </div>
                 <div class="detalle-item">
-                  <strong>Nombre: </strong> <span>{{ mascota.nombre }}</span>
+                  <strong>Cédula: </strong> <span>{{veterinario.cedula}}</span>
                 </div>
               </div>
 
               <!-- Segunda columna de detalles -->
               <div class="col-md-6">
                 <div class="detalle-item">
-                 <strong>Peso: </strong> <span>{{ mascota.peso }} kg</span>
+                 <strong>Correo: </strong> <span>{{veterinario.correo}} </span>
                 </div>
                 <div class="detalle-item">
-                  <strong>Edad: </strong> <span>{{ mascota.edad }} años</span>
+                  <strong>Celular: </strong> <span>{{veterinario.celular}}</span>
                 </div>
               </div>
             </div>
@@ -59,5 +55,6 @@
       </div>
     </div>
   </main>
+      
 </div>
-</div>
+

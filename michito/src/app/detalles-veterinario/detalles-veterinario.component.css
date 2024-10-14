@@ -1,0 +1,98 @@
+/* Asegura que el contenido principal tenga margen izquierdo para la barra lateral */
+.contenedor-principal {
+  margin-left: 250px; /* Asegura el espacio para la barra lateral */
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  position: relative; /* Asegura que el contenedor respete el margen */
+  height: auto;
+  min-height: 100vh;
+  background-color: #f8f9fa;
+}
+* {
+  box-sizing: border-box;
+}
+
+
+.fila-superior {
+  background-image: url("../../../public/images/fondos/fondoDetallesMascota.png");
+  background-size: cover;
+  background-position: center;
+  height: 150px;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+
+h1 {
+  font-family: 'Jomhuria', serif;
+  letter-spacing: 4px;
+  color: #5a4076;
+  font-size: 80px;
+  margin-bottom: 20px;
+}
+
+h4 {
+  font-family: 'Jomhuria', serif;
+  letter-spacing: 2px;
+  font-size: 60px;
+  color: #fff;
+  margin-bottom: 0;
+}
+
+.fila-inferior {
+  padding: 20px;
+  height: auto;
+}
+
+.foto_mascota {
+  width: 180px;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 50%;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.foto_mascota:hover {
+  transform: scale(1.05);
+}
+
+.detalle-item {
+  margin-bottom: 16px;
+  font-size: 18px;
+}
+
+.detalle-item strong {
+  color: #5a4076;
+}
+
+.btn-green {
+  background-color: #C2F970;
+  border-color: #C2F970;
+  color: #44344F;
+  font-weight: 600;
+  padding: 10px 20px;
+  margin-bottom: 4px;
+  margin-top: 4px;
+  transition: background-color 0.3s ease;
+}
+
+.btn-green:hover {
+  background-color: #b2e860;
+}
+
+.card {
+  border-radius: 10px;
+  border: 1px solid #e0e0e0;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+  padding: 0;
+  overflow: hidden; /* Para el fondo de la fila superior */
+}
+
+.card-body {
+  padding: 40px 50px;
+}

@@ -9,6 +9,8 @@ import { TablaClientesComponent } from './tabla-clientes/tabla-clientes.componen
 import { CreateClienteComponent } from './create-cliente/create-cliente.component';
 import { TablaMedicamentosComponent } from './tabla-medicamentos/tabla-medicamentos.component';
 import {TablaVeterinariosComponent} from './tabla-veterinarios/tabla-veterinarios.component'
+import {CreateVeterinarioComponent} from './create-veterinario/create-veterinario.component'
+import { DetallesVeterinarioComponent } from './detalles-veterinario/detalles-veterinario.component';
 
 
 export const routes: Routes = [
@@ -51,5 +53,13 @@ export const routes: Routes = [
     {
         path: 'personal',
         component: TablaVeterinariosComponent
+    },
+    {
+        path: 'Create-Veterinario',
+        component: CreateVeterinarioComponent
+    },
+    {
+        path: 'DetalleVeterinario',
+        component: DetallesVeterinarioComponent
     }
 ];

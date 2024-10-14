@@ -56,7 +56,7 @@
           <!-- Añadir el pipe `paginate` para paginar los elementos -->
           <tr
             *ngFor="
-              let Veterinarios of veterinariosMostradas
+              let Veterinarios of veterinariosMostrados
                 | paginate : { itemsPerPage: 6, currentPage: page }
             "
           >
@@ -75,7 +75,7 @@
             <td>
               <button
                 class="btn btn-sm btn-edit"
-                (click)="editarMascota(Veterinarios)"
+                (click)="editarVeterinario(Veterinarios)"
               >
                 <img
                   src="/images/iconos/editIcon.png"
@@ -85,7 +85,7 @@
               </button>
               <button
                 class="btn btn-sm btn-delete"
-                (click)="eliminarMascota(Veterinarios)"
+                (click)="eliminarVeterinario(Veterinarios)"
               >
                 <img
                   src="/images/iconos/trashIcon.png"
@@ -97,7 +97,7 @@
           </tr>
         </tbody>
       </table>
-      <div *ngIf="veterinariosMostradas.length === 0" class="alert alert-info">
+      <div *ngIf="veterinariosMostrados.length === 0" class="alert alert-info">
         No se encontraron veterinarios que coincidan con la búsqueda.
       </div>
       <!-- Añadir controles de paginación -->

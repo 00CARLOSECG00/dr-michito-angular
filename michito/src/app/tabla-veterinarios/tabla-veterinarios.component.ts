@@ -23,69 +23,63 @@ import { FormsModule } from '@angular/forms';
 export class TablaVeterinariosComponent {
   page: number = 1;
   veterinarios: Veterinario[] = [];
-  veterinariosMostradas: Veterinario[] = [];
-  veterinarioSeleccionada!: Veterinario | null;
+  veterinariosMostrados: Veterinario[] = [];
+  veterinarioSeleccionado!: Veterinario | null;
   searchTerm: string = '';
   
+ 
+  
 
-  // private ROOT_URL = 'http://localhost:8080/Mascotas';  // URL base del backend
-  // private ROOT_URL2 = 'http://localhost:8080/Clientes';
 
   constructor(private http: HttpClient, private veterinarioService: VeterinarioService, private router: Router) {}
   verVeterinario(veterinario: Veterinario) {
-    //this.router.navigate(['/DetalleMascota'],{ queryParams: { id : Veterinario.id } });
+    this.router.navigate(['/DetalleVeterinario'],{ queryParams: { id : veterinario.id } });
   }
 
-  editarMascota(mascota: Veterinario) {
-    
+  editarVeterinario(veterinario: Veterinario) {
+    this.veterinarioService.setVeterinarioSeleccionado(veterinario);
+    this.router.navigate(['/Create-Veterinario']);
   }
+  
 
-  eliminarMascota(mascota: Veterinario) {
-    // // Mostrar ventana de confirmación
-    // const confirmacion = confirm(`¿Estás seguro de que deseas eliminar a ${mascota.nombre}?`);
-  
-    // if (confirmacion) {
-    //   // Llamar al servicio para eliminar la mascota
-    //   this.mascotaService.eliminarMascota(mascota.id).subscribe({
-    //     next: () => {
-    //       // Filtrar las listas locales de mascotas
-    //       this.mascotas = this.mascotas.filter(m => m.id !== mascota.id);
-    //       this.mascotasMostradas = this.mascotasMostradas.filter(m => m.id !== mascota.id);
-  
-    //       // Actualizar las listas según la condición de mostrarTodas
-    //       if (this.mostrarTodas) {
-    //         this.listarMascotas();
-    //       } else {
-            
-    //       }
-    //     },
-    //     error: (error) => {
-    //       console.error('Error al eliminar la mascota:', error);
-    //     }
-    //   });
-    // }
+  eliminarVeterinario(veterinario: Veterinario) {
+    const confirmed = confirm('¿Estás seguro de que deseas eliminar este empleado?');
+    if (confirmed) {
+      this.veterinarioService.deleteVeterinario(veterinario.id).subscribe({
+        next: (response) => {
+          console.log('Veterinario eliminado con éxito:', response);
+          this.listarVeterinario();
+        },
+        error: (error) => {
+          console.error('Error al eliminar el veterinario:', error);
+        }
+      });
+    }
   }
+  
   
 
   agregarVeterinario(): void {
-    //this.router.navigate(['/AgregarMascota']);
+    this.veterinarioService.setVeterinarioSeleccionado(null); // Limpiar el veterinario seleccionado
+    this.router.navigate(['/Create-Veterinario']);
   }
+  
 
   ngOnInit(): void {
   
-    this.listarMascotas();
+    this.listarVeterinario();
     
   }
 
-  listarMascotas() {
-    this.veterinarioService.obtenerMascotas().subscribe({
+  listarVeterinario() {
+    this.veterinarioService.obtenerVeterinarios().subscribe({
       next: (veterinarios) => {
         this.veterinarios = veterinarios;
-        this.veterinariosMostradas = veterinarios;
+        this.veterinariosMostrados = veterinarios;
       },
 
       error: (error) => {
-        console.error('Error al obtener las mascotas:', error);
+        console.error('Error al obtener los veterinarios:', error);
       }
     });
   }
@@ -95,17 +89,22 @@ export class TablaVeterinariosComponent {
     
   }
   onSearch() {
-    this.filterMascotas();
+    this.filterVeterinarios();
   }
 
-  private filterMascotas() {
+  private filterVeterinarios() {
     if (this.searchTerm.trim() === '') {
-      this.veterinariosMostradas = this.veterinarios;
+      this.veterinariosMostrados = this.veterinarios;
     } else {
-      this.veterinariosMostradas = this.veterinarios.filter(veterinario =>
+      this.veterinariosMostrados = this.veterinarios.filter(veterinario =>
         veterinario.nombre.toLowerCase().includes(this.searchTerm.toLowerCase())
       );
     }
     this.page = 1;
   }
 }
+
+
+
+
+
