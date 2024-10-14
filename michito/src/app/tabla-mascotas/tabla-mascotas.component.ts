@@ -7,7 +7,7 @@ import { FormsModule } from '@angular/forms';
 import { HttpClient, HttpClientModule, HttpErrorResponse } from '@angular/common/http';
 import { BarraLateralComponent } from '../componentes/barra-lateral/barra-lateral.component';
 import { MascotaService } from '../Services/mascota.service';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-tabla-mascotas',
@@ -24,13 +24,23 @@ export class TablaMascotasComponent implements OnInit {
   mascotasMostradas: Mascota[] = [];
   mascotaSeleccionada!: Mascota | null;
   searchTerm: string = '';
+  clienteId!: number;
 
-  constructor(private http: HttpClient, private mascotaService: MascotaService, private router: Router) {}
+  constructor(
+    private route: ActivatedRoute,
+    private mascotaService: MascotaService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
-    if (this.mostrarTodas) {
-      this.listarMascotas();
-    } 
+    this.route.queryParams.subscribe(params => {
+      this.clienteId = params['clienteId'];
+      if (this.clienteId) {
+        this.listarMascotasPorCliente(this.clienteId);
+      } else {
+        this.listarMascotas();
+      }
+    });
   }
 
   // Ver detalle de la mascota
@@ -39,7 +49,6 @@ export class TablaMascotasComponent implements OnInit {
   }
 
   // Editar una mascota
-  // tabla-mascotas.component.ts
   editarMascota(mascota: Mascota) {
     const mascotaDTO = this.convertirMascotaADTO(mascota);  // Convertimos a DTO
     console.log('Mascota enviada al servicio:', mascotaDTO);  // Verificar en la consola
@@ -47,21 +56,17 @@ export class TablaMascotasComponent implements OnInit {
     this.router.navigate(['/AgregarMascota']);  // Navegar al componente de edición
   }
 
-
   private convertirMascotaADTO(mascota: Mascota): MascotaDTO {
-    return{
+    return {
       id: mascota.id,
       nombre: mascota.nombre,
       peso: mascota.peso,
       edad: mascota.edad,
       foto: mascota.foto,
-      // Si 'Mascota' no tiene 'cedulaCliente', pero tiene un cliente vinculado, obtén la cédula del cliente
       cedulaCliente: mascota.cedulaCliente || ''  // O ajustar si tienes la relación cliente en otro lugar
     };
   }
-  
-  
-  
+
   // Eliminar una mascota
   eliminarMascota(mascota: Mascota) {
     const confirmed = confirm('¿Estás seguro de que deseas eliminar esta mascota?');
@@ -97,6 +102,19 @@ export class TablaMascotasComponent implements OnInit {
     });
   }
 
+  // Listar mascotas por cliente
+  listarMascotasPorCliente(clienteId: number) {
+    this.mascotaService.obtenerMascotasPorCliente(clienteId).subscribe({
+      next: (mascotas) => {
+        this.mascotas = mascotas;
+        this.mascotasMostradas = mascotas;
+      },
+      error: (error) => {
+        console.error('Error al obtener las mascotas del cliente:', error);
+      }
+    });
+  }
+
   // Búsqueda de mascotas
   onSearch() {
     this.filterMascotas();
@@ -112,12 +130,5 @@ export class TablaMascotasComponent implements OnInit {
       );
     }
     this.page = 1;
-  }
-
-  
-
-  // Función para manejar ir hacia atrás o alguna acción de retroceso
-  atras() {
-    // Lógica para manejar la navegación hacia atrás o algún otro evento
   }
 }

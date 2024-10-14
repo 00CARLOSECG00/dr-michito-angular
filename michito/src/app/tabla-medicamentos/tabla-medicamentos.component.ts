@@ -6,6 +6,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { FormsModule } from '@angular/forms';
 import { BarraLateralComponent } from '../componentes/barra-lateral/barra-lateral.component';
 import { MedicamentoService } from '../Services/medicamento.service';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-tabla-medicamentos',
   standalone: true,
@@ -19,7 +20,7 @@ export class TablaMedicamentosComponent implements OnInit {
   medicamentosMostrados: Medicamento[] = [];
   searchTerm: string = '';
 
-  constructor(private medicamentoService: MedicamentoService) {}
+  constructor(private http: HttpClient, private medicamentoService: MedicamentoService, private router: Router) {}
 
   ngOnInit(): void {
     this.cargarMedicamentos();
@@ -44,7 +45,7 @@ export class TablaMedicamentosComponent implements OnInit {
     this.medicamentoService.eliminarMedicamento(id).subscribe({
       next: () => {
         console.log('Medicamento eliminado correctamente');
-        this.cargarMedicamentos(); // Recargar la lista después de eliminar
+        this.cargarMedicamentos(); 
       },
       error: (error) => {
         console.error('Error al eliminar medicamento', error);
@@ -53,8 +54,8 @@ export class TablaMedicamentosComponent implements OnInit {
   }
 
   editarMedicamento(medicamento: Medicamento) {
-    
-    console.log("Editar medicamento", medicamento);
+    this.medicamentoService.setMedicamentoSeleccionado(medicamento);
+    this.router.navigate(['/UpdateMedicamento']);
   }
 
   onSearch() {

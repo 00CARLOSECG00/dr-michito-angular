@@ -11,7 +11,7 @@ import { TablaMedicamentosComponent } from './tabla-medicamentos/tabla-medicamen
 import {TablaVeterinariosComponent} from './tabla-veterinarios/tabla-veterinarios.component'
 import {CreateVeterinarioComponent} from './create-veterinario/create-veterinario.component'
 import { DetallesVeterinarioComponent } from './detalles-veterinario/detalles-veterinario.component';
-
+import { UpdateMedicamentoComponent } from './update-medicamento/update-medicamento.component';
 
 export const routes: Routes = [
     {
@@ -61,5 +61,9 @@ export const routes: Routes = [
     {
         path: 'DetalleVeterinario',
         component: DetallesVeterinarioComponent
+    },
+    {
+        path: 'UpdateMedicamento',
+        component: UpdateMedicamentoComponent
     }
 ];

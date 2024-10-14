@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { Cliente } from '../Model/cliente';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { CreateClienteComponent } from '../create-cliente/create-cliente.component';
 import { TablaMascotasComponent} from '../tabla-mascotas/tabla-mascotas.component';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { FormsModule } from '@angular/forms';
@@ -66,18 +65,23 @@ export class TablaClientesComponent implements OnInit {
     }
   }
 
-  crearCliente(): void {
-    this.router.navigate(['/Create-Cliente']);
+  editarCliente(cliente: Cliente): void {
+    this.clienteService.setClienteSeleccionado(cliente);
+    this.router.navigate(['/Create-Cliente']); // Navegar al componente de creación/edición
   }
 
-  editarCliente(cliente: Cliente) {
-    
+  crearCliente(): void {
+    // Limpiar el cliente seleccionado para crear uno nuevo
+    this.clienteService.setClienteSeleccionado(null);
+    this.router.navigate(['/Create-Cliente']); // Navegar al componente de creación
   }
 
 
   verMascotas(cliente: Cliente): void {
-    
+    this.router.navigate(['/Mascotas'], { queryParams: { clienteId: cliente.id } }); // Navegar y pasar el ID del cliente
   }
+  
+
   onSearch() {
     this.filterClientes();
   }

@@ -1,0 +1,109 @@
+
+<app-barra-lateral></app-barra-lateral>
+<div class="contenedor-principal">
+    <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4 contenido-principal">
+      <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+        <a class="btn btn-outline-secondary" (click)="onVolver()">
+          <img src="/images/iconos/arrow-circle-left-purple.png" alt="Icono Atras" />
+        </a>
+      </div>
+  
+      <div class="card agregar-Veterinario-card">
+        <div class="card-body">
+            <h2 class="text-center agregar-Veterinario-titulo">Editar medicamento
+            </h2>
+              
+          
+  
+          <!-- Enlazar correctamente el formulario con ngModel y name -->
+          <form (ngSubmit)="guardar()" #clienteForm="ngForm">
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="id" class="form-label">Id</label>
+                  <input
+                    [(ngModel)]="medicamento.id"
+                    name="id"
+                    type="number"
+                    id="id"
+                    placeholder="Ingresar cédula"
+                    required
+                    class="form-control"
+                  />
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="nombre" class="form-label">Nombre</label>
+                  <input
+                    [(ngModel)]="medicamento.nombre"
+                    name="nombre"
+                    type="text"
+                    id="nombre"
+                    placeholder="Ingresar nombre"
+                    required
+                    class="form-control"
+                  />
+                </div>
+              </div>
+            </div>
+  
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="precioCompra" class="form-label">Precio de compra</label>
+                  <input
+                    [(ngModel)]="medicamento.precioCompra"
+                    name="precioCompra"
+                    type="number"
+                    id="precioCompra"
+                    placeholder="Ingresar Precio de compra"
+                    required
+                    class="form-control"
+                  />
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="PrecioVenta" class="form-label">Precio de Venta</label>
+                  <input
+                    [(ngModel)]="medicamento.precioVenta"
+                    name="PrecioVenta"
+                    type="number"
+                    id="PrecioVenta"
+                    placeholder="Ingresar Precio de Venta"
+                    required
+                    class="form-control"
+                  />
+                </div>
+              </div>
+              
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="UnicadesDisponibles" class="form-label">Unidades Disponibles</label>
+                    <input
+                      [(ngModel)]="medicamento.unidadesDisponibles"
+                      name="UnicadesDisponibles"
+                      type="number"
+                      id="UnicadesDisponibles"
+                      placeholder="Ingresar Unicades Disponibles"
+                      required
+                      class="form-control"
+                    />
+                  </div>
+                </div>
+              </div>
+              
+
+              <button type="submit" class="btn btn-dark w-100">
+                Guardar
+              </button>
+            </div>
+           
+          </form>
+        </div>
+      </div>
+    </main>
+  </div>
+  

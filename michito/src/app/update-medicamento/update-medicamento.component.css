@@ -1,0 +1,48 @@
+.contenedor-principal {
+    display: flex;
+    margin-left: 250px;
+    padding: 20px;
+}
+/* Estilo de la tarjeta de agregar Veterinario */
+.agregar-Veterinario-card {
+    margin: auto;
+    max-width: 600px;
+    border-radius: 20px;
+    padding: 20px;
+    background-color: #B49FCC;
+    font-family: 'Roboto', serif;
+}
+
+/* Estilo del título */
+.agregar-Veterinario-titulo {
+    font-family: Jomhuria, serif;
+    letter-spacing: 4px;
+    color: #5a4076;
+    font-size: 80px;
+}
+
+/* Botones */
+.btn-outline-secondary {
+    border: none;
+    background: transparent;
+}
+
+.btn-outline-secondary:hover {
+    background: #6f42c1;
+    color: white;
+}
+
+.btn-dark {
+    background-color: #5a4076;
+    border-color: #5a4076;
+}
+
+.btn-dark:hover {
+    background-color: #dddddd;
+}
+
+button{
+    margin-top: 20px;
+}
+
+

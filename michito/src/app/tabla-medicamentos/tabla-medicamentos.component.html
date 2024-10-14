@@ -44,10 +44,10 @@
                 <td>{{ medicamento.unidadesDisponibles}}</td>
                 <td>{{ medicamento.unidadesVendidas}}</td>
                 <td>
-                  <button class="btn btn-sm btn-edit" >
+                  <button class="btn btn-sm btn-edit" (click)="editarMedicamento(medicamento)">
                     <img src="/images/iconos/editIcon.png" alt="Editar" class="action-icon" />
                   </button>
-                  <a  class="btn btn-sm btn-delete">
+                  <a  (click)="eliminarMedicamento(medicamento.id)" class="btn btn-sm btn-delete">
                     <img src="/images/iconos/trashIcon.png" alt="Eliminar" class="action-icon" />
                   </a>
                 </td>

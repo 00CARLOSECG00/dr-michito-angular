@@ -14,6 +14,16 @@ export class ClienteService {
 
   constructor(private http: HttpClient) {}
 
+  private clienteSeleccionado = new BehaviorSubject<Cliente | null>(null); // Permitir null en el BehaviorSubject
+
+  obtenerClienteSeleccionado(): Observable<Cliente | null> {
+    return this.clienteSeleccionado.asObservable();
+  }
+
+  setClienteSeleccionado(cliente: Cliente | null): void { // Ajustar el parámetro para permitir null
+    this.clienteSeleccionado.next(cliente);
+  }
+
   setCliente(cliente: Cliente): void {
     console.log('Cambia el cliente:', cliente);
     this.clienteSubject.next(cliente);
@@ -61,7 +71,7 @@ export class ClienteService {
   }
 
   updateCliente(cliente: Cliente): Observable<Cliente> {
-    return this.http.put<Cliente>(`${this.ROOT_URL}/editar/${cliente.id}`, cliente).pipe(
+    return this.http.put<Cliente>(`${this.ROOT_URL}/update/${cliente.id}`, cliente).pipe(
       catchError(error => {
         console.error('Error al actualizar el cliente:', error);
         throw error;

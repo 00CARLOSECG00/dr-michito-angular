@@ -4,6 +4,7 @@ import { MascotaDTO } from '../Model/mascota-dto';  // Usar el DTO
 import { BehaviorSubject, Observable } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { Cliente } from '../Model/cliente';
+import { Mascota } from '../Model/mascota';
 @Injectable({
   providedIn: 'root'
 })
@@ -56,6 +57,17 @@ export class MascotaService {
     );
   }
 
+  obtenerMascotasPorCliente(clienteId: number): Observable<Mascota[]> {
+    return this.http.get<Mascota[]>(`${this.ROOT_URL}/Clientes/cliente/${clienteId}`).pipe(
+      catchError(error => {
+        console.error('Error al obtener mascotas del cliente:', error);
+        throw error;
+      })
+    );
+  }
+  
+  
+  
 
 
 
