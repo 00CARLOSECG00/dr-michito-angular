@@ -13,6 +13,7 @@ import {CreateVeterinarioComponent} from './create-veterinario/create-veterinari
 import { DetallesVeterinarioComponent } from './detalles-veterinario/detalles-veterinario.component';
 import { UpdateMedicamentoComponent } from './update-medicamento/update-medicamento.component';
 import { VistaMascotasClienteComponent } from './vista-mascotas-cliente/vista-mascotas-cliente.component';
+import { TablaTratamientosComponent } from './tabla-tratamientos/tabla-tratamientos.component';
 
 export const routes: Routes = [
     {
@@ -70,5 +71,9 @@ export const routes: Routes = [
     {
         path: 'mascotasCliente',
         component: VistaMascotasClienteComponent
+    },
+    {
+        path: 'tratamientos',
+        component: TablaTratamientosComponent
     }
 ];

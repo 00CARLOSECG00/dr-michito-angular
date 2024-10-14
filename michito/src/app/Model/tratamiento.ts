@@ -1,7 +1,11 @@
+import { Mascota } from "./mascota";
+import { Veterinario } from "./veterinario";
+
 export class Tratamiento {
-    public ID!:number;
-    public date!:Date;
+    public id!:number;
+    public fecha!:Date;
     public descripcion!:string;
-    
+    mascota?:Mascota;
+    veterinario?:Veterinario;
     
 }
