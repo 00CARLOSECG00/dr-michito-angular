@@ -65,11 +65,6 @@ export class MascotaService {
       })
     );
   }
-  
-  
-  
-
-
 
   // Obtener todas las mascotas
   obtenerMascotas(): Observable<MascotaDTO[]> {

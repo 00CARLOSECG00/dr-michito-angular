@@ -1,21 +1,30 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient, HttpClientModule, HttpErrorResponse } from '@angular/common/http';
+import {
+  HttpClient,
+  HttpClientModule,
+  HttpErrorResponse,
+} from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
+import { AuthService } from '../Services/auth.service';
 
 @Component({
   selector: 'app-login-portal-interno',
   standalone: true,
   imports: [CommonModule, FormsModule, HttpClientModule],
   templateUrl: './login-portal-interno.component.html',
-  styleUrls: ['./login-portal-interno.component.css']
+  styleUrls: ['./login-portal-interno.component.css'],
 })
 export class LoginPortalInternoComponent implements OnInit {
   mostrarError: boolean = false;
   login = { username: '', password: '', tipo: '' };
 
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(
+    private http: HttpClient,
+    private router: Router,
+    private authService: AuthService
+  ) {}
 
   ngOnInit(): void {}
 
@@ -24,36 +33,19 @@ export class LoginPortalInternoComponent implements OnInit {
     console.log('Usuario ingresado:', this.login.username);
     console.log('Contraseña ingresada:', this.login.password);
 
-    this.http.get<any>(`http://localhost:8080/login/portalInterno/${this.login.username}`).subscribe(
-      (response) => {
-        // Verifica toda la respuesta del backend
-        console.log('Respuesta del backend:', response);
-
-        // Usa la propiedad 'password' en lugar de 'passwords'
-        if (response && response.password) {
-          const backendPassword = response.password.trim();  // Ajuste a 'password'
-          const enteredPassword = (this.login.password || '').trim();
-        
-          console.log('Contraseña del backend:', backendPassword);
-          console.log('Contraseña ingresada:', enteredPassword);
-
-          if (backendPassword === enteredPassword) {
-            console.log('Redirigiendo a tabla de mascotas');
-            this.router.navigate(['/Mascotas']);
-          } else {
-            console.log('Usuario o contraseña incorrectos');
-            this.mostrarError = true;
-          }
+    this.authService
+      .loginPortalInterno(this.login.username, this.login.password)
+      .subscribe((response) => {
+        if (response) {
+          console.log('Login exitoso');
+          console.log('Redirigiendo a tabla de mascotas');
+          console.log('Tipo de usuario:', this.authService.getUserType());
+          this.router.navigate(['/Mascotas']);
         } else {
-          console.log('La propiedad "password" no existe en la respuesta del backend.');
+          console.log('Login fallido');
           this.mostrarError = true;
         }
-      },
-      (error: HttpErrorResponse) => {
-        console.error('Error en la solicitud:', error);
-        this.mostrarError = true;
-      }
-    );
+      });
   }
 
   onClick() {

@@ -5,6 +5,7 @@ import { ClienteService } from '../Services/cliente.service';
 import { Router } from '@angular/router';
 import { HttpClient, HttpClientModule } from '@angular/common/http';  // Importa HttpClientModule correctamente
 import { Cliente } from '../Model/cliente';
+import { AuthService } from '../Services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -21,20 +22,29 @@ export class LoginComponent {
   mostrarError: boolean = false;
   cedula: string = '';
 
-  constructor(private clienteService: ClienteService, private http: HttpClient, private router: Router) {}
-
+  constructor(private authService: AuthService, private http: HttpClient, private router: Router) {}
+  
   login() {
     console.log('Cedula ingresada:', this.cedula);
-    this.http.get<Cliente>(`http://localhost:8080/Clientes/${this.cedula}`).subscribe(
-      (response) => {
-        console.log('Cliente encontrado:', response);
-        this.clienteService.setCliente(response);
-        this.router.navigate(['/crud-general'], { queryParams: { usuario: 'cliente'} });
+    
+    // Suscríbete al observable y maneja los resultados
+    this.authService.login(this.cedula).subscribe({
+      next: (response) => {
+        if (response) {
+          // Solo redirigir si el login fue exitoso
+          console.log('Login exitoso:', response);
+          this.router.navigate(['/mascotasCliente']);
+        } else {
+          // Si el login no fue exitoso
+          console.error('Login fallido');
+          this.mostrarError = true;
+        }
       },
-      (error) => {
-        console.error('Error al obtener el cliente:', error);
+      error: (error) => {
+        console.error('Error al iniciar sesión:', error);
         this.mostrarError = true;
-      }
-    );
+      },
+    });
   }
 }
+

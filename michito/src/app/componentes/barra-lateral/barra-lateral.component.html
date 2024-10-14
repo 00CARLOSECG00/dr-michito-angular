@@ -9,21 +9,23 @@
   <nav class="navegacion">
     <ul>
       <!-- El botón 'Dashboard' solo está visible para el admin -->
-      <li >
+      <li *ngIf="tipoUsuario === 'admin'">
         <a id="dashboard" (click)="onClick('dashboard')">
           <img src="/images/iconos/barraLateral/chart-pie.png" alt="dashboard" />
           <span>Dashboard</span>
         </a>
       </li>
-      <!-- El botón 'Cuenta' solo está visible para el admin -->
-      <li >
-        <a id="dashboard" (click)="onClick('Cuenta')">
-          <img src="/images/iconos/barraLateral/identification.png" alt="dashboard" />
+
+      <!-- El botón 'Cuenta' solo está visible para el cliente -->
+      <li *ngIf="tipoUsuario === 'cliente'">
+        <a id="cuenta" (click)="onClick('Cuenta')">
+          <img src="/images/iconos/barraLateral/identification.png" alt="cuenta" />
           <span>Cuenta</span>
         </a>
       </li>
+
       <!-- El botón 'Personal' solo está visible para el admin -->
-      <li>
+      <li *ngIf="tipoUsuario === 'admin'">
         <a id="personal" (click)="onClick('personal')">
           <img src="/images/iconos/barraLateral/identification.png" alt="personal" />
           <span>Personal</span>
@@ -31,7 +33,7 @@
       </li>
 
       <!-- El botón 'Medicamentos' visible para admin y veterinario -->
-      <li>
+      <li *ngIf="tipoUsuario === 'admin' || tipoUsuario === 'veterinario'">
         <a id="medicamentos" (click)="onClick('Medicamentos')">
           <img src="/images/iconos/barraLateral/Pills.png" alt="medicamentos" />
           <span>Medicamentos</span>
@@ -39,20 +41,23 @@
       </li>
 
       <!-- El botón 'Mascotas' visible para todos -->
-      <li>
+      <li *ngIf="tipoUsuario === 'admin' || tipoUsuario === 'veterinario'">
         <a id="mascotas" (click)="onClick('Mascotas')">
           <img src="/images/iconos/barraLateral/Dog.png" alt="mascotas" />
           <span>Mascotas</span>
         </a>
       </li>
-      <li>
-        <a id="mascotas" (click)="onClick('mismascotas')">
-          <img src="/images/iconos/barraLateral/Dog.png" alt="mascotas" />
+
+      <!-- El botón 'Mis Mascotas' visible para todos -->
+      <li *ngIf="tipoUsuario === 'cliente'">
+        <a id="mismascotas" (click)="onClick('mascotasCliente')">
+          <img src="/images/iconos/barraLateral/Dog.png" alt="mismascotas" />
           <span>Mis Mascotas</span>
         </a>
       </li>
+
       <!-- El botón 'Clientes' visible para admin y veterinario -->
-      <li>
+      <li *ngIf="tipoUsuario === 'admin' || tipoUsuario === 'veterinario'">
         <a id="clientes" (click)="onClick('Clientes')">
           <img src="/images/iconos/barraLateral/users.png" alt="clientes" />
           <span>Clientes</span>
@@ -60,7 +65,7 @@
       </li>
 
       <!-- El botón 'Tratamientos' visible para todos -->
-      <li >
+      <li>
         <a id="tratamientos" (click)="onClick('tratamientos')">
           <img src="/images/iconos/barraLateral/Stetoscope.png" alt="tratamientos" />
           <span>Tratamientos</span>
