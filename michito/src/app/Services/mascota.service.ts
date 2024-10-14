@@ -56,6 +56,7 @@ export class MascotaService {
     );
   }
 
+  // Obtener todas las mascotas
   obtenerMascotas(): Observable<MascotaDTO[]> {
     return this.http.get<MascotaDTO[]>(`${this.ROOT_URL}/Mascotas/all`).pipe(
       catchError(error => {

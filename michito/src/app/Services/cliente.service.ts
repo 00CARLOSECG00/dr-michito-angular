@@ -32,6 +32,7 @@ export class ClienteService {
   getCliente(): Cliente | null {
     return this.clienteSubject.getValue();
   }
+
   buscarClientes(term: string): Observable<Cliente[]> {
     if (term.length < 3) {
       return of([]);  // Retorna un observable vacío si el término es muy corto
@@ -47,6 +48,15 @@ export class ClienteService {
     return this.http.get<Cliente[]>(`${this.ROOT_URL}/all`).pipe(
       catchError(error => {
         console.error('Error al obtener los clientes:', error);
+        throw error;
+      })
+    );
+  }
+
+  getClienteById(id: number): Observable<Cliente> {
+    return this.http.get<Cliente>(`${this.ROOT_URL}/info/${id}`).pipe(
+      catchError(error => {
+        console.error('Error al obtener el cliente:', error);
         throw error;
       })
     );

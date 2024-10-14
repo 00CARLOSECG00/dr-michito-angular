@@ -6,46 +6,75 @@ import { CommonModule } from '@angular/common';
 import { Cliente } from '../Model/cliente';
 import { ClienteService } from '../Services/cliente.service';
 import { HttpClient } from '@angular/common/http';
+import { AuthService } from '../Services/auth.service';
+import { Router } from '@angular/router';
+import { MascotaService } from '../Services/mascota.service';
+import { BarraLateralComponent } from "../componentes/barra-lateral/barra-lateral.component";
 
 @Component({
   selector: 'app-vista-mascotas-cliente',
   standalone: true,
-  imports: [DetallesMascotaComponent, TarjetaMascotaClienteComponent, CommonModule],
+  imports: [
+    DetallesMascotaComponent,
+    TarjetaMascotaClienteComponent,
+    CommonModule,
+    BarraLateralComponent
+],
   templateUrl: './vista-mascotas-cliente.component.html',
-  styleUrls: ['./vista-mascotas-cliente.component.css']
+  styleUrls: ['./vista-mascotas-cliente.component.css'],
 })
 export class VistaMascotasClienteComponent {
   modoVer: boolean = false;
-  mascotaSeleccionada!: Mascota;
+  idCliente: number | null = null;
+  mascotaSeleccionada: Mascota | null = null;;
   mascotas: Mascota[] = [];
   clienteSeleccionado!: Cliente;
   private ROOT_URL = 'http://localhost:8080/Clientes';
 
-  constructor (private http: HttpClient, private ClienteService: ClienteService) {}
+  constructor(
+    private http: HttpClient,
+    private ClienteService: ClienteService,
+    private authService: AuthService,
+    private router: Router,
+    private mascotaService: MascotaService
+  ) {}
+
   ngOnInit(): void {
-    console.log('cliente cargado:', this.ClienteService.getCliente());
-    this.clienteSeleccionado = this.ClienteService.getCliente()!;
+    this.idCliente = this.authService.getClienteId();
+    console.log('ID del cliente:', this.idCliente);
+
+    if (this.idCliente) {
+      this.ClienteService.getClienteById(this.idCliente).subscribe({
+        next: (cliente: Cliente) => {
+          this.clienteSeleccionado = cliente;
+          console.log('Cliente cargado:', this.clienteSeleccionado);
+          this.listarMascotas();
+        },
+        error: (error) => {
+          console.error('Error al cargar el cliente:', error);
+        },
+      });
+    }
+
     this.modoVer = false;
-    this.listarMascotas();
   }
 
   listarMascotas(): void {
-    this.http.get<Mascota[]>(`${this.ROOT_URL}/Mascotas/${this.clienteSeleccionado.id}`).subscribe({
+    this.mascotaService.obtenerMascotasPorCliente(this.idCliente!).subscribe({
       next: (mascotas) => {
         this.mascotas = mascotas;
       },
       error: (error) => {
         console.error('Error al obtener las mascotas:', error);
-      }
-    });
+      },
+    })
   }
 
   onVerDetalles(mascota: Mascota) {
-    this.mascotaSeleccionada = mascota;
-    this.modoVer = true;  // Cambiamos a modo detalles
+    this.router.navigate(['/DetalleMascota'], { queryParams: { id: mascota.id } });
   }
 
   onVolverALista() {
-    this.modoVer = false;  // Cambiamos de vuelta al modo lista
+    this.modoVer = false; // Cambiamos de vuelta al modo lista
   }
 }

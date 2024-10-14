@@ -1,4 +1,5 @@
-import { Component, AfterViewInit } from '@angular/core';
+import { Component, AfterViewInit, Inject, PLATFORM_ID } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 
 @Component({
   selector: 'app-main-nosotros',
@@ -12,31 +13,42 @@ export class MainNosotrosComponent implements AfterViewInit {
   totalItems: number = 0;
   visibleItems: number = 3;
 
+  constructor(@Inject(PLATFORM_ID) private platformId: Object) {}
+
   ngAfterViewInit(): void {
-    const track = document.querySelector('.team-carousel') as HTMLElement;
-    const totalMembers = document.querySelectorAll('.team-member').length;
-    this.totalItems = totalMembers;
+    // Verificar si estamos en el navegador antes de usar `document`
+    if (isPlatformBrowser(this.platformId)) {
+      const track = document.querySelector('.team-carousel') as HTMLElement;
+      const totalMembers = document.querySelectorAll('.team-member').length;
 
-    const prevBtn = document.querySelector('.prev-btn') as HTMLElement;
-    const nextBtn = document.querySelector('.next-btn') as HTMLElement;
+      // Solo continuar si los elementos existen
+      if (track && totalMembers > 0) {
+        this.totalItems = totalMembers;
 
-    prevBtn.addEventListener('click', () => {
-      if (this.currentIndex > 0) {
-        this.currentIndex--;
-      } else {
-        this.currentIndex = this.totalItems - this.visibleItems; // Loop to the end
+        const prevBtn = document.querySelector('.prev-btn') as HTMLElement;
+        const nextBtn = document.querySelector('.next-btn') as HTMLElement;
+
+        if (prevBtn && nextBtn) {
+          prevBtn.addEventListener('click', () => {
+            if (this.currentIndex > 0) {
+              this.currentIndex--;
+            } else {
+              this.currentIndex = this.totalItems - this.visibleItems; // Volver al final
+            }
+            this.updateCarousel(track);
+          });
+
+          nextBtn.addEventListener('click', () => {
+            if (this.currentIndex < this.totalItems - this.visibleItems) {
+              this.currentIndex++;
+            } else {
+              this.currentIndex = 0; // Volver al inicio para scroll infinito
+            }
+            this.updateCarousel(track);
+          });
+        }
       }
-      this.updateCarousel(track);
-    });
-
-    nextBtn.addEventListener('click', () => {
-      if (this.currentIndex < this.totalItems - this.visibleItems) {
-        this.currentIndex++;
-      } else {
-        this.currentIndex = 0; // Loop back to start for infinite scroll
-      }
-      this.updateCarousel(track);
-    });
+    }
   }
 
   updateCarousel(track: HTMLElement): void {
