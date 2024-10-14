@@ -44,6 +44,6 @@ export class DetallesMascotaComponent {
   }
 
   onVolver(): void {
-    this.router.navigate(['/mascotas']); // Navega a la lista de mascotas
+    this.router.navigate(['/Mascotas']); // Navega a la lista de mascotas
   }
 }
