@@ -3,8 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { MascotaDTO } from '../Model/mascota-dto';  // Usar el DTO
 import { BehaviorSubject, Observable } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
-import { Cliente } from '../Model/cliente';
-import { Mascota } from '../Model/mascota';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -12,32 +11,26 @@ export class MascotaService {
 
   private ROOT_URL = 'http://localhost:8080';  // URL del backend
 
-
   constructor(private http: HttpClient) {}
 
   private mascotaSeleccionadaSource = new BehaviorSubject<MascotaDTO | null>(null);
   mascotaSeleccionada$ = this.mascotaSeleccionadaSource.asObservable();
 
-  // Método para obtener el cliente por ID de mascota
-  obtenerClientePorMascotaId(mascotaId: number): Observable<Cliente> {
-    return this.http.get<Cliente>(`${this.ROOT_URL}/Clientes/mascota/${mascotaId}`).pipe(
+  // Método para buscar mascotas por nombre
+  buscarMascotas(term: string): Observable<MascotaDTO[]> {
+    if (!term.trim()) {
+      // Si no hay término de búsqueda, retorna un arreglo vacío
+      return new Observable<MascotaDTO[]>((observer) => observer.next([]));
+    }
+    return this.http.get<MascotaDTO[]>(`${this.ROOT_URL}/Mascotas/buscar?nombre=${term}`).pipe(
       catchError(error => {
-        console.error('Error al obtener el cliente por ID de mascota:', error);
+        console.error('Error al buscar mascotas:', error);
         throw error;
       })
     );
   }
 
-  // Setear la mascota seleccionada con la cédula del cliente obtenida del backend
-  setMascotaSeleccionadaConCliente(mascotaDTO: MascotaDTO): void {
-    this.obtenerClientePorMascotaId(mascotaDTO.id).subscribe(cliente => {
-      mascotaDTO.cedulaCliente = cliente.cedula;  // Seteamos la cédula del cliente
-      this.mascotaSeleccionadaSource.next(mascotaDTO);  // Emitimos el DTO con la cédula del cliente
-    });
-  }
-
   setMascotaSeleccionada(mascota: MascotaDTO | null): void {
-    console.log('Seteando mascota seleccionada:', mascota);  // Verificar en la consola
     this.mascotaSeleccionadaSource.next(mascota);
   }
 
@@ -45,11 +38,8 @@ export class MascotaService {
     return this.mascotaSeleccionada$;
   }
 
-
-  // mascota.service.ts
   obtenerMascotasPorId(id: number): Observable<MascotaDTO> {
     return this.http.get<MascotaDTO>(`${this.ROOT_URL}/Mascotas/info/${id}`).pipe(
-      map(response => response),
       catchError(error => {
         console.error('Error al obtener la mascota por ID:', error);
         throw error;
@@ -57,21 +47,15 @@ export class MascotaService {
     );
   }
 
-  obtenerMascotasPorCliente(clienteId: number): Observable<Mascota[]> {
-    return this.http.get<Mascota[]>(`${this.ROOT_URL}/Clientes/cliente/${clienteId}`).pipe(
+  obtenerMascotasPorCliente(clienteId: number): Observable<MascotaDTO[]> {
+    return this.http.get<MascotaDTO[]>(`${this.ROOT_URL}/Clientes/cliente/${clienteId}`).pipe(
       catchError(error => {
         console.error('Error al obtener mascotas del cliente:', error);
         throw error;
       })
     );
   }
-  
-  
-  
 
-
-
-  // Obtener todas las mascotas
   obtenerMascotas(): Observable<MascotaDTO[]> {
     return this.http.get<MascotaDTO[]>(`${this.ROOT_URL}/Mascotas/all`).pipe(
       catchError(error => {
@@ -81,7 +65,6 @@ export class MascotaService {
     );
   }
 
-  // Crear nueva mascota
   agregarMascota(mascota: MascotaDTO): Observable<MascotaDTO> {
     return this.http.post<MascotaDTO>(`${this.ROOT_URL}/Mascotas/agregar`, mascota).pipe(
       catchError(error => {
@@ -91,7 +74,6 @@ export class MascotaService {
     );
   }
 
-  // Editar una mascota existente
   editarMascota(mascotaDTO: MascotaDTO): Observable<MascotaDTO> {
     return this.http.put<MascotaDTO>(`${this.ROOT_URL}/Mascotas/editar/${mascotaDTO.id}`, mascotaDTO).pipe(
       catchError(error => {
@@ -100,7 +82,6 @@ export class MascotaService {
       })
     );
   }
-  
 
   eliminarMascota(id: number): Observable<void> {
     return this.http.delete<void>(`${this.ROOT_URL}/Mascotas/eliminar/${id}`).pipe(
@@ -110,6 +91,4 @@ export class MascotaService {
       })
     );
   }
-
- 
 }
