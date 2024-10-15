@@ -1,47 +1,79 @@
-
 <app-barra-lateral></app-barra-lateral>
 <div class="contenedor-principal">
-  <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4 contenido-principal">
-    <div class="card detalles-tratamiento-card">
-      <div class="card-body">
-        <h2 class="text-center">Detalles del Tratamiento</h2>
-
-        <!-- Información del Tratamiento -->
-        <h4>Tratamiento</h4>
-        <p><strong>Fecha:</strong> {{ tratamiento?.fecha  }}</p>
-        <p><strong>Descripción:</strong> {{ tratamiento?.descripcion }}</p>
-
-        <!-- Información de la Mascota -->
-        <h4>Mascota</h4>
-        <p><strong>Nombre:</strong> {{ mascota?.nombre }}</p>
-        <p><strong>Edad:</strong> {{ mascota?.edad }} años</p>
-        <p><strong>Peso:</strong> {{ mascota?.peso }} kg</p>
-
-        <!-- Información del Cliente -->
-        <h4>Cliente</h4>
-        <p><strong>Nombre:</strong> {{ cliente?.nombre }}</p>
-        <p><strong>Email:</strong> {{ cliente?.correo }}</p>
-        <p><strong>Teléfono:</strong> {{ cliente?.celular }}</p>
-
-        <!-- Información del Veterinario -->
-        <h4>Veterinario</h4>
-        <p><strong>Nombre:</strong> {{ veterinario?.nombre }}</p>
-        <p><strong>Especialidad:</strong> {{ veterinario?.especialidad }}</p>
-        <p><strong>Teléfono:</strong> {{ veterinario?.celular }}</p>
-
-        <!-- Medicamentos usados -->
-        <h4>Medicamentos Usados</h4>
-        <ul>
-          <li *ngFor="let medicamento of tratamiento?.medicamentos">
-            {{ medicamento.nombre }}
-          </li>
-        </ul>
-
-        <!-- Botón para volver -->
-        <button class="btn btn-primary" (click)="volver()">
-          Volver
-        </button>
+  <!-- Botón para volver -->
+  <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <div class="btn-toolbar mb-2 mb-md-0">
+      <div class="btn-group mr-2">
+        <button class="btn btn-primary" (click)="volver()">Volver</button>
       </div>
     </div>
+  </div>
+
+
+  <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4 contenido-principal">
+    
+    <!-- Contenedor de la cuadrícula 2x2 -->
+    <div class="row row-cols-1 row-cols-md-2 g-4">
+      
+      <!-- Tarjeta de Detalles del Tratamiento -->
+      <div class="col">
+        <div class="card detalles-tratamiento-card">
+          <div class="card-header">
+            <h2 class="text-center">Detalles del Tratamiento</h2>
+          </div>
+          <div class="card-body">
+            <p><strong>Fecha:</strong> {{ tratamiento?.fecha }}</p>
+            <p><strong>Descripción:</strong> {{ tratamiento?.descripcion }}</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tarjeta de Detalles de la Mascota -->
+      <div class="col">
+        <div class="card detalles-mascota-card">
+          <div class="card-header">
+            <h2 class="text-center">Detalles de la Mascota</h2>
+          </div>
+          <div class="card-body">
+            <p><strong>Nombre:</strong> {{ mascota?.nombre }}</p>
+            <p><strong>Edad:</strong> {{ mascota?.edad }} años</p>
+            <p><strong>Peso:</strong> {{ mascota?.peso }} kg</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tarjeta de Detalles del Cliente -->
+      <div class="col">
+        <div class="card detalles-cliente-card">
+          <div class="card-header">
+            <h2 class="text-center">Detalles del Cliente</h2>
+          </div>
+          <div class="card-body">
+            <p><strong>Nombre:</strong> {{ cliente?.nombre }}</p>
+            <p><strong>Email:</strong> {{ cliente?.correo }}</p>
+            <p><strong>Teléfono:</strong> {{ cliente?.celular }}</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tarjeta de Medicamentos Usados -->
+      <div class="col">
+        <div class="card detalles-medicamentos-card">
+          <div class="card-header">
+            <h2 class="text-center">Medicamentos Usados</h2>
+          </div>
+          <div class="card-body">
+            <ul>
+              <li *ngFor="let medicamento of tratamiento?.medicamentos">
+                {{ medicamento.nombre }}..................${{ medicamento.precioVenta }}
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    
   </main>
 </div>

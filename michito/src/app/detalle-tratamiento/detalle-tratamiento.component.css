@@ -1,32 +1,68 @@
-
-
-
+/* General */
 .contenedor-principal {
-    margin-left: 250px; /* Asegura el espacio para la barra lateral */
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    position: relative; /* Asegura que el contenedor respete el margen */
-    height: auto;
-    min-height: 100vh;
-    background-color: #f8f9fa;
-  }
-    .detalles-tratamiento-card {
-      margin-top: 20px;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-      padding: 20px;
-    }
-    
-    .card-body h2 {
-      margin-bottom: 20px;
-    }
-    
-    .card-body h4 {
-      margin-top: 20px;
-      margin-bottom: 10px;
-    }
-    
-    .btn {
-      margin-top: 20px;
-    }
-    
+  margin-left: 250px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  height: auto;
+  min-height: 100vh;
+  background-color: #f8f9fa;
+}
+
+.card {
+  border-radius: 10px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+  overflow: hidden;
+}
+
+/* Cuadrícula */
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.col {
+  flex: 0 0 calc(50% - 10px);
+  margin-bottom: 20px;
+}
+
+/* Estilo de la cabecera de cada tarjeta (similar a tu ejemplo anterior) */
+.card-header {
+  background-image: url("../../../public/images/fondos/fondoDetallesMascota.png");
+  background-size: cover;
+  background-position: center;
+  height: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+}
+
+.card-header h2 {
+  font-family: 'Jomhuria', serif;
+  font-size: 30px;
+  letter-spacing: 2px;
+  color: #fff;
+}
+
+/* Estilo del cuerpo de las tarjetas */
+.card-body {
+  padding: 20px;
+}
+
+.btn {
+  background-color: #C2F970;
+  border-color: #C2F970;
+  color: #44344F;
+  font-weight: 600;
+  padding: 10px 20px;
+  margin-top: 20px;
+  transition: background-color 0.3s ease;
+}
+
+.btn:hover {
+  background-color: #b2e860;
+}
