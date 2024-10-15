@@ -74,17 +74,14 @@ export class KpisService {
     );
   }
 
-  /*
   getTotalVentas(): Observable<number> {
-    return this.http.get<number>(`${this.apiUrl}/total-ventas`).pipe(
+    return this.http.get<number>(`${this.apiUrl}/ventas-totales`).pipe(
       catchError(error => {
         console.error('Error al obtener el total de ventas:', error);
         throw error;
       })
     );
   }
-
-
 
   getTopTratamientos(): Observable<any[]> {
     return this.http.get<any[]>(`${this.apiUrl}/top-tratamientos`).pipe(
@@ -94,5 +91,11 @@ export class KpisService {
       })
     );
   }
+  /*
+
+
+
+
+  
   */
 }

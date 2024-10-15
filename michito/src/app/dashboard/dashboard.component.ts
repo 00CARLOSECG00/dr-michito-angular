@@ -20,10 +20,12 @@ export class DashboardComponent {
     { name: 'Tratamientos Durante el Último Mes', value: 0 },
   ];
   tratamientosPorMedicamento: { name: string; value: number }[] = [];
+  topTratamientos: { name: string; value: number }[] = [];
   veterinariosActivosInactivos: { name: string; value: number }[] = [];
   mascotasActivas = [{ name: 'Mascotas Activas', value: 0 }];
   totalMascotas = [{ name: 'Total Mascotas', value: 1 }];
   gananciasTotales: { name: string; value: number }[] = [];
+  ventasTotales: { name: string; value: number }[] = [];
 
   constructor(private kpisService: KpisService) {}
 
@@ -122,5 +124,29 @@ export class DashboardComponent {
         error: (error) => console.error('Error al obtener total de ganancias', error),
         complete: () => console.log('Consulta de total de ganancias completada')
     });
+
+    this.kpisService.getTotalVentas().subscribe({
+        next: (data) => {
+            const totalVentas = data as number;
+            this.ventasTotales = [                {
+              name: 'Ventas Totales',
+              value: totalVentas,
+          },];
+        },
+        error: (error) => console.error('Error al obtener total de ventas', error),
+        complete: () => console.log('Consulta de total de ventas completada')
+    });
+
+    /*
+    this.kpisService.getTratamientosPorMedicamento().subscribe({
+        next: (data: any) => {
+          this.topTratamientos = data.map((item: any) => {
+            return { name: item.nombre, value: item.unidadesVendidas };
+          });
+        },
+        error: (error) => console.error('Error al obtener tratamientos por medicamento', error),
+        complete: () => console.log('Consulta de tratamientos por medicamento completada')
+      });
+      */
   }
 }

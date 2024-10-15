@@ -61,6 +61,28 @@
       ></ngx-charts-number-card>
     </div>
 
+    <div class="cards-container">
+      
+      <ngx-charts-number-card
+        [view]="[220, 200]"
+        [results]="ventasTotales"
+        [scheme]="colorScheme"
+        [cardColor]="'#232837'"
+        [textColor]="'#000000'"
+        [emptyColor]="'#444444'"
+        [animations]="true"
+        class="small-card"
+      ></ngx-charts-number-card>
+
+      <ngx-charts-pie-chart
+        [view]="[220, 200]"
+        [results]="topTratamientos"
+        [animations]="true"
+        class="small-card"
+      ></ngx-charts-pie-chart>
+
+    </div>
+
     <!-- Separador para darle espacio entre las cards y las gráficas grandes -->
     <div style="margin-top: 50px"></div>
 
