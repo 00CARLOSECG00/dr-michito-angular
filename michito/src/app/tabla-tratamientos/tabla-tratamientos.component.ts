@@ -61,7 +61,7 @@ export class TablaTratamientosComponent implements OnInit {
 
   // Ver detalle del tratamiento
   verTratamiento(tratamiento: Tratamiento) {
-    this.router.navigate(['/DetalleTratamiento'], { queryParams: { id: tratamiento.id } });
+    this.router.navigate(['/DetalleTratamientos'], { queryParams: { id: tratamiento.id } });
   }
 
   // Editar un tratamiento (solo para admin o veterinario)

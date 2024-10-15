@@ -53,7 +53,7 @@
               </td>
 
               <!-- Mostrar botones de editar y eliminar solo si es admin o veterinario -->
-              <td *ngIf="esAdmin || esVeterinario">
+              <td *ngIf="esAdmin ">
                 <button class="btn btn-sm btn-edit" (click)="editarTratamiento(tratamiento)">
                   <img src="/images/iconos/editIcon.png" alt="Editar" class="action-icon" />
                 </button>

@@ -71,6 +71,15 @@ export class ClienteService {
     );
   }
 
+  getClienteByCedula(cedula: string): Observable<Cliente> {
+    return this.http.get<Cliente>(`${this.ROOT_URL}/?cedula=${cedula}`).pipe(
+      catchError(error => {
+        console.error('Error al obtener el cliente por cédula:', error);
+        throw error;
+      })
+    );
+  }
+
   createCliente(cliente: Cliente): Observable<Cliente> {
     return this.http.post<Cliente>(`${this.ROOT_URL}/agregar`, cliente).pipe(
       catchError(error => {

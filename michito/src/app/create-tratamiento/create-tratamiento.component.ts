@@ -167,11 +167,19 @@ export class CreateTratamientoComponent implements OnChanges {
   }
 
   // Guardar o actualizar el tratamiento
+  // Guardar o actualizar el tratamiento
   guardar() {
+    // Validar si todos los campos están llenos
+    if (!this.validarCampos()) {
+      this.mostrarError = true;
+      return; // Detener la ejecución si los campos no están completos
+    }
+  
+    // Si todo está completo, proceder con la lógica de guardar
     this.mascotaService.obtenerMascotasPorId(this.formTratamiento.mascotaId).subscribe((mascota) => {
       this.veterinarioService.obtenerVeterionarioPorId(this.formTratamiento.veterinarioId).subscribe((veterinario) => {
         const tratamiento = this.convertirDeDTOaTratamiento(this.formTratamiento, mascota, veterinario);
-
+  
         if (!this.modoEdicion) {
           this.tratamientoService.agregarTratamiento(tratamiento).subscribe({
             next: (tratamientoAgregado) => {
@@ -198,6 +206,8 @@ export class CreateTratamientoComponent implements OnChanges {
       });
     });
   }
+  
+
 
   onSearchMascota(term: string): void {
     this.searchMascotaTerms.next(term);
@@ -224,11 +234,32 @@ export class CreateTratamientoComponent implements OnChanges {
   }
 
   seleccionarMedicamento(medicamento: Medicamento) {
-    if (!this.formTratamiento.medicamentos.some((m) => m.id === medicamento.id)) {
-      this.formTratamiento.medicamentos.push(medicamento);
+    // Verificar si el medicamento tiene unidades disponibles
+    if (medicamento.unidadesDisponibles > 0) {
+      // Verificar si el medicamento ya está en la lista
+      if (!this.formTratamiento.medicamentos.some((m) => m.id === medicamento.id)) {
+        this.formTratamiento.medicamentos.push(medicamento);
+      }
+      this.medicamentosSugeridos = [];
+    } else {
+      // Mostrar un mensaje de error si no hay unidades disponibles
+      alert(`El medicamento ${medicamento.nombre} no tiene unidades disponibles y no se puede seleccionar.`);
     }
-    this.medicamentosSugeridos = [];
   }
+
+  validarCampos(): boolean {
+    // Validar que los campos importantes no estén vacíos
+    if (!this.formTratamiento.fecha || 
+        !this.formTratamiento.descripcion || 
+        this.formTratamiento.mascotaId === 0 || 
+        this.formTratamiento.veterinarioId === 0 || 
+        this.formTratamiento.medicamentos.length === 0) {
+      return false;
+    }
+    return true;
+  }
+  
+  
 
   eliminarMedicamento(medicamento: Medicamento) {
     this.formTratamiento.medicamentos = this.formTratamiento.medicamentos.filter((m) => m.id !== medicamento.id);

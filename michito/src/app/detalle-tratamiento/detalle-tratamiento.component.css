@@ -1,0 +1,32 @@
+
+
+
+.contenedor-principal {
+    margin-left: 250px; /* Asegura el espacio para la barra lateral */
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    position: relative; /* Asegura que el contenedor respete el margen */
+    height: auto;
+    min-height: 100vh;
+    background-color: #f8f9fa;
+  }
+    .detalles-tratamiento-card {
+      margin-top: 20px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+    }
+    
+    .card-body h2 {
+      margin-bottom: 20px;
+    }
+    
+    .card-body h4 {
+      margin-top: 20px;
+      margin-bottom: 10px;
+    }
+    
+    .btn {
+      margin-top: 20px;
+    }
+    

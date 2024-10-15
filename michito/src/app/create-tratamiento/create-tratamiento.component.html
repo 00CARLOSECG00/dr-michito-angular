@@ -120,6 +120,10 @@
             />
           </div>
 
+          <div *ngIf="mostrarError" class="error-message">
+            Debe llenar todos los campos.
+          </div>
+
           <!-- Botón para enviar (solo visible si es admin o veterinario) -->
           <button type="submit" class="btn btn-dark w-100" *ngIf="esVeterinario || esAdmin">
             {{ modoEdicion ? 'Actualizar' : 'Guardar' }}
