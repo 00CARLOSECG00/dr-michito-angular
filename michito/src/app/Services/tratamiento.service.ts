@@ -65,6 +65,11 @@ export class TratamientoService {
   obtenerTratamientoPorId(id: number) {
     return this.http.get<Tratamiento>(`http://localhost:8080/Tratamientos/info/${id}`);
   }
+
+  // Método para obtener los tratamientos por cliente
+  obtenerTratamientosPorCliente(clienteId: number): Observable<Tratamiento[]> {
+    return this.http.get<Tratamiento[]>(`${this.ROOT_URL}/cliente/${clienteId}`);
+  }
   
   
 

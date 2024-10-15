@@ -29,6 +29,7 @@ export class CreateTratamientoComponent implements OnChanges {
   nombreVeterinario: string = '';
   nombreMedicamento: string = '';
   esVeterinario: boolean = false;
+  esAdmin: boolean = false;
 
   @Input() tratamiento!: TratamientoDTO | null;
 
@@ -76,6 +77,7 @@ export class CreateTratamientoComponent implements OnChanges {
       this.limpiarFormulario();
     }
   }
+  
 
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {
@@ -119,6 +121,7 @@ export class CreateTratamientoComponent implements OnChanges {
         console.error('Error: Veterinario ID no encontrado en el localStorage');
       }
     } else if (userType === 'admin') {
+      this.esAdmin = true;
       this.searchVeterinarioTerms.pipe(
         debounceTime(300),
         distinctUntilChanged(),
@@ -127,6 +130,7 @@ export class CreateTratamientoComponent implements OnChanges {
         this.veterinariosSugeridos = veterinarios;
       });
     }
+    
 
     // Mantener las búsquedas de mascotas y medicamentos sin cambios
     this.inicializarBusquedas();
