@@ -30,10 +30,12 @@ export class DashboardComponent {
   constructor(private kpisService: KpisService) {}
 
   ngOnInit(): void {
+    // Llamar al servicio para obtener los datos de tratamientos y demas cuando se inicia
     this.consultarKpis();
   }
 
   ngOnCharged(): void {
+    // Llamar al service para obtener los datos de tratamiento cuando se carga
     this.consultarKpis();
   }
 
