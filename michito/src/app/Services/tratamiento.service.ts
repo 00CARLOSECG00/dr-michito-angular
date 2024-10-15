@@ -81,4 +81,6 @@ export class TratamientoService {
   getTratamientoSeleccionado(): Observable<Tratamiento | null> {
     return this.tratamientoSeleccionado$;
   }
+
+
 }

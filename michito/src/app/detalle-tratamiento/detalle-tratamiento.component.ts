@@ -45,28 +45,41 @@ export class DetalleTratamientoComponent implements OnInit {
   }
 
   // Cargar los detalles del tratamiento, mascota, cliente y veterinario
-  cargarDetallesTratamiento(id: number): void {
-    this.tratamientoService.obtenerTratamientoPorId(id).subscribe({
-      next: (tratamiento) => {
-        this.tratamiento = tratamiento;
-        this.mascota = tratamiento.mascota;
-        this.veterinario = tratamiento.veterinario;
-  
-        // Supongamos que tienes la cédula del cliente en la mascota
-        if (tratamiento.mascota && tratamiento.mascota.cedulaCliente) {
-          this.obtenerDetallesClientePorCedula(tratamiento.mascota.cedulaCliente);
-        } else {
-          console.warn('Cédula del cliente no disponible para esta mascota');
-          this.cliente = new Cliente;
-        }
-  
-        console.log('Detalles del tratamiento:', tratamiento);
-      },
-      error: (error) => {
-        console.error('Error al cargar el tratamiento:', error);
-      },
-    });
-  }
+cargarDetallesTratamiento(id: number): void {
+  this.tratamientoService.obtenerTratamientoPorId(id).subscribe({
+    next: (tratamiento) => {
+      this.tratamiento = tratamiento;
+      this.mascota = tratamiento.mascota;
+      this.veterinario = tratamiento.veterinario;
+
+      // Verificar si se puede obtener el cliente directamente de la mascota
+      if (tratamiento.mascota && tratamiento.mascota.cedulaCliente) {
+        this.obtenerDetallesClientePorCedula(tratamiento.mascota.cedulaCliente);
+      } else if (tratamiento.mascota && tratamiento.mascota.id) {
+        // Si no se tiene la cédula, buscar el cliente por el idMascota en el backend
+        this.clienteService.obtenerClientePorMascota(tratamiento.mascota.id).subscribe({
+          next: (cliente) => {
+            this.cliente = cliente;
+            console.log('Cliente encontrado por idMascota:', cliente);
+          },
+          error: (error) => {
+            console.error('Error al obtener el cliente por idMascota:', error);
+            this.cliente = new Cliente(); // Asignar un cliente vacío en caso de error
+          }
+        });
+      } else {
+        console.warn('No se pudo encontrar la cédula del cliente ni el id de la mascota');
+        this.cliente = new Cliente(); // Asignar un cliente vacío en caso de no encontrarlo
+      }
+
+      console.log('Detalles del tratamiento:', tratamiento);
+    },
+    error: (error) => {
+      console.error('Error al cargar el tratamiento:', error);
+    },
+  });
+}
+
   
   // Método adicional para obtener los detalles del cliente por cédula
   obtenerDetallesClientePorCedula(cedula: string): void {

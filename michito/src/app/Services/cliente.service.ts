@@ -62,6 +62,10 @@ export class ClienteService {
     );
   }
 
+  obtenerClientePorMascota(idMascota: number): Observable<Cliente> {
+    return this.http.get<Cliente>(`${this.ROOT_URL}/por-mascota/${idMascota}`);
+  }
+
   deleteCliente(id: number): Observable<any> {
     return this.http.delete(`${this.ROOT_URL}/delete/${id}`).pipe(
       catchError(error => {
