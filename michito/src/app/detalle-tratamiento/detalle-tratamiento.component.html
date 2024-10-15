@@ -1,6 +1,5 @@
 <app-barra-lateral></app-barra-lateral>
 <div class="contenedor-principal">
-  <!-- Botón para volver -->
   <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
     <div class="btn-toolbar mb-2 mb-md-0">
       <div class="btn-group mr-2">
@@ -9,12 +8,9 @@
     </div>
   </div>
 
-
   <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4 contenido-principal">
-    
-    <!-- Contenedor de la cuadrícula 2x2 -->
     <div class="row row-cols-1 row-cols-md-2 g-4">
-      
+
       <!-- Tarjeta de Detalles del Tratamiento -->
       <div class="col">
         <div class="card detalles-tratamiento-card">
@@ -57,23 +53,24 @@
       </div>
 
       <!-- Tarjeta de Medicamentos Usados -->
-      <div class="col">
-        <div class="card detalles-medicamentos-card">
-          <div class="card-header">
-            <h2 class="text-center">Medicamentos Usados</h2>
-          </div>
-          <div class="card-body">
-            <ul>
-              <li *ngFor="let medicamento of tratamiento?.medicamentos">
-                {{ medicamento.nombre }}..................${{ medicamento.precioVenta }}
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
+<div class="col">
+  <div class="card detalles-medicamentos-card">
+    <div class="card-header">
+      <h2 class="text-center">Medicamentos Usados</h2>
+    </div>
+    <div class="card-body">
+      <ul>
+        <li *ngFor="let medicamento of tratamiento?.medicamentos">
+          {{ medicamento.nombre }}..................   $ {{ formatearPrecio(medicamento.precioVenta) }}
+        </li>
+      </ul>
+      <!-- Mostrar el total de medicamentos -->
+      <p><strong>Total de Medicamentos:</strong> $ {{ formatearPrecio(totalMedicamentos) }}</p>
+    </div>
+  </div>
+</div>
+
 
     </div>
-
-    
   </main>
 </div>

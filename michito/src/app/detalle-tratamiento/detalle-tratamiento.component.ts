@@ -13,7 +13,7 @@ import { ClienteService } from '../Services/cliente.service';
 @Component({
   selector: 'app-detalle-tratamiento',
   standalone: true,
-  imports: [BarraLateralComponent,CommonModule],
+  imports: [BarraLateralComponent, CommonModule],
   templateUrl: './detalle-tratamiento.component.html',
   styleUrls: ['./detalle-tratamiento.component.css'],
 })
@@ -22,6 +22,7 @@ export class DetalleTratamientoComponent implements OnInit {
   mascota!: Mascota;  // Mascota asociada al tratamiento
   cliente!: Cliente;  // Cliente asociado a la mascota
   veterinario!: Veterinario;  // Veterinario que realizó el tratamiento
+  totalMedicamentos: number = 0; // Total del costo de medicamentos
 
   constructor(
     private route: ActivatedRoute,  // Para acceder a los parámetros de la URL
@@ -31,47 +32,37 @@ export class DetalleTratamientoComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    // Obtener el ID del tratamiento desde los parámetros de la URL
-    const tratamientoId = Number(this.route.snapshot.queryParams['id']); // Asegurar que el ID sea un número
+    const tratamientoId = Number(this.route.snapshot.queryParams['id']); 
     if (tratamientoId) {
       this.cargarDetallesTratamiento(tratamientoId);  // Cargar detalles del tratamiento si el ID existe
     }
   }
 
-  // Método para volver a la página anterior
   volver(): void {
     this.router.navigate(['/tratamientos']);  // Navegar de vuelta a la lista de tratamientos
   }
 
-  // Cargar los detalles del tratamiento, mascota, cliente y veterinario
   cargarDetallesTratamiento(id: number): void {
     this.tratamientoService.obtenerTratamientoPorId(id).subscribe({
       next: (tratamiento) => {
-        this.tratamiento = tratamiento;  // Asignar el tratamiento recibido a la variable local
-        this.mascota = tratamiento.mascota;  // Asignar la mascota asociada
-        this.veterinario = tratamiento.veterinario;  // Asignar el veterinario asociado
-
-        // Verificar si se puede obtener el cliente directamente de la mascota
+        this.tratamiento = tratamiento;
+        this.mascota = tratamiento.mascota;
+        this.veterinario = tratamiento.veterinario;
+        this.calcularTotalMedicamentos(); // Llamada al método para calcular el total de medicamentos
         if (tratamiento.mascota && tratamiento.mascota.cedulaCliente) {
-          this.obtenerDetallesClientePorCedula(tratamiento.mascota.cedulaCliente);  // Obtener cliente por cédula
+          this.obtenerDetallesClientePorCedula(tratamiento.mascota.cedulaCliente);
         } else if (tratamiento.mascota && tratamiento.mascota.id) {
-          // Si no se tiene la cédula, buscar el cliente por el id de la mascota en el backend
           this.clienteService.obtenerClientePorMascota(tratamiento.mascota.id).subscribe({
             next: (cliente) => {
-              this.cliente = cliente;  // Asignar el cliente obtenido
-              console.log('Cliente encontrado por idMascota:', cliente);
+              this.cliente = cliente;
             },
             error: (error) => {
-              console.error('Error al obtener el cliente por idMascota:', error);
-              this.cliente = new Cliente();  // Asignar un cliente vacío en caso de error
+              this.cliente = new Cliente();
             }
           });
         } else {
-          console.warn('No se pudo encontrar la cédula del cliente ni el id de la mascota');
-          this.cliente = new Cliente();  // Asignar un cliente vacío si no se encuentra el cliente
+          this.cliente = new Cliente();
         }
-
-        console.log('Detalles del tratamiento:', tratamiento);
       },
       error: (error) => {
         console.error('Error al cargar el tratamiento:', error);
@@ -79,25 +70,22 @@ export class DetalleTratamientoComponent implements OnInit {
     });
   }
 
-  // Método adicional para obtener los detalles del cliente por cédula
+  // Método para calcular el total de los precios de los medicamentos
+  calcularTotalMedicamentos(): void {
+    if (this.tratamiento && this.tratamiento.medicamentos) {
+      this.totalMedicamentos = this.tratamiento.medicamentos.reduce((total, medicamento) => total + medicamento.precioVenta, 0);
+    }
+  }
+
+  // Método para formatear los precios con separadores de miles
+  formatearPrecio(precio: number): string {
+    return new Intl.NumberFormat('es-ES', { style: 'currency', currency: 'COP', minimumFractionDigits: 0 }).format(precio);
+  }
+
   obtenerDetallesClientePorCedula(cedula: string): void {
     this.clienteService.getClienteByCedula(cedula).subscribe({
       next: (cliente) => {
-        this.cliente = cliente;  // Asignar el cliente recibido
-        console.log('Detalles del cliente:', cliente);
-      },
-      error: (error) => {
-        console.error('Error al cargar los detalles del cliente:', error);
-      }
-    });
-  }
-
-  // Método adicional para obtener los detalles del cliente por clienteId
-  obtenerDetallesCliente(cedulaCliente: string): void {
-    this.clienteService.getClienteByCedula(cedulaCliente).subscribe({
-      next: (cliente) => {
-        this.cliente = cliente;  // Asignar el cliente recibido
-        console.log('Detalles del cliente:', cliente);
+        this.cliente = cliente;
       },
       error: (error) => {
         console.error('Error al cargar los detalles del cliente:', error);
