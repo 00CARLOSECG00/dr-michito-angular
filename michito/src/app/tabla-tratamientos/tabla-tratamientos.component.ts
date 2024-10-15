@@ -49,8 +49,8 @@ export class TablaTratamientosComponent implements OnInit {
 
   // Editar un tratamiento
   editarTratamiento(tratamiento: Tratamiento) {
-    this.tratamientoService.setTratamientoSeleccionado(tratamiento);  // Seteamos el tratamiento seleccionado
-    this.router.navigate(['/AgregarTratamiento']);  // Navegar al componente de edición
+    this.tratamientoService.setTratamientoSeleccionado(tratamiento);
+    this.router.navigate(['/Create-Tratamientos'], { queryParams: { id: tratamiento.id } });  // Pasar el ID
   }
 
   eliminarTratamiento(tratamiento: Tratamiento) {
@@ -73,18 +73,18 @@ export class TablaTratamientosComponent implements OnInit {
   // Agregar nuevo tratamiento
   agregarTratamiento(): void {
     this.tratamientoService.setTratamientoSeleccionado(null); // Limpiar el tratamiento seleccionado
-    this.router.navigate(['/AgregarTratamiento']);
+    this.router.navigate(['/Create-Tratamientos']);
   }
 
   // Listar todos los tratamientos
-listarTratamientos() {
-  this.tratamientoService.obtenerTratamientos().subscribe({
-    next: (tratamientos: Tratamiento[]) => {  // Especifica el tipo Tratamiento[]
-      this.tratamientos = tratamientos;
-      this.tratamientosMostrados = tratamientos;
-    }
-  });
-}
+  listarTratamientos() {
+    this.tratamientoService.obtenerTratamientos().subscribe({
+      next: (tratamientos: Tratamiento[]) => {  // Especifica el tipo Tratamiento[]
+        this.tratamientos = tratamientos;
+        this.tratamientosMostrados = tratamientos;
+      }
+    });
+  }
 
 // Listar tratamientos por mascota
 listarTratamientosPorMascota(mascotaId: number) {

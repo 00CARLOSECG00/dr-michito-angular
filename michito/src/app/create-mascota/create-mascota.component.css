@@ -1,10 +1,11 @@
-/* Estilo de la tarjeta de agregar mascota */
+/* Estilo de la tarjeta de agregar tratamiento */
 .contenedor-principal {
     display: flex;
     margin-left: 250px;
     padding: 20px;
 }
-.agregar-mascota-card {
+
+.agregar-tratamiento-card {
     margin: auto;
     max-width: 600px;
     border-radius: 20px;
@@ -14,7 +15,7 @@
 }
 
 /* Estilo del título */
-.agregar-mascota-titulo {
+.agregar-tratamiento-titulo {
     font-family: Jomhuria, serif;
     letter-spacing: 4px;
     color: #5a4076;
@@ -40,6 +41,3 @@
 .btn-dark:hover {
     background-color: #dddddd;
 }
-
-
-

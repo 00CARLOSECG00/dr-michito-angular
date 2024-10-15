@@ -14,7 +14,7 @@ import { DetallesVeterinarioComponent } from './detalles-veterinario/detalles-ve
 import { UpdateMedicamentoComponent } from './update-medicamento/update-medicamento.component';
 import { VistaMascotasClienteComponent } from './vista-mascotas-cliente/vista-mascotas-cliente.component';
 import { TablaTratamientosComponent } from './tabla-tratamientos/tabla-tratamientos.component';
-
+import { CreateTratamientoComponent } from './create-tratamiento/create-tratamiento.component';
 export const routes: Routes = [
     {
         path: '',
@@ -75,5 +75,9 @@ export const routes: Routes = [
     {
         path: 'tratamientos',
         component: TablaTratamientosComponent
+    },
+    {
+        path: 'Create-Tratamientos',
+        component: CreateTratamientoComponent
     }
 ];

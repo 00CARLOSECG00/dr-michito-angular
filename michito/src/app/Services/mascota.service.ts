@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { MascotaDTO } from '../Model/mascota-dto';  // Usar el DTO
-import { BehaviorSubject, Observable } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
+import { BehaviorSubject, Observable, of } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -19,13 +19,13 @@ export class MascotaService {
   // Método para buscar mascotas por nombre
   buscarMascotas(term: string): Observable<MascotaDTO[]> {
     if (!term.trim()) {
-      // Si no hay término de búsqueda, retorna un arreglo vacío
-      return new Observable<MascotaDTO[]>((observer) => observer.next([]));
+      // Si no hay término de búsqueda, retorna un Observable vacío
+      return of([]);
     }
     return this.http.get<MascotaDTO[]>(`${this.ROOT_URL}/Mascotas/buscar?nombre=${term}`).pipe(
       catchError(error => {
         console.error('Error al buscar mascotas:', error);
-        throw error;
+        return of([]);  // Manejo del error, devolver un array vacío en caso de fallo
       })
     );
   }
@@ -56,7 +56,6 @@ export class MascotaService {
     );
   }
 
-  // Obtener todas las mascotas
   obtenerMascotas(): Observable<MascotaDTO[]> {
     return this.http.get<MascotaDTO[]>(`${this.ROOT_URL}/Mascotas/all`).pipe(
       catchError(error => {
