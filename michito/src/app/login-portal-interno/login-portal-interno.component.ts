@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Login } from '../Model/login';
 import {
   HttpClient,
   HttpClientModule,
@@ -32,11 +33,11 @@ export class LoginPortalInternoComponent implements OnInit {
     console.log('Botón de Iniciar Sesión presionado');
     console.log('Usuario ingresado:', this.login.username);
     console.log('Contraseña ingresada:', this.login.password);
-
+  
     this.authService
       .loginPortalInterno(this.login.username, this.login.password)
-      .subscribe((response) => {
-        if (response) {
+      .subscribe((isAuthenticated: boolean) => {
+        if (isAuthenticated) {
           console.log('Login exitoso');
           console.log('Redirigiendo a tabla de mascotas');
           console.log('Tipo de usuario:', this.authService.getUserType());
@@ -47,6 +48,8 @@ export class LoginPortalInternoComponent implements OnInit {
         }
       });
   }
+  
+  
 
   onClick() {
     this.comprobar();

@@ -44,30 +44,32 @@
 
           
 
-          <!-- Buscar veterinario -->
-          <div class="mb-3">
-            <label for="veterinario" class="form-label">Buscar Veterinario</label>
-            <input
-              type="text"
-              class="form-control"
-              id="veterinario"
-              name="veterinario"
-              placeholder="Buscar por nombre de veterinario"
-              [(ngModel)]="nombreVeterinario"
-              (input)="onSearchVeterinario(nombreVeterinario)"
-              required
-            />
+         <!-- Buscar veterinario -->
+<div class="mb-3">
+  <label for="veterinario" class="form-label">Buscar Veterinario</label>
+  <input
+    type="text"
+    class="form-control"
+    id="veterinario"
+    name="veterinario"
+    placeholder="Buscar por nombre de veterinario"
+    [(ngModel)]="nombreVeterinario"
+    (input)="onSearchVeterinario(nombreVeterinario)"
+    [disabled]="esVeterinario"  
+    required
+  />
 
-            <!-- Mostrar dropdown solo si hay coincidencias -->
-            <ul *ngIf="veterinariosSugeridos.length > 0" class="list-group">
-              <li
-                class="list-group-item"
-                *ngFor="let veterinario of veterinariosSugeridos"
-                (click)="seleccionarVeterinario(veterinario)">
-                {{ veterinario.nombre }} - {{ veterinario.cedula }}
-              </li>
-            </ul>
-          </div>
+  <!-- Mostrar dropdown solo si hay coincidencias y si el usuario es admin -->
+  <ul *ngIf="veterinariosSugeridos.length > 0 && !esVeterinario" class="list-group">
+    <li
+      class="list-group-item"
+      *ngFor="let veterinario of veterinariosSugeridos"
+      (click)="seleccionarVeterinario(veterinario)">
+      {{ veterinario.nombre }} - {{ veterinario.cedula }}
+    </li>
+  </ul>
+</div>
+
 
         
 

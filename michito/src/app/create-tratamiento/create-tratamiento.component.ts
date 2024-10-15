@@ -11,6 +11,7 @@ import { TratamientoService } from '../Services/tratamiento.service';
 import { MascotaService } from '../Services/mascota.service';
 import { VeterinarioService } from '../Services/veterinario.service';
 import { MedicamentoService } from '../Services/medicamento.service';
+import { AuthService } from '../Services/auth.service'; // Importar el AuthService
 import { Mascota } from '../Model/mascota';
 import { Veterinario } from '../Model/veterinario';
 import { Tratamiento } from '../Model/tratamiento';
@@ -27,6 +28,7 @@ export class CreateTratamientoComponent implements OnChanges {
   nombreMascota: string = '';
   nombreVeterinario: string = '';
   nombreMedicamento: string = '';
+  esVeterinario: boolean = false; // Variable para determinar si el usuario es veterinario
 
   @Input() tratamiento!: TratamientoDTO | null; // Usar DTO para manejar el objeto
 
@@ -55,7 +57,8 @@ export class CreateTratamientoComponent implements OnChanges {
     private tratamientoService: TratamientoService,
     private mascotaService: MascotaService,
     private veterinarioService: VeterinarioService,
-    private medicamentoService: MedicamentoService
+    private medicamentoService: MedicamentoService,
+    private authService: AuthService // Inyectar el AuthService
   ) {}
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -67,48 +70,37 @@ export class CreateTratamientoComponent implements OnChanges {
     }
   }
 
-  // Aquí va la implementación del ngOnInit con las mejoras que mencioné antes
   ngOnInit(): void {
-    // Comprobar si estamos en modo edición
-    this.route.queryParams.subscribe(params => {
-      const tratamientoId = params['id'];
-      if (tratamientoId) {
-        this.modoEdicion = true;
-        console.log('Tratamiento ID encontrado:', tratamientoId);  // Para verificar si el ID se recibe correctamente
-  
-        // Obtener el tratamiento por ID
-        this.tratamientoService.obtenerTratamientoPorId(tratamientoId).subscribe({
-          next: (tratamiento: Tratamiento) => {
-            console.log('Datos del tratamiento recibido:', tratamiento);  // Verificar los datos recibidos
-            
-            // Convertir la fecha si no es ya un objeto Date
-            const fechaTratamiento = typeof tratamiento.fecha === 'string' 
-              ? new Date(tratamiento.fecha) 
-              : tratamiento.fecha;
-  
-            // Convertir el modelo Tratamiento a DTO para llenar el formulario
-            this.formTratamiento = {
-              id: tratamiento.id,
-              fecha: fechaTratamiento.toISOString().substring(0, 10),  // Convertimos la fecha para el input
-              descripcion: tratamiento.descripcion,
-              mascotaId: tratamiento.mascota.id,
-              veterinarioId: tratamiento.veterinario.id,
-              medicamentos: tratamiento.medicamentos  // Lista de medicamentos
-            };
-  
-            // Asignar nombres de la mascota y el veterinario para mostrarlos en los campos de búsqueda
-            this.nombreMascota = tratamiento.mascota.nombre;
-            this.nombreVeterinario = tratamiento.veterinario.nombre;
+    // Verificar el tipo de usuario y asignar el veterinario si es necesario
+    const userType = this.authService.getUserType();
+    if (userType === 'veterinario') {
+      this.esVeterinario = true;
+      const veterinarioId = this.authService.getVeterinarioId();
+      if (veterinarioId) {
+        // Asignar el ID del veterinario al formulario y obtener sus datos
+        this.formTratamiento.veterinarioId = veterinarioId;
+        this.veterinarioService.obtenerVeterionarioPorId(veterinarioId).subscribe({
+          next: (veterinario) => {
+            this.nombreVeterinario = veterinario.nombre; // Asignar el nombre del veterinario al campo
+            console.log('Veterinario asignado:', veterinario.nombre);
           },
           error: (error) => {
-            console.error('Error al cargar el tratamiento:', error);  // Muestra el error si no se pudo cargar el tratamiento
+            console.error('Error al obtener el veterinario:', error);
           }
         });
       } else {
-        // Si no hay ID, estamos en modo de creación, limpiamos el formulario
-        this.limpiarFormulario();
+        console.error('Error: Veterinario ID no encontrado en el localStorage');
       }
-    });
+    } else if (userType === 'admin') {
+      // Si es admin, permitir la búsqueda y selección de veterinarios
+      this.searchVeterinarioTerms.pipe(
+        debounceTime(300),
+        distinctUntilChanged(),
+        switchMap((term: string) => this.veterinarioService.buscarVeterinarios(term))
+      ).subscribe((veterinarios) => {
+        this.veterinariosSugeridos = veterinarios;
+      });
+    }
   
     // Escucha los términos de búsqueda para mascotas
     this.searchMascotaTerms.pipe(
@@ -117,15 +109,6 @@ export class CreateTratamientoComponent implements OnChanges {
       switchMap((term: string) => this.mascotaService.buscarMascotas(term))
     ).subscribe((mascotas) => {
       this.mascotasSugeridas = mascotas;
-    });
-  
-    // Escucha los términos de búsqueda para veterinarios
-    this.searchVeterinarioTerms.pipe(
-      debounceTime(300),
-      distinctUntilChanged(),
-      switchMap((term: string) => this.veterinarioService.buscarVeterinarios(term))
-    ).subscribe((veterinarios) => {
-      this.veterinariosSugeridos = veterinarios;
     });
   
     // Escucha los términos de búsqueda para medicamentos
@@ -138,7 +121,9 @@ export class CreateTratamientoComponent implements OnChanges {
     });
   }
   
-
+  
+  // Resto de los métodos...
+  
   guardar() {
     // Obtener los objetos completos de Mascota y Veterinario usando sus IDs
     this.mascotaService.obtenerMascotasPorId(this.formTratamiento.mascotaId).subscribe((mascota) => {
