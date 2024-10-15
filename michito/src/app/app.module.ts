@@ -5,6 +5,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { HttpClientModule } from "@angular/common/http";
 import { NgxPaginationModule } from "ngx-pagination";
 import { NgxChartsModule } from "@swimlane/ngx-charts";
+import { BrowserAnimationsModule, NoopAnimationsModule } from "@angular/platform-browser/animations";
 
 
 @NgModule({
@@ -16,7 +17,8 @@ import { NgxChartsModule } from "@swimlane/ngx-charts";
         AppRoutingModule,
         HttpClientModule, 
         NgxPaginationModule,
-        NgxChartsModule
+        NgxChartsModule,
+        NoopAnimationsModule 
     ],
     providers:[],
     bootstrap:[AppComponent]

@@ -1,13 +1,34 @@
 <app-barra-lateral></app-barra-lateral>
 
-<div class="contenedor-principal" style="max-width: 100%">
-  <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4 contenido-principal">
-    <h1>Dashboard</h1>
+<div class="contenedor-principal">
+  <main
+    role="main"
+    class="col-md-9 ml-sm-auto col-lg-10 px-4 contenido-principal"
+  >
+    <div
+      class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom"
+    >
+      <!-- Título de Dashboard -->
+      <h1>Dashboard</h1>
+    </div>
+    <!-- Título de la sección de datos relevantes -->
+    <h2>Datos relevantes</h2>
 
     <!-- Sección para las cards pequeñas -->
     <div class="cards-container">
       <ngx-charts-number-card
-        [view]="[300, 250]"
+        [view]="[220, 200]"
+        [results]="gananciasTotales"
+        [scheme]="colorScheme"
+        [cardColor]="'#232837'"
+        [textColor]="'#000000'"
+        [emptyColor]="'#444444'"
+        [animations]="true"
+        class="small-card"
+      ></ngx-charts-number-card>
+
+      <ngx-charts-number-card
+        [view]="[220, 200]"
         [results]="totalMascotas"
         [scheme]="colorScheme"
         [cardColor]="'#232837'"
@@ -18,8 +39,8 @@
       ></ngx-charts-number-card>
 
       <ngx-charts-number-card
-        [view]="[300, 250]"
-        [results]="tratamientosTotales"
+        [view]="[220, 200]"
+        [results]="mascotasActivas"
         [scheme]="colorScheme"
         [cardColor]="'#232837'"
         [textColor]="'#000000'"
@@ -29,8 +50,8 @@
       ></ngx-charts-number-card>
 
       <ngx-charts-number-card
-        [view]="[300, 250]"
-        [results]="mascotasActivas"
+        [view]="[220, 200]"
+        [results]="tratamientosTotales"
         [scheme]="colorScheme"
         [cardColor]="'#232837'"
         [textColor]="'#000000'"
@@ -43,27 +64,31 @@
     <!-- Separador para darle espacio entre las cards y las gráficas grandes -->
     <div style="margin-top: 50px"></div>
 
-    <!-- Sección para las gráficas grandes -->
+    <!-- Gráficas -->
     <div class="graficas-container">
-      <ngx-charts-pie-chart
-        [view]="[250, 250]"
-        [results]="tratamientosPorMedicamento"
-        [legend]="true"
-        [scheme]="colorScheme"
-        [labels]="true"
-        [animations]="true"
-        class="large-chart"
-      ></ngx-charts-pie-chart>
+      <div class="grafico">
+        <h3>Veterinarios Activos/Inactivos</h3>
+        <ngx-charts-pie-grid
+          [view]="[450, 300]"
+          [results]="veterinariosActivosInactivos"
+          [scheme]="colorScheme"
+          [animations]="false"
+          class="large-chart"
+        ></ngx-charts-pie-grid>
+      </div>
 
-
-      <ngx-charts-bar-horizontal
-        [view]="[550, 250]"
-        [results]="veterinariosActivosInactivos"
-        [scheme]="colorScheme"
-        [legend]="true"
-        [animations]="true"
-        class="large-chart"
-      ></ngx-charts-bar-horizontal>
+      <div class="grafico">
+        <h3>Tratamientos por Medicamento</h3>
+        <ngx-charts-pie-chart
+          [view]="[450, 300]"
+          [results]="tratamientosPorMedicamento"
+          [legend]="false"
+          [scheme]="colorScheme"
+          [labels]="true"
+          [animations]="false"
+          class="large-chart"
+        ></ngx-charts-pie-chart>
+      </div>
     </div>
   </main>
 </div>
