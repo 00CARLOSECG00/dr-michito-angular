@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { Cliente } from '../Model/cliente';
 import { catchError, map } from 'rxjs/operators';
+import { Veterinario } from '../Model/veterinario';
 
 @Injectable({
   providedIn: 'root'
@@ -36,47 +37,35 @@ export class AuthService {
     }
   }
 
-  // Método para login del portal interno
-  // AuthService: Método de login modificado para guardar el veterinarioId
-loginPortalInterno(user: string, password: string): Observable<boolean> {
-  if (user !== null && password !== null) {
-    return this.http.get<any>(`http://localhost:8080/login/portalInterno/${user}`).pipe(
-      map((response) => {
-        if (response && response.password) {
-          const backendPassword = response.password.trim();
-          const enteredPassword = (password || '').trim();
-          if (backendPassword === enteredPassword) {
-            console.log('Login exitoso:', response);
-            localStorage.setItem(this.USER_TYPE_KEY, response.tipo);
-            
-            // Guardar el veterinarioId si es un veterinario
-            if (response.idVeterinario) {
-              localStorage.setItem(this.VETERINARIO_ID_KEY, response.idVeterinario.toString());
+  // Método para login del portal interno (veterinario o admin)
+  loginPortalInterno(user: string, password: string): Observable<boolean> {
+    if (user !== null && password !== null) {
+      return this.http.get<any>(`http://localhost:8080/login/portalInterno/${user}`).pipe(
+        map((response) => {
+          if (response && response.password) {
+            const backendPassword = response.password.trim();
+            const enteredPassword = (password || '').trim();
+            if (backendPassword === enteredPassword) {
+              console.log('Login exitoso:', response);
+              localStorage.setItem(this.USER_TYPE_KEY, response.tipo);
+              
+              // Guardar el veterinarioId si es un veterinario
+              if (response.idVeterinario) {
+                localStorage.setItem(this.VETERINARIO_ID_KEY, response.idVeterinario.toString());
+              }
+
+              localStorage.setItem('currentUser', JSON.stringify(response));
+              return true;
+            } else {
+              console.log('Contraseña incorrecta');
+              return false;
             }
-
-            localStorage.setItem('currentUser', JSON.stringify(response));
-            return true;
-          } else {
-            console.log('Contraseña incorrecta');
-            return false;
           }
-        }
-        return false;
-      })
-    );
-  }
-  return of(false);  // Devuelve un Observable con false si user o password es null
-}
-
-
-  // Método para almacenar el tipo de usuario en localStorage
-  setUserType(type: string): void {
-    localStorage.setItem(this.USER_TYPE_KEY, type);
-  }
-
-  // Método para almacenar el id del veterinario en localStorage
-  setVeterinarioId(id: number): void {
-    localStorage.setItem(this.VETERINARIO_ID_KEY, id.toString());
+          return false;
+        })
+      );
+    }
+    return of(false);  // Devuelve un Observable con false si user o password es null
   }
 
   // Obtener el tipo de usuario (admin, cliente, veterinario, etc.)
@@ -92,7 +81,7 @@ loginPortalInterno(user: string, password: string): Observable<boolean> {
 
   // Obtener el ID del veterinario logueado
   getVeterinarioId(): number | null {
-    const veterinarioId = localStorage.getItem('veterinarioId');
+    const veterinarioId = localStorage.getItem(this.VETERINARIO_ID_KEY);
     if (veterinarioId) {
       console.log('Veterinario ID recuperado:', veterinarioId);  // Verificación en consola
       return Number(veterinarioId);
@@ -101,8 +90,21 @@ loginPortalInterno(user: string, password: string): Observable<boolean> {
       return null;
     }
   }
-  
 
+  // Método para obtener el veterinario autenticado
+  getVeterinarioActual(): Observable<Veterinario | null> {
+    const veterinarioId = this.getVeterinarioId();
+    if (veterinarioId) {
+      return this.http.get<Veterinario>(`http://localhost:8080/Veterinarios/${veterinarioId}`).pipe(
+        catchError((error) => {
+          console.error('Error al obtener el veterinario actual', error);
+          return of(null);
+        })
+      );
+    } else {
+      return of(null);  // Retorna null si no hay veterinario logueado
+    }
+  }
 
   // Eliminar las credenciales de la sesión
   logout(): void {

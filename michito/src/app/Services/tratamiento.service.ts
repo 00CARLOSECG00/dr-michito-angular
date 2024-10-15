@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, of, BehaviorSubject,throwError  } from 'rxjs';
+import { Observable, of, BehaviorSubject, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { Tratamiento } from '../Model/tratamiento';
 
@@ -24,7 +24,6 @@ export class TratamientoService {
       return of(resultado as T);
     };
   }
-  
 
   obtenerTratamientos(): Observable<Tratamiento[]> {
     return this.http.get<Tratamiento[]>(`${this.ROOT_URL}/all`).pipe(
@@ -34,6 +33,20 @@ export class TratamientoService {
 
   obtenerTratamientosPorMascota(mascotaId: number): Observable<Tratamiento[]> {
     return this.http.get<Tratamiento[]>(`${this.ROOT_URL}/mascota/${mascotaId}`).pipe(
+      catchError(this.manejarError<Tratamiento[]>([]))
+    );
+  }
+
+  // Método para obtener los tratamientos por cliente
+  obtenerTratamientosPorCliente(clienteId: number): Observable<Tratamiento[]> {
+    return this.http.get<Tratamiento[]>(`${this.ROOT_URL}/cliente/${clienteId}`).pipe(
+      catchError(this.manejarError<Tratamiento[]>([]))
+    );
+  }
+
+  // Método para obtener los tratamientos por veterinario
+  obtenerTratamientosPorVeterinario(veterinarioId: number): Observable<Tratamiento[]> {
+    return this.http.get<Tratamiento[]>(`${this.ROOT_URL}/veterinario/${veterinarioId}`).pipe(
       catchError(this.manejarError<Tratamiento[]>([]))
     );
   }
@@ -48,7 +61,6 @@ export class TratamientoService {
       })
     );
   }
-  
 
   editarTratamiento(tratamiento: Tratamiento): Observable<Tratamiento> {
     return this.http.put<Tratamiento>(`${this.ROOT_URL}/editar/${tratamiento.id}`, tratamiento).pipe(
@@ -63,15 +75,10 @@ export class TratamientoService {
   }
 
   obtenerTratamientoPorId(id: number) {
-    return this.http.get<Tratamiento>(`http://localhost:8080/Tratamientos/info/${id}`);
+    return this.http.get<Tratamiento>(`${this.ROOT_URL}/info/${id}`).pipe(
+      catchError(this.manejarError<Tratamiento>())
+    );
   }
-
-  // Método para obtener los tratamientos por cliente
-  obtenerTratamientosPorCliente(clienteId: number): Observable<Tratamiento[]> {
-    return this.http.get<Tratamiento[]>(`${this.ROOT_URL}/cliente/${clienteId}`);
-  }
-  
-  
 
   // Métodos para manejar el tratamiento seleccionado
   setTratamientoSeleccionado(tratamiento: Tratamiento | null): void {
@@ -81,6 +88,4 @@ export class TratamientoService {
   getTratamientoSeleccionado(): Observable<Tratamiento | null> {
     return this.tratamientoSeleccionado$;
   }
-
-
 }

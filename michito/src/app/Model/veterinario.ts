@@ -1,3 +1,5 @@
+import { Login } from "./login";
+
 export class Veterinario {
     public id!:number;
     public cedula!:string;
@@ -5,4 +7,5 @@ export class Veterinario {
     public correo!:string;
     public celular!:number;
     public especialidad!:string;
+    public login?:Login;
 }
