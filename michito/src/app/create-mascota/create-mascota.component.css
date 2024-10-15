@@ -5,7 +5,7 @@
     padding: 20px;
 }
 
-.agregar-tratamiento-card {
+.agregar-mascota-card {
     margin: auto;
     max-width: 600px;
     border-radius: 20px;
@@ -15,7 +15,7 @@
 }
 
 /* Estilo del título */
-.agregar-tratamiento-titulo {
+.agregar-mascota-titulo {
     font-family: Jomhuria, serif;
     letter-spacing: 4px;
     color: #5a4076;

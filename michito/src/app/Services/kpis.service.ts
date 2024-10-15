@@ -65,7 +65,15 @@ export class KpisService {
     );
   }
 
-  // Ejemplos comentados para el resto de los métodos que pueden seguir la misma lógica
+  getTotalGanancias(): Observable<number> {
+    return this.http.get<number>(`${this.apiUrl}/ganancias-totales`).pipe(
+      catchError(error => {
+        console.error('Error al obtener el total de ganancias:', error);
+        throw error;
+      })
+    );
+  }
+
   /*
   getTotalVentas(): Observable<number> {
     return this.http.get<number>(`${this.apiUrl}/total-ventas`).pipe(
@@ -76,14 +84,7 @@ export class KpisService {
     );
   }
 
-  getTotalGanancias(): Observable<number> {
-    return this.http.get<number>(`${this.apiUrl}/total-ganancias`).pipe(
-      catchError(error => {
-        console.error('Error al obtener el total de ganancias:', error);
-        throw error;
-      })
-    );
-  }
+
 
   getTopTratamientos(): Observable<any[]> {
     return this.http.get<any[]>(`${this.apiUrl}/top-tratamientos`).pipe(

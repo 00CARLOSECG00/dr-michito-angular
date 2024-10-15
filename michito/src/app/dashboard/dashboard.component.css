@@ -1,5 +1,9 @@
 
-
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
 body {
     font-family: 'Roboto', serif;
@@ -8,187 +12,57 @@ body {
 
 .contenedor-principal {
     display: flex;
-    flex-direction: column; /* Cambia la dirección para alinear las gráficas en columna */
-    max-width: 100%; /* Evita que se extienda horizontalmente */
-    overflow-x: hidden; /* Evita el scroll horizontal */
-    height: 100vh; /* Limita la altura al viewport */
+    height: 100vh;
     margin-left: 250px;
 }
 
-*{
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-.cards-container {
-    display: flex;
-    gap: 10px;
-    justify-content: space-between;
-}
-
-.cards-container ngx-charts-number-card {
-    width: 30%; /* Ajusta el tamaño a más pequeño */
-    height: 150px; /* Altura fija para las cards */
-}
-
-.graficas-container ngx-charts-pie-chart,
-.graficas-container ngx-charts-bar-horizontal {
-    width: 300px; /* Ajusta el ancho de las gráficas */
-    height: 300px; /* Ajusta la altura de las gráficas */
-    margin: 0 auto; /* Centra las gráficas */
-}
-
-.graficas-container {
-    margin-top: 200px;
-    display: flex;
-    gap: 20px;
-    justify-content: space-between;
-}
-
-.paginacion-container {
-    width: 100%;
-    display: flex;
-    justify-content: center; /* Centra la paginación */
-    margin-top: 20px; /* Añade un margen superior a la paginación */
-}
-
-.ngx-charts{
-        width: 700;
-        height: 100;
-
-}
-
-@media (max-width: 768px) {
-    .chart-card {
-        width: 100%; /* En pantallas pequeñas, los gráficos ocuparán el 100% del ancho */
-    }
-}
-
-h1 {
-    font-family: 'Jomhuria', serif;
-    letter-spacing: 4px;
-    color: #5a4076;
-    font-size: 80px;
-}
-
-h2 {
-    font-family: 'Jomhuria', serif;
-    letter-spacing: 4px;
-    color: #5a4076;
-    font-size: 60px;
-    padding: 0;
-}
-
-h3 {
-    font-family: 'Jomhuria', serif;
-    letter-spacing: 4px;
-    color: #5a4076;
-    font-size: 30px; 
-}
-
-
-main{
-    padding: 20px;
-    transition: margin-left 0.5s ease;
-}
-main.min-main{
-    margin-left: 100px;
-}
-
-/* Estilo del contenido principal */
 .contenido-principal {
     flex-grow: 1; /* Hace que el main ocupe todo el espacio restante */
     padding: 20px;
     transition: margin-left 0.5s ease;
 }
 
-/* Estilo de la tabla */
-.table th, .table td {
-    padding: 14.5px 10px;
-    vertical-align: middle;
+
+.cards-container {
+    display: flex;
+    gap: 10px;
+    justify-content: space-between;
+    margin-bottom: 20px; /* Añadir margen inferior */
+}
+
+.graficas-container {
+    display: flex;
+    gap: 20px;
+    justify-content: space-between;
+    margin-top: 50px; /* Ajuste del margen superior */
+}
+
+.grafico {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 450px;
+    height: auto;
+}
+
+h1, h2, h3 {
+    font-family: 'Jomhuria', serif;
+    letter-spacing: 4px;
+    color: #5a4076;
+}
+
+h1 {
+    font-size: 80px;
+}
+
+h2 {
+    font-size: 60px;
     text-align: center;
 }
 
-.table-responsive {
-    margin-top: 20px;
-    flex-grow: 1;
+h3 {
+    font-size: 30px; 
+    text-align: center;
+    margin-bottom: 10px;
 }
 
-.table-striped tbody tr:nth-of-type(odd) {
-    background-color: #f2f2f2;
-}
-
-.table-hover tbody tr:hover {
-    background-color: #adcc9f;
-}
-
-/* Redimensionar y redondear la imagen */
-.foto_mascota {
-    width: 80px;
-    height: 80px;
-    object-fit: cover;
-    border-radius: 50%;
-    border: 3px solid #c0c0c0;
-}
-
-/* Estilo de los botones de acción */
-.action-icon {
-    width: 20px;
-    height: 20px;
-}
-
-.btn-edit {
-    margin-right: 10px;
-    margin-bottom: 0%;
-    margin-top: 0%;
-}
-
-.btn-delete {
-    margin-bottom: 0%;
-    margin-top: 0%;
-}
-
-.btn-green {
-    background-color: #C2F970;
-    border-color: #C2F970;
-    min-height: 30px;
-    width: 100px;
-    color: #44344F;
-    font-weight: 600;
-    margin-bottom: 4px;
-    margin-top: 4px;
-}
-
-.btn-primary {
-    background-color: #6f42c1;
-    border-color: #6f42c1;
-}
-
-/* Estilo de la barra de paginación */
-.paginacion {
-    display: flex;
-    justify-content: center;  /* Centra los elementos dentro del contenedor */
-    margin-top: 20px;         /* Añadir un margen superior si es necesario */
-  }
-  
-.my-pagination ::ng-deep .ngx-pagination .current {
-  background: #6f42c1;
-  border-color: #6f42c1;
-  color: white;
-  border-radius: 50%;
-}
-
-.my-pagination ::ng-deep .ngx-pagination li {
-  color: #8f8c8c; /* Color del enlace */
-  
-}
-
-.my-pagination ::ng-deep .ngx-pagination .page-item.active .page-link {
-  background-color: #6f42c1; /* Color de fondo del enlace activo */
-  border-color: #6f42c1; /* Color del borde del enlace activo */
-  color: white; /* Color del texto del enlace activo */
-}
-
-.my-pagination ::ng-deep .ngx-pagination li:hover {
-  color: #6f42c1; /* Color del texto cuando pasas el ratón */
-}
