@@ -1,11 +1,12 @@
 import { Mascota } from "./mascota";
+import { Medicamento } from "./medicamento";
 import { Veterinario } from "./veterinario";
 
-export class Tratamiento {
-    public id!:number;
-    public fecha!:Date;
-    public descripcion!:string;
-    mascota?:Mascota;
-    veterinario?:Veterinario;
-    
+export interface Tratamiento {
+  id: number;
+  fecha: Date;
+  descripcion: string;
+  mascota: Mascota;  // Relación con Mascota
+  medicamentos: Medicamento[];  // Relación con Medicamentos
+  veterinario: Veterinario;  // Relación con Veterinario
 }

@@ -16,6 +16,7 @@ import { VistaMascotasClienteComponent } from './vista-mascotas-cliente/vista-ma
 import { TablaTratamientosComponent } from './tabla-tratamientos/tabla-tratamientos.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 
+import { CreateTratamientoComponent } from './create-tratamiento/create-tratamiento.component';
 export const routes: Routes = [
     {
         path: '',
@@ -80,6 +81,11 @@ export const routes: Routes = [
     {
         path: 'dashboard',
         component: DashboardComponent
+    },
+    {
+        
+        path: 'Create-Tratamientos',
+        component: CreateTratamientoComponent
     }
     
 ];

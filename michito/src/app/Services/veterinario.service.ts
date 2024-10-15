@@ -68,6 +68,20 @@ export class VeterinarioService {
     );
   }
 
+  // Método para buscar veterinarios por nombre o cédula, u otro término de búsqueda
+  buscarVeterinarios(term: string): Observable<Veterinario[]> {
+    if (term.length < 3) {
+      return of([]);  // Retorna un observable vacío si el término es muy corto
+    }
+    return this.http.get<Veterinario[]>(`${this.ROOT_URL}/buscar?nombre=${term}`).pipe(
+      catchError(error => {
+        console.error('Error al buscar veterinarios:', error);
+        return of([]);  // Retorna un observable vacío en caso de error
+      })
+    );
+  }
+
+
   deleteVeterinario(id: number): Observable<any> {
     return this.http.delete(`${this.ROOT_URL}/delete/${id}`).pipe(
       catchError(error => {

@@ -1,0 +1,131 @@
+<app-barra-lateral></app-barra-lateral>
+<div class="contenedor-principal">
+  <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4 contenido-principal">
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+      <a class="btn btn-outline-secondary" (click)="onVolver()">
+        <img src="/images/iconos/arrow-circle-left-purple.png" alt="Icono Atras" />
+      </a>
+    </div>
+
+    <div class="card agregar-tratamiento-card">
+      <div class="card-body">
+        <h2 class="text-center agregar-tratamiento-titulo">
+          {{ modoEdicion ? 'Editar Tratamiento' : 'Agregar Tratamiento' }}
+        </h2>
+
+        <form (ngSubmit)="guardar()" #tratamientoForm="ngForm">
+          <!-- Buscar mascota -->
+          <div class="mb-3">
+            <label for="mascota" class="form-label">Buscar Mascota</label>
+            <input
+              type="text"
+              class="form-control"
+              id="mascota"
+              name="mascota"
+              placeholder="Buscar por nombre de mascota"
+              [(ngModel)]="nombreMascota"
+              (input)="onSearchMascota(nombreMascota)"
+              [disabled]="modoEdicion" 
+              required
+            />
+
+            <!-- Mostrar dropdown solo si hay coincidencias -->
+            <ul *ngIf="mascotasSugeridas.length > 0" class="list-group">
+              <li class="list-group-item" *ngFor="let mascota of mascotasSugeridas" (click)="seleccionarMascota(mascota)">
+                {{ mascota.nombre }} - {{ mascota.id }}
+              </li>
+            </ul>
+          </div>
+
+          <!-- Buscar veterinario -->
+          <div class="mb-3">
+            <label for="veterinario" class="form-label">Buscar Veterinario</label>
+            <input
+              type="text"
+              class="form-control"
+              id="veterinario"
+              name="veterinario"
+              placeholder="Buscar por nombre de veterinario"
+              [(ngModel)]="nombreVeterinario"
+              (input)="onSearchVeterinario(nombreVeterinario)"
+              [disabled]="esVeterinario"  
+              required
+            />
+
+            <!-- Mostrar dropdown solo si hay coincidencias y si el usuario es admin -->
+            <ul *ngIf="veterinariosSugeridos.length > 0 && !esVeterinario" class="list-group">
+              <li class="list-group-item" *ngFor="let veterinario of veterinariosSugeridos" (click)="seleccionarVeterinario(veterinario)">
+                {{ veterinario.nombre }} - {{ veterinario.cedula }}
+              </li>
+            </ul>
+          </div>
+
+          <!-- Buscar medicamentos -->
+          <div class="mb-3">
+            <label for="medicamento" class="form-label">Buscar Medicamentos</label>
+            <input
+              type="text"
+              class="form-control"
+              id="medicamento"
+              name="medicamento"
+              placeholder="Buscar medicamentos"
+              [(ngModel)]="nombreMedicamento"
+              (input)="onSearchMedicamento(nombreMedicamento)"
+            />
+
+            <!-- Mostrar dropdown solo si hay coincidencias -->
+            <ul *ngIf="medicamentosSugeridos.length > 0" class="list-group">
+              <li class="list-group-item" *ngFor="let medicamento of medicamentosSugeridos" (click)="seleccionarMedicamento(medicamento)">
+                {{ medicamento.nombre }}
+              </li>
+            </ul>
+
+            <!-- Lista de medicamentos seleccionados -->
+            <ul class="list-group mt-3">
+              <li class="list-group-item" *ngFor="let medicamento of formTratamiento.medicamentos">
+                {{ medicamento.nombre }}
+                <button
+                  type="button"
+                  class="btn btn-danger btn-sm float-end"
+                  (click)="eliminarMedicamento(medicamento)">
+                  Eliminar
+                </button>
+              </li>
+            </ul>
+          </div>
+
+          <!-- Descripción del tratamiento -->
+          <div class="mb-3">
+            <label for="descripcion" class="form-label">Descripción del Tratamiento</label>
+            <textarea
+              [(ngModel)]="formTratamiento.descripcion"
+              class="form-control"
+              id="descripcion"
+              name="descripcion"
+              placeholder="Ingrese la descripción del tratamiento"
+              required
+            ></textarea>
+          </div>
+
+          <!-- Fecha del tratamiento -->
+          <div class="mb-3">
+            <label for="fecha" class="form-label">Fecha del Tratamiento</label>
+            <input
+              [(ngModel)]="formTratamiento.fecha"
+              type="date"
+              class="form-control"
+              id="fecha"
+              name="fecha"
+              required
+            />
+          </div>
+
+          <!-- Botón para enviar (solo visible si es admin o veterinario) -->
+          <button type="submit" class="btn btn-dark w-100" *ngIf="esVeterinario || esAdmin">
+            {{ modoEdicion ? 'Actualizar' : 'Guardar' }}
+          </button>
+        </form>
+      </div>
+    </div>
+  </main>
+</div>

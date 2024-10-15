@@ -33,7 +33,20 @@ export class MedicamentoService {
       })
     );
   }
-  
+
+  // Método para buscar medicamentos por nombre
+  buscarMedicamentos(term: string): Observable<Medicamento[]> {
+    if (!term.trim()) {
+      // Si no hay término de búsqueda, retorna un arreglo vacío
+      return new Observable<Medicamento[]>((observer) => observer.next([]));
+    }
+    return this.http.get<Medicamento[]>(`${this.ROOT_URL}/buscar?nombre=${term}`).pipe(
+      catchError(error => {
+        console.error('Error al buscar medicamentos:', error);
+        throw error;
+      })
+    );
+  }
 
   eliminarMedicamento(id: number): Observable<any> {
     const confirmed = confirm('¿Estás seguro de que deseas eliminar este medicamento?');
@@ -48,7 +61,6 @@ export class MedicamentoService {
       return of(null);  // Retornar un Observable vacío si la acción es cancelada
     }
   }
-  
 
   editarMedicamento(medicamento: Medicamento): Observable<Medicamento> {
     return this.http.put<Medicamento>(`${this.ROOT_URL}/update/${medicamento.id}`, medicamento).pipe(
@@ -58,5 +70,4 @@ export class MedicamentoService {
       })
     );
   }
-  
 }
