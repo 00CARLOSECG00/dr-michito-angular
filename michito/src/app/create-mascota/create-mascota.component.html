@@ -98,6 +98,16 @@
               required
             />
           </div>
+
+
+          <ng-container *ngIf="mostrarError">
+            <div class="alert alert-danger">
+                <p>No existe un cliente con la cédula {{ formMascota.cedulaCliente }}</p>
+            </div>
+          </ng-container>
+
+
+
           <button type="submit" class="btn btn-dark w-100">
             {{ modoEdicion ? 'Actualizar' : 'Guardar' }}
           </button>
