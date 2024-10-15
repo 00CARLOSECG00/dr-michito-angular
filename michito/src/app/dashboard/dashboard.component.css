@@ -1,24 +1,18 @@
+
+
+
+body {
+    font-family: 'Roboto', serif;
+    background-color: #f8f9fa;
+}
+
 .contenedor-principal {
     display: flex;
-    height: 100vh;
+    flex-direction: column; /* Cambia la dirección para alinear las gráficas en columna */
+    max-width: 100%; /* Evita que se extienda horizontalmente */
+    overflow-x: hidden; /* Evita el scroll horizontal */
+    height: 100vh; /* Limita la altura al viewport */
     margin-left: 250px;
-}
-:root{
-    --color-barra-lateral:#44344f;
-
-    --color-texto:#ffffff;
-    --color-texto-menu:#ffffff;
-
-    --color-menu-hover:#65558F;
-    --color-menu-hover-texto:#ffffff;
-
-    --color-linea:#C2F970;
-
-    --color-switch-base :rgb(201,202,206);
-    --color-switch-circulo:rgb(241,241,241);
-
-    --color-scroll:rgb(192,192,192);
-    --color-scroll-hover:rgb(134,134,134);
 }
 
 *{
@@ -26,13 +20,49 @@
     padding: 0;
     box-sizing: border-box;
 }
-
-body {
-    font-family: 'Roboto', serif;
-    background-color: #f8f9fa;
+.cards-container {
+    display: flex;
+    gap: 10px;
+    justify-content: space-between;
 }
 
+.cards-container ngx-charts-number-card {
+    width: 30%; /* Ajusta el tamaño a más pequeño */
+    height: 150px; /* Altura fija para las cards */
+}
 
+.graficas-container ngx-charts-pie-chart,
+.graficas-container ngx-charts-bar-horizontal {
+    width: 300px; /* Ajusta el ancho de las gráficas */
+    height: 300px; /* Ajusta la altura de las gráficas */
+    margin: 0 auto; /* Centra las gráficas */
+}
+
+.graficas-container {
+    margin-top: 200px;
+    display: flex;
+    gap: 20px;
+    justify-content: space-between;
+}
+
+.paginacion-container {
+    width: 100%;
+    display: flex;
+    justify-content: center; /* Centra la paginación */
+    margin-top: 20px; /* Añade un margen superior a la paginación */
+}
+
+.ngx-charts{
+        width: 700;
+        height: 100;
+
+}
+
+@media (max-width: 768px) {
+    .chart-card {
+        width: 100%; /* En pantallas pequeñas, los gráficos ocuparán el 100% del ancho */
+    }
+}
 
 h1 {
     font-family: 'Jomhuria', serif;
@@ -49,39 +79,15 @@ h2 {
     padding: 0;
 }
 
-/*-----------------Botones*/
-button,a{
-    margin-top: 18px;
+h3 {
+    font-family: 'Jomhuria', serif;
+    letter-spacing: 4px;
+    color: #5a4076;
+    font-size: 30px; 
 }
 
-/*-----------------Menu*/
-.menu{
-    font-family: Roboto, serif;
-    font-weight: bold;
-    position: fixed;
-    width: 50px;
-    height: 50px;
-    font-size: 30px;
-    display: none;
-    justify-content: center;
-    align-items: center;
-    border-radius: 50%;
-    cursor: pointer;
-    background-color: var(--color-boton);
-    color: var(--color-boton-texto);
-    right: 15px;
-    top: 15px;
-    z-index: 100;
-}
-
-
-#inbox{
-    background-color: var(--color-menu-hover);
-    color: var(--color-menu-hover-texto);
-}
 
 main{
-    margin-left: 0px;
     padding: 20px;
     transition: margin-left 0.5s ease;
 }
@@ -98,7 +104,7 @@ main.min-main{
 
 /* Estilo de la tabla */
 .table th, .table td {
-    padding: 15.8px 10px;
+    padding: 14.5px 10px;
     vertical-align: middle;
     text-align: center;
 }
@@ -145,8 +151,8 @@ main.min-main{
 .btn-green {
     background-color: #C2F970;
     border-color: #C2F970;
-    width: 80px;
     min-height: 30px;
+    width: 100px;
     color: #44344F;
     font-weight: 600;
     margin-bottom: 4px;
@@ -159,7 +165,6 @@ main.min-main{
 }
 
 /* Estilo de la barra de paginación */
-
 .paginacion {
     display: flex;
     justify-content: center;  /* Centra los elementos dentro del contenedor */
@@ -187,43 +192,3 @@ main.min-main{
 .my-pagination ::ng-deep .ngx-pagination li:hover {
   color: #6f42c1; /* Color del texto cuando pasas el ratón */
 }
-
-.search-container {
-    display: flex;
-    margin-bottom: 20px;
-    width: 100%; /* Asegura que el contenedor ocupe todo el ancho disponible */
-    max-width: 600px; /* Ajusta este valor para controlar el ancho máximo */
-    margin-left: 30px;
-    margin-right: 30px;
-  }
-  
-  .search-input {
-    flex-grow: 1;
-    padding: 10px 15px; /* Aumentado el padding horizontal para más anchura */
-    border: 1px solid #ced4da;
-    border-radius: 25px 25px 25px 25px; /* Aumentado el border-radius */
-    font-size: 16px;
-    min-width: 0; /* Permite que el input se encoja si es necesario */
-  }
-  
-  .search-input:focus {
-    outline: none;
-    border-color: #6f42c1;
-    box-shadow: 0 0 0 0.2rem rgba(111, 66, 193, 0.25);
-  }
-  
-  
-  
-  /* Ajuste responsive */
-  @media (max-width: 576px) {
-    .search-container {
-      flex-direction: column;
-      align-items: stretch;
-    }
-  
-    .search-input{
-      width: 100%;
-      border-radius: 25px; /* Border-radius completo para ambos en móviles */
-    }
-  
-  }

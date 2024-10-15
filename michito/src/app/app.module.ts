@@ -4,6 +4,7 @@ import { AppComponent } from "./app.component";
 import { AppRoutingModule } from './app-routing.module';
 import { HttpClientModule } from "@angular/common/http";
 import { NgxPaginationModule } from "ngx-pagination";
+import { NgxChartsModule } from "@swimlane/ngx-charts";
 
 
 @NgModule({
@@ -14,7 +15,8 @@ import { NgxPaginationModule } from "ngx-pagination";
         BrowserModule,
         AppRoutingModule,
         HttpClientModule, 
-        NgxPaginationModule
+        NgxPaginationModule,
+        NgxChartsModule
     ],
     providers:[],
     bootstrap:[AppComponent]

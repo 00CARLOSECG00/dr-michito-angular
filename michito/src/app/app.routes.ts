@@ -14,6 +14,7 @@ import { DetallesVeterinarioComponent } from './detalles-veterinario/detalles-ve
 import { UpdateMedicamentoComponent } from './update-medicamento/update-medicamento.component';
 import { VistaMascotasClienteComponent } from './vista-mascotas-cliente/vista-mascotas-cliente.component';
 import { TablaTratamientosComponent } from './tabla-tratamientos/tabla-tratamientos.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
 
 export const routes: Routes = [
     {
@@ -75,5 +76,10 @@ export const routes: Routes = [
     {
         path: 'tratamientos',
         component: TablaTratamientosComponent
+    },
+    {
+        path: 'dashboard',
+        component: DashboardComponent
     }
+    
 ];

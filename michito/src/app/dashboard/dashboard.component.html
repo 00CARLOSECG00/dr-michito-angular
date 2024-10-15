@@ -1,0 +1,69 @@
+<app-barra-lateral></app-barra-lateral>
+
+<div class="contenedor-principal" style="max-width: 100%">
+  <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4 contenido-principal">
+    <h1>Dashboard</h1>
+
+    <!-- Sección para las cards pequeñas -->
+    <div class="cards-container">
+      <ngx-charts-number-card
+        [view]="[300, 250]"
+        [results]="totalMascotas"
+        [scheme]="colorScheme"
+        [cardColor]="'#232837'"
+        [textColor]="'#000000'"
+        [emptyColor]="'#444444'"
+        [animations]="true"
+        class="small-card"
+      ></ngx-charts-number-card>
+
+      <ngx-charts-number-card
+        [view]="[300, 250]"
+        [results]="tratamientosTotales"
+        [scheme]="colorScheme"
+        [cardColor]="'#232837'"
+        [textColor]="'#000000'"
+        [emptyColor]="'#444444'"
+        [animations]="true"
+        class="small-card"
+      ></ngx-charts-number-card>
+
+      <ngx-charts-number-card
+        [view]="[300, 250]"
+        [results]="mascotasActivas"
+        [scheme]="colorScheme"
+        [cardColor]="'#232837'"
+        [textColor]="'#000000'"
+        [emptyColor]="'#444444'"
+        [animations]="true"
+        class="small-card"
+      ></ngx-charts-number-card>
+    </div>
+
+    <!-- Separador para darle espacio entre las cards y las gráficas grandes -->
+    <div style="margin-top: 50px"></div>
+
+    <!-- Sección para las gráficas grandes -->
+    <div class="graficas-container">
+      <ngx-charts-pie-chart
+        [view]="[250, 250]"
+        [results]="tratamientosPorMedicamento"
+        [legend]="true"
+        [scheme]="colorScheme"
+        [labels]="true"
+        [animations]="true"
+        class="large-chart"
+      ></ngx-charts-pie-chart>
+
+
+      <ngx-charts-bar-horizontal
+        [view]="[550, 250]"
+        [results]="veterinariosActivosInactivos"
+        [scheme]="colorScheme"
+        [legend]="true"
+        [animations]="true"
+        class="large-chart"
+      ></ngx-charts-bar-horizontal>
+    </div>
+  </main>
+</div>
