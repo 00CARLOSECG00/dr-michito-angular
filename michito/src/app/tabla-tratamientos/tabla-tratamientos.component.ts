@@ -52,6 +52,7 @@ export class TablaTratamientosComponent implements OnInit {
     this.tratamientoService.setTratamientoSeleccionado(tratamiento);
     this.router.navigate(['/Create-Tratamientos'], { queryParams: { id: tratamiento.id } });  // Pasar el ID
   }
+  
 
   eliminarTratamiento(tratamiento: Tratamiento) {
     const confirmed = confirm('¿Estás seguro de que deseas eliminar este tratamiento?');

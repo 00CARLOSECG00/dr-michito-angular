@@ -58,7 +58,6 @@ export class CreateTratamientoComponent implements OnChanges {
     private medicamentoService: MedicamentoService
   ) {}
 
-  // Detectar cambios en las propiedades de entrada
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['tratamiento'] && this.tratamiento) {
       this.formTratamiento = { ...this.tratamiento };
@@ -68,28 +67,49 @@ export class CreateTratamientoComponent implements OnChanges {
     }
   }
 
-  // Iniciar el componente y verificar si estamos en modo edición o creación
+  // Aquí va la implementación del ngOnInit con las mejoras que mencioné antes
   ngOnInit(): void {
+    // Comprobar si estamos en modo edición
     this.route.queryParams.subscribe(params => {
       const tratamientoId = params['id'];
       if (tratamientoId) {
         this.modoEdicion = true;
-        this.tratamientoService.obtenerTratamientoPorId(tratamientoId).subscribe((tratamiento: Tratamiento) => {
-          // Convertir el modelo Tratamiento a DTO para llenar el formulario
-          this.formTratamiento = {
-            id: tratamiento.id,
-            fecha: tratamiento.fecha.toISOString().substring(0, 10),  // Convertimos la fecha para el input
-            descripcion: tratamiento.descripcion,
-            mascotaId: tratamiento.mascota.id,
-            veterinarioId: tratamiento.veterinario.id,
-            medicamentos: tratamiento.medicamentos  // Lista de medicamentos
-          };
+        console.log('Tratamiento ID encontrado:', tratamientoId);  // Para verificar si el ID se recibe correctamente
+  
+        // Obtener el tratamiento por ID
+        this.tratamientoService.obtenerTratamientoPorId(tratamientoId).subscribe({
+          next: (tratamiento: Tratamiento) => {
+            console.log('Datos del tratamiento recibido:', tratamiento);  // Verificar los datos recibidos
+            
+            // Convertir la fecha si no es ya un objeto Date
+            const fechaTratamiento = typeof tratamiento.fecha === 'string' 
+              ? new Date(tratamiento.fecha) 
+              : tratamiento.fecha;
+  
+            // Convertir el modelo Tratamiento a DTO para llenar el formulario
+            this.formTratamiento = {
+              id: tratamiento.id,
+              fecha: fechaTratamiento.toISOString().substring(0, 10),  // Convertimos la fecha para el input
+              descripcion: tratamiento.descripcion,
+              mascotaId: tratamiento.mascota.id,
+              veterinarioId: tratamiento.veterinario.id,
+              medicamentos: tratamiento.medicamentos  // Lista de medicamentos
+            };
+  
+            // Asignar nombres de la mascota y el veterinario para mostrarlos en los campos de búsqueda
+            this.nombreMascota = tratamiento.mascota.nombre;
+            this.nombreVeterinario = tratamiento.veterinario.nombre;
+          },
+          error: (error) => {
+            console.error('Error al cargar el tratamiento:', error);  // Muestra el error si no se pudo cargar el tratamiento
+          }
         });
       } else {
-        this.limpiarFormulario(); // Si no hay ID en los params, limpiar el formulario
+        // Si no hay ID, estamos en modo de creación, limpiamos el formulario
+        this.limpiarFormulario();
       }
     });
-
+  
     // Escucha los términos de búsqueda para mascotas
     this.searchMascotaTerms.pipe(
       debounceTime(300),
@@ -98,7 +118,7 @@ export class CreateTratamientoComponent implements OnChanges {
     ).subscribe((mascotas) => {
       this.mascotasSugeridas = mascotas;
     });
-
+  
     // Escucha los términos de búsqueda para veterinarios
     this.searchVeterinarioTerms.pipe(
       debounceTime(300),
@@ -107,7 +127,7 @@ export class CreateTratamientoComponent implements OnChanges {
     ).subscribe((veterinarios) => {
       this.veterinariosSugeridos = veterinarios;
     });
-
+  
     // Escucha los términos de búsqueda para medicamentos
     this.searchMedicamentoTerms.pipe(
       debounceTime(300),
@@ -117,8 +137,8 @@ export class CreateTratamientoComponent implements OnChanges {
       this.medicamentosSugeridos = medicamentos;
     });
   }
+  
 
-  // Guardar o actualizar tratamiento
   guardar() {
     // Obtener los objetos completos de Mascota y Veterinario usando sus IDs
     this.mascotaService.obtenerMascotasPorId(this.formTratamiento.mascotaId).subscribe((mascota) => {
@@ -194,7 +214,6 @@ export class CreateTratamientoComponent implements OnChanges {
     this.formTratamiento.medicamentos = this.formTratamiento.medicamentos.filter((m) => m.id !== medicamento.id);
   }
 
-  // Limpiar formulario
   limpiarFormulario() {
     this.formTratamiento = {
       id: 0,
@@ -206,12 +225,10 @@ export class CreateTratamientoComponent implements OnChanges {
     };
   }
 
-  // Volver a la lista de tratamientos
   onVolver() {
     this.router.navigate(['/tratamientos']);
   }
 
-  // Convertir DTO a Tratamiento completo
   private convertirDeDTOaTratamiento(dto: TratamientoDTO, mascota: Mascota, veterinario: Veterinario): Tratamiento {
     return {
       id: dto.id,
