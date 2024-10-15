@@ -35,6 +35,7 @@ export class CreateVeterinarioComponent implements OnChanges {
     private router: Router
   ) {}
   ngOnInit() {
+    // Obtiene el veterinario seleccionado
     this.veterinarioService.getVeterinarioSeleccionado().subscribe(veterinario => {
       if (veterinario) {
         this.modoEdicion = true;
@@ -98,6 +99,7 @@ export class CreateVeterinarioComponent implements OnChanges {
   }
 
   onVolver() {
+    // Navegar de vuelta a la lista de veterinarios
     this.router.navigate(['/personal']);
   }
 }

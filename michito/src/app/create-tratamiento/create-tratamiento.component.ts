@@ -81,6 +81,7 @@ export class CreateTratamientoComponent implements OnChanges {
   
 
   ngOnInit(): void {
+    //llenamos los tratamientos suscribiendonos desde aqui a servicio
     this.route.queryParams.subscribe(params => {
       const idTratamiento = params['id'];
       if (idTratamiento) {
@@ -150,6 +151,7 @@ export class CreateTratamientoComponent implements OnChanges {
   }
 
   inicializarBusquedas() {
+    //autocompletar la mascota y el medicamento 
     this.searchMascotaTerms.pipe(
       debounceTime(300),
       distinctUntilChanged(),

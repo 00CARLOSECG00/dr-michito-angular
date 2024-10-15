@@ -81,8 +81,9 @@ export class DetalleTratamientoComponent implements OnInit {
   formatearPrecio(precio: number): string {
     return new Intl.NumberFormat('es-ES', { style: 'currency', currency: 'COP', minimumFractionDigits: 0 }).format(precio);
   }
-
+  // Método para obtener los detalles del cliente
   obtenerDetallesClientePorCedula(cedula: string): void {
+    //se suscribe al servicio 
     this.clienteService.getClienteByCedula(cedula).subscribe({
       next: (cliente) => {
         this.cliente = cliente;

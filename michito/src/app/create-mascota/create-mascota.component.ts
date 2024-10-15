@@ -110,7 +110,7 @@ export class CreateMascotaComponent implements OnChanges {
   }
   ngOnInit() {
     this.searchTerms.pipe(
-      debounceTime(300),  
+      debounceTime(300),  //que busque cada cierto tiempo
       distinctUntilChanged(),  // Ignora si el valor es el mismo que el anterior
       switchMap((term: string) => this.clienteService.buscarClientes(term))  // Cambia a una nueva búsqueda
     ).subscribe((clientes) => {

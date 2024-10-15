@@ -11,7 +11,7 @@ export class MainNosotrosComponent implements AfterViewInit {
 
   currentIndex: number = 0;
   totalItems: number = 0;
-  visibleItems: number = 3;
+  visibleItems: number = 3;//para que se muestren 3 items
 
   constructor(@Inject(PLATFORM_ID) private platformId: Object) {}
 
@@ -53,5 +53,6 @@ export class MainNosotrosComponent implements AfterViewInit {
 
   updateCarousel(track: HTMLElement): void {
     track.style.transform = `translateX(-${this.currentIndex * (100 / this.visibleItems)}%)`;
+    //mover el track
   }
 }

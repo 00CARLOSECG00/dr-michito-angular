@@ -31,6 +31,7 @@ export class DetallesVeterinarioComponent {
   }
 
   obtenerMascota(id: number): void {
+    // Llama al servicio para obtener la mascota
     this.veterinarioService.obtenerVeterionarioPorId(id).subscribe(
       (veterinario: Veterinario) => {
         this.veterinario = veterinario; // Asigna los datos de la mascota obtenida
