@@ -14,7 +14,7 @@ import { Inject, PLATFORM_ID } from '@angular/core';
 })
 export class BarraLateralComponent implements OnInit {
   tipoUsuario: string | null = null;
-
+  //debemos saber que usuario es para darle acceso a ciertos botones
   constructor(
     private router: Router,
     @Inject(PLATFORM_ID) private platformId: Object
@@ -27,13 +27,13 @@ export class BarraLateralComponent implements OnInit {
     }
   }
 
-  // Método para manejar los clics de los botones
+  // Método para manejar los clics de los botones y redirigir a la ruta correspondiente
   onClick(buttonName: string) {
     console.log('Tipo de usuario desde el componente de la barra lateral:', this.tipoUsuario);
     console.log('Botón clickeado:', buttonName);
     this.router.navigate(['/' + buttonName]);
   }
-
+  //salir del portal 
   unLogin() {
     this.router.navigate(['/']); // Cambia a la ruta deseada
   }
