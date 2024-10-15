@@ -24,6 +24,7 @@ export class TratamientoService {
       return of(resultado as T);
     };
   }
+  
 
   obtenerTratamientos(): Observable<Tratamiento[]> {
     return this.http.get<Tratamiento[]>(`${this.ROOT_URL}/all`).pipe(
@@ -61,11 +62,11 @@ export class TratamientoService {
     );
   }
 
-  obtenerTratamientoPorId(id: number): Observable<Tratamiento> {
-    return this.http.get<Tratamiento>(`${this.ROOT_URL}/info/${id}`).pipe(
-      catchError(this.manejarError<Tratamiento>())
-    );
+  obtenerTratamientoPorId(id: number) {
+    return this.http.get<Tratamiento>(`http://localhost:8080/Tratamientos/info/${id}`);
   }
+  
+  
 
   // Métodos para manejar el tratamiento seleccionado
   setTratamientoSeleccionado(tratamiento: Tratamiento | null): void {

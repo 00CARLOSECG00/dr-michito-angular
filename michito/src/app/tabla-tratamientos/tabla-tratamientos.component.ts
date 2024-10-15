@@ -49,9 +49,12 @@ export class TablaTratamientosComponent implements OnInit {
 
   // Editar un tratamiento
   editarTratamiento(tratamiento: Tratamiento) {
+    console.log('Tratamiento seleccionado para editar:', tratamiento);
     this.tratamientoService.setTratamientoSeleccionado(tratamiento);
-    this.router.navigate(['/Create-Tratamientos'], { queryParams: { id: tratamiento.id } });  // Pasar el ID
+    this.router.navigate(['/Create-Tratamientos'], { queryParams: { id: tratamiento.id } });
   }
+  
+  
   
 
   eliminarTratamiento(tratamiento: Tratamiento) {
