@@ -84,18 +84,12 @@ export class KpisService {
   }
 
   getTopTratamientos(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiUrl}/top-tratamientos`).pipe(
+    return this.http.get<any[]>(`${this.apiUrl}/top-3-medicamentos`).pipe(
       catchError(error => {
         console.error('Error al obtener los tratamientos más vendidos:', error);
         throw error;
       })
     );
   }
-  /*
 
-
-
-
-  
-  */
 }

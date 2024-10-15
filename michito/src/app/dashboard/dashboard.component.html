@@ -18,17 +18,6 @@
     <div class="cards-container">
       <ngx-charts-number-card
         [view]="[220, 200]"
-        [results]="gananciasTotales"
-        [scheme]="colorScheme"
-        [cardColor]="'#232837'"
-        [textColor]="'#000000'"
-        [emptyColor]="'#444444'"
-        [animations]="true"
-        class="small-card"
-      ></ngx-charts-number-card>
-
-      <ngx-charts-number-card
-        [view]="[220, 200]"
         [results]="totalMascotas"
         [scheme]="colorScheme"
         [cardColor]="'#232837'"
@@ -74,12 +63,16 @@
         class="small-card"
       ></ngx-charts-number-card>
 
-      <ngx-charts-pie-chart
-        [view]="[220, 200]"
-        [results]="topTratamientos"
-        [animations]="true"
-        class="small-card"
-      ></ngx-charts-pie-chart>
+      <ngx-charts-number-card
+      [view]="[220, 200]"
+      [results]="gananciasTotales"
+      [scheme]="colorScheme"
+      [cardColor]="'#232837'"
+      [textColor]="'#000000'"
+      [emptyColor]="'#444444'"
+      [animations]="true"
+      class="small-card"
+    ></ngx-charts-number-card>
 
     </div>
 
@@ -111,6 +104,21 @@
           class="large-chart"
         ></ngx-charts-pie-chart>
       </div>
+
+      <div class="grafico">
+        <h3>Top 3 Medicamentos</h3>
+        <ngx-charts-pie-chart
+          [view]="[450, 300]"
+          [results]="topTratamientos"
+          [legend]="false"
+          [scheme]="colorScheme"
+          [labels]="true"
+          [animations]="false"
+          class="small-card"
+      ></ngx-charts-pie-chart>
+      </div>
+
+
     </div>
   </main>
 </div>

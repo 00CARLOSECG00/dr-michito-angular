@@ -137,16 +137,16 @@ export class DashboardComponent {
         complete: () => console.log('Consulta de total de ventas completada')
     });
 
-    /*
-    this.kpisService.getTratamientosPorMedicamento().subscribe({
+    this.kpisService.getTopTratamientos().subscribe({
         next: (data: any) => {
           this.topTratamientos = data.map((item: any) => {
-            return { name: item.nombre, value: item.unidadesVendidas };
+            return { name: item[0], value: item[1] };
           });
+          console.log(this.topTratamientos);
         },
         error: (error) => console.error('Error al obtener tratamientos por medicamento', error),
         complete: () => console.log('Consulta de tratamientos por medicamento completada')
       });
-      */
+
   }
 }
