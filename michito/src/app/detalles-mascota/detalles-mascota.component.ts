@@ -33,6 +33,7 @@ export class DetallesMascotaComponent {
   }
 
   obtenerMascota(id: number): void {
+    // Llama al servicio para obtener la mascota con el id
     this.mascotaService.obtenerMascotasPorId(id).subscribe(
       (mascota: Mascota) => {
         this.mascota = mascota; // Asigna los datos de la mascota obtenida
@@ -44,6 +45,7 @@ export class DetallesMascotaComponent {
   }
 
   onVolver(): void {
+    // Navegar de vuelta a la lista de mascotas
     history.back();
   }
 }

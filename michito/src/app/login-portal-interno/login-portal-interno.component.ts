@@ -33,7 +33,7 @@ export class LoginPortalInternoComponent implements OnInit {
     console.log('Botón de Iniciar Sesión presionado');
     console.log('Usuario ingresado:', this.login.username);
     console.log('Contraseña ingresada:', this.login.password);
-  
+    // Suscrribimos al observable y manejamos los resultados
     this.authService
       .loginPortalInterno(this.login.username, this.login.password)
       .subscribe((isAuthenticated: boolean) => {
@@ -52,6 +52,7 @@ export class LoginPortalInternoComponent implements OnInit {
   
 
   onClick() {
+    //al darle click se comprueben los datos del login
     this.comprobar();
   }
 }
