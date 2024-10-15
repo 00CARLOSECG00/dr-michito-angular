@@ -108,21 +108,14 @@
           </div>
 
           <!-- Fecha del tratamiento -->
-          <div class="mb-3">
-            <label for="fecha" class="form-label">Fecha del Tratamiento</label>
-            <input
-              [(ngModel)]="formTratamiento.fecha"
-              type="date"
-              class="form-control"
-              id="fecha"
-              name="fecha"
-              required
-            />
-          </div>
+          
 
-          <div *ngIf="mostrarError" class="error-message">
-            Debe llenar todos los campos.
-          </div>
+          
+          <ng-container *ngIf="mostrarError">
+            <div class="alert alert-danger">
+                <p>Debe llenar todos los campos.</p>
+            </div>
+          </ng-container>
 
           <!-- Botón para enviar (solo visible si es admin o veterinario) -->
           <button type="submit" class="btn btn-dark w-100" *ngIf="esVeterinario || esAdmin">

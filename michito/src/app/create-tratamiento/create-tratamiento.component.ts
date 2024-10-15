@@ -1,3 +1,4 @@
+import { forkJoin } from 'rxjs';
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
@@ -166,8 +167,7 @@ export class CreateTratamientoComponent implements OnChanges {
     });
   }
 
-  // Guardar o actualizar el tratamiento
-  // Guardar o actualizar el tratamiento
+
   guardar() {
     // Validar si todos los campos están llenos
     if (!this.validarCampos()) {
@@ -175,34 +175,55 @@ export class CreateTratamientoComponent implements OnChanges {
       return; // Detener la ejecución si los campos no están completos
     }
   
+    // Establecer la fecha actual en el formulario
+    this.formTratamiento.fecha = new Date().toISOString().substring(0, 10); // Formato YYYY-MM-DD
+  
     // Si todo está completo, proceder con la lógica de guardar
     this.mascotaService.obtenerMascotasPorId(this.formTratamiento.mascotaId).subscribe((mascota) => {
       this.veterinarioService.obtenerVeterionarioPorId(this.formTratamiento.veterinarioId).subscribe((veterinario) => {
         const tratamiento = this.convertirDeDTOaTratamiento(this.formTratamiento, mascota, veterinario);
   
-        if (!this.modoEdicion) {
-          this.tratamientoService.agregarTratamiento(tratamiento).subscribe({
-            next: (tratamientoAgregado) => {
-              console.log('Tratamiento agregado:', tratamientoAgregado);
-              this.onVolver();
-            },
-            error: (error) => {
-              console.error('Error al agregar el tratamiento:', error);
-              this.mostrarError = true;
+        // Aquí actualizamos los medicamentos y esperamos a que todas las actualizaciones terminen
+        const actualizacionesMedicamentos = this.formTratamiento.medicamentos.map((medicamento) => {
+          medicamento.unidadesVendidas += 1;
+          medicamento.unidadesDisponibles -= 1;
+          return this.medicamentoService.editarMedicamento(medicamento);
+        });
+  
+        forkJoin(actualizacionesMedicamentos).subscribe({
+          next: (resultadosActualizaciones) => {
+            console.log('Medicamentos actualizados:', resultadosActualizaciones);
+  
+            // Después de actualizar los medicamentos, guardamos el tratamiento
+            if (!this.modoEdicion) {
+              this.tratamientoService.agregarTratamiento(tratamiento).subscribe({
+                next: (tratamientoAgregado) => {
+                  console.log('Tratamiento agregado:', tratamientoAgregado);
+                  this.onVolver();
+                },
+                error: (error) => {
+                  console.error('Error al agregar el tratamiento:', error);
+                  this.mostrarError = true;
+                }
+              });
+            } else {
+              this.tratamientoService.editarTratamiento(tratamiento).subscribe({
+                next: (tratamientoEditado) => {
+                  console.log('Tratamiento editado con éxito:', tratamientoEditado);
+                  this.onVolver();
+                },
+                error: (error) => {
+                  console.error('Error al editar el tratamiento:', error);
+                  this.mostrarError = true;
+                }
+              });
             }
-          });
-        } else {
-          this.tratamientoService.editarTratamiento(tratamiento).subscribe({
-            next: (tratamientoEditado) => {
-              console.log('Tratamiento editado con éxito:', tratamientoEditado);
-              this.onVolver();
-            },
-            error: (error) => {
-              console.error('Error al editar el tratamiento:', error);
-              this.mostrarError = true;
-            }
-          });
-        }
+          },
+          error: (error) => {
+            console.error('Error al actualizar los medicamentos:', error);
+            this.mostrarError = true;
+          }
+        });
       });
     });
   }
@@ -249,7 +270,7 @@ export class CreateTratamientoComponent implements OnChanges {
 
   validarCampos(): boolean {
     // Validar que los campos importantes no estén vacíos
-    if (!this.formTratamiento.fecha || 
+    if (
         !this.formTratamiento.descripcion || 
         this.formTratamiento.mascotaId === 0 || 
         this.formTratamiento.veterinarioId === 0 || 
