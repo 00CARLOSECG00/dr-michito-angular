@@ -8,4 +8,5 @@ export class Veterinario {
     public celular!:number;
     public especialidad!:string;
     public login?:Login;
+    public  estado!:boolean;
 }
