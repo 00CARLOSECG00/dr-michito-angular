@@ -5,13 +5,13 @@ import { HttpClientModule } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { MascotaService } from '../Services/mascota.service';
-
+import { TablaTratamientosComponent } from '../tabla-tratamientos/tabla-tratamientos.component';
 
 
 @Component({
   selector: 'app-detalles-mascota',
   standalone: true,
-  imports: [CommonModule, BarraLateralComponent, HttpClientModule],
+  imports: [CommonModule, BarraLateralComponent, HttpClientModule, TablaTratamientosComponent],
   templateUrl: './detalles-mascota.component.html',
   styleUrl: './detalles-mascota.component.css'
 })
@@ -37,6 +37,7 @@ export class DetallesMascotaComponent {
     this.mascotaService.obtenerMascotasPorId(id).subscribe(
       (mascota: Mascota) => {
         this.mascota = mascota; // Asigna los datos de la mascota obtenida
+        console.log('ID de mascota cargado:', this.mascota.id); // Agregar log para debug
       },
       error => {
         console.error('Error al obtener la mascota:', error);

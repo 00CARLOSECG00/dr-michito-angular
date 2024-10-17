@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Tratamiento } from '../Model/tratamiento'; 
 import { CommonModule } from '@angular/common';
 import { NgxPaginationModule } from 'ngx-pagination';
@@ -17,6 +17,9 @@ import { AuthService } from '../Services/auth.service'; // Importamos el AuthSer
   styleUrls: ['./tabla-tratamientos.component.css'],
 })
 export class TablaTratamientosComponent implements OnInit {
+  @Input() mostrarSoloMascota: boolean = false;
+  @Input() mascotaId?: number;
+
   mostrarTodos: boolean = true;
   nombreMascota: string = "elmismodesiempre";
   page: number = 1;
@@ -24,7 +27,7 @@ export class TablaTratamientosComponent implements OnInit {
   tratamientosMostrados: Tratamiento[] = [];
   tratamientoSeleccionado!: Tratamiento | null;
   searchTerm: string = '';
-  mascotaId!: number;
+  
   esVeterinario: boolean = false;
   esAdmin: boolean = false;
   esCliente: boolean = false;
@@ -45,20 +48,28 @@ export class TablaTratamientosComponent implements OnInit {
       this.esAdmin = true;
     } else if (userType === 'veterinario') {
       this.esVeterinario = true;
-      this.idVeterinario = this.authService.getVeterinarioId();  // Obtenemos el ID del veterinario autenticado
+      this.idVeterinario = this.authService.getVeterinarioId();
     } else {
       this.esCliente = true;
-      this.idCliente = this.authService.getClienteId(); // Obtenemos el ID del cliente logueado
+      this.idCliente = this.authService.getClienteId();
     }
 
-    this.route.queryParams.subscribe(params => {
-      this.mascotaId = params['mascotaId'];
-      if (this.mascotaId) {
-        this.listarTratamientosPorMascota(this.mascotaId);
-      } else {
-        this.listarTratamientos();
-      }
-    });
+    // Modificar esta parte para manejar ambos casos
+    if (this.mostrarSoloMascota && this.mascotaId) {
+      // Si es componente hijo de detalle-mascota, mostrar solo tratamientos de esa mascota
+      this.listarTratamientosPorMascota(this.mascotaId);
+    } else {
+      // Si es componente independiente, revisar queryParams
+      this.route.queryParams.subscribe(params => {
+        const mascotaIdParam = params['mascotaId'];
+        if (mascotaIdParam) {
+          this.mascotaId = +mascotaIdParam;  // Asignamos al Input mascotaId
+          this.listarTratamientosPorMascota(this.mascotaId);
+        } else {
+          this.listarTratamientos();
+        }
+      });
+    }
   }
 
   // Ver detalle del tratamiento
