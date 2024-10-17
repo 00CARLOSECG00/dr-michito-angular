@@ -42,6 +42,7 @@
             </tr>
           </thead>
           <tbody>
+            <ng-container *ngIf="tratamientosMostrados != null">
             <tr *ngFor="let tratamiento of tratamientosMostrados | paginate : { itemsPerPage: 10, currentPage: page }" >
               <td>{{ tratamiento.id }}</td>
               <td>{{ tratamiento.descripcion }}</td>
@@ -64,9 +65,10 @@
                 </a>
               </td>
             </tr>
+          </ng-container>
           </tbody>
         </table>
-        <div *ngIf="tratamientosMostrados.length === 0" class="alert alert-info">
+        <div *ngIf="tratamientosMostrados == null" class="alert alert-info">
           No se encontraron tratamientos que coincidan con la búsqueda.
         </div>
 
