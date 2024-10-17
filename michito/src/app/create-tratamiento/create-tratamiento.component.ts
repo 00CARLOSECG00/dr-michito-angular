@@ -157,8 +157,10 @@ export class CreateTratamientoComponent implements OnChanges {
       distinctUntilChanged(),
       switchMap((term: string) => this.mascotaService.buscarMascotas(term))
     ).subscribe((mascotas) => {
-      this.mascotasSugeridas = mascotas;
+      // Filtrar solo las mascotas con estado true
+      this.mascotasSugeridas = mascotas.filter(mascota => mascota.estado);
     });
+    
 
     this.searchMedicamentoTerms.pipe(
       debounceTime(300),

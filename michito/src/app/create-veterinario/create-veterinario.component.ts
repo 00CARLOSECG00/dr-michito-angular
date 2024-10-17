@@ -27,7 +27,8 @@ export class CreateVeterinarioComponent implements OnChanges {
     nombre: '',
     correo: '',
     celular: 0,
-    especialidad: ''
+    especialidad: '',
+    estado:true
   };
 
   constructor(
@@ -94,8 +95,12 @@ export class CreateVeterinarioComponent implements OnChanges {
       nombre: '',
       correo: '',
       celular: 0,
-      especialidad: ''
+      especialidad: '',
+      estado:true
     };
+  }
+  onChangeEstado(event: any) {
+    this.formVeterinario.estado = event.target.checked;
   }
 
   onVolver() {

@@ -100,12 +100,44 @@
               </div>
 
             </div>
+
+
+
+            <div class="toggle-options" *ngIf="modoEdicion">
+              <div class="switch">
+                <div class="activar">
+                  <input 
+                    type="checkbox" 
+                    id="gooey-switch" 
+                    [(ngModel)]="formVeterinario.estado" 
+                    (change)="onChangeEstado($event)" 
+                    name="estado"
+                  />
+                  <label for="gooey-switch">On/Off</label>
+                </div>
+                <h2 id="Estado">Activar/Desactivar Veterinario</h2>
+              </div>
+            </div>
+
+
+
+
             <button type="submit" class="btn btn-dark w-100">
               {{ modoEdicion ? 'Actualizar' : 'Guardar' }}
             </button>
           </form>
         </div>
       </div>
+
+
+
+
+      
+
+
+
+
+
       <div *ngIf="mostrarError" class="error-message">
         Ha ocurrido un error al procesar su solicitud. Por favor, inténtelo de nuevo.
       </div>

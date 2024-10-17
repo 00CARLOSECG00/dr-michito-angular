@@ -63,7 +63,8 @@ export class TablaMascotasComponent implements OnInit {
       peso: mascota.peso,
       edad: mascota.edad,
       foto: mascota.foto,
-      cedulaCliente: mascota.cedulaCliente || ''  // O ajustar si tienes la relación cliente en otro lugar
+      cedulaCliente: mascota.cedulaCliente || '',
+      estado:true
     };
   }
 

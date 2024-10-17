@@ -100,13 +100,38 @@
           </div>
 
 
-          <ng-container *ngIf="mostrarError">
-            <div class="alert alert-danger">
-                <p>No existe un cliente con la cédula {{ formMascota.cedulaCliente }}</p>
+         
+
+          
+          
+          <div class="toggle-options" *ngIf="modoEdicion">
+            <div class="switch">
+              <div class="activar">
+                <input 
+                  type="checkbox" 
+                  id="gooey-switch" 
+                  [(ngModel)]="formMascota.estado" 
+                  (change)="onChangeEstado($event)" 
+                  name="estado"
+                />
+                <label for="gooey-switch">On/Off</label>
+              </div>
+              <h2 id="Estado">Activar/Desactivar Mascota</h2>
             </div>
-          </ng-container>
+          </div>
+          
+          
+          
+          
+          
+          
 
 
+      <ng-container *ngIf="mostrarError">
+        <div class="alert alert-danger">
+            <p>No existe un cliente con la cédula {{ formMascota.cedulaCliente }}</p>
+        </div>
+      </ng-container>
 
           <button type="submit" class="btn btn-dark w-100">
             {{ modoEdicion ? 'Actualizar' : 'Guardar' }}

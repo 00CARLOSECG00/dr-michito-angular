@@ -5,5 +5,6 @@ export class MascotaDTO {
     public edad!: number;
     public foto!: string;
     public cedulaCliente!: string;  
+    public estado:boolean=true;
   }
   

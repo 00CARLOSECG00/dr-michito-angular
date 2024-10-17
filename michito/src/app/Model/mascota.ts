@@ -8,6 +8,7 @@ export class Mascota {
     public foto!:string;
     public cedulaCliente?:string;
     public cliente?:Cliente;
+    public estado!:boolean;
     /*
     public cliente!:Cliente;
     public tratamientos!:Tratamiento[];
