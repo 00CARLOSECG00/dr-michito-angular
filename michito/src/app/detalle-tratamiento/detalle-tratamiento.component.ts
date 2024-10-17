@@ -39,7 +39,7 @@ export class DetalleTratamientoComponent implements OnInit {
   }
 
   volver(): void {
-    this.router.navigate(['/tratamientos']);  // Navegar de vuelta a la lista de tratamientos
+    history.back(); // Navegar de vuelta a la lista de tratamientos
   }
 
   cargarDetallesTratamiento(id: number): void {
