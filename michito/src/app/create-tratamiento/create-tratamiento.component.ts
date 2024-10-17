@@ -160,6 +160,15 @@ export class CreateTratamientoComponent implements OnChanges {
       // Filtrar solo las mascotas con estado true
       this.mascotasSugeridas = mascotas.filter(mascota => mascota.estado);
     });
+
+    this.searchVeterinarioTerms.pipe(
+      debounceTime(300),
+      distinctUntilChanged(),
+      switchMap((term: string) => this.veterinarioService.buscarVeterinarios(term))
+    ).subscribe((veterinarios) => {
+      // Filtrar solo los veterinarios con estado true
+      this.veterinariosSugeridos = veterinarios.filter(veterinario => veterinario.estado);
+    });
     
 
     this.searchMedicamentoTerms.pipe(

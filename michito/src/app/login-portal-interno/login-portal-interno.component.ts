@@ -1,14 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { Login } from '../Model/login';
-import {
-  HttpClient,
-  HttpClientModule,
-  HttpErrorResponse,
-} from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../Services/auth.service';
+import { Veterinario } from '../Model/veterinario';
 
 @Component({
   selector: 'app-login-portal-interno',
@@ -19,10 +15,10 @@ import { AuthService } from '../Services/auth.service';
 })
 export class LoginPortalInternoComponent implements OnInit {
   mostrarError: boolean = false;
+  mostrarInactivo: boolean = false;
   login = { username: '', password: '', tipo: '' };
 
   constructor(
-    private http: HttpClient,
     private router: Router,
     private authService: AuthService
   ) {}
@@ -33,26 +29,35 @@ export class LoginPortalInternoComponent implements OnInit {
     console.log('Botón de Iniciar Sesión presionado');
     console.log('Usuario ingresado:', this.login.username);
     console.log('Contraseña ingresada:', this.login.password);
-    // Suscrribimos al observable y manejamos los resultados
+  
     this.authService
       .loginPortalInterno(this.login.username, this.login.password)
-      .subscribe((isAuthenticated: boolean) => {
-        if (isAuthenticated) {
+      .subscribe((result: { authenticated: boolean; veterinario?: Veterinario }) => {
+        if (result.authenticated) {
+          // Login exitoso, redirigir según el tipo de usuario
           console.log('Login exitoso');
-          console.log('Redirigiendo a tabla de mascotas');
-          console.log('Tipo de usuario:', this.authService.getUserType());
+          this.mostrarInactivo = false;
+          this.mostrarError = false;
           this.router.navigate(['/Mascotas']);
+        } else if (result.veterinario && result.veterinario.estado === false) {
+          // Veterinario inactivo, mostrar mensaje de inactividad
+          console.log('Veterinario inactivo');
+          this.mostrarInactivo = true;
+          this.mostrarError = false;  // Asegurarse de que no se muestre el error general
         } else {
+          // Login fallido por otras razones
           console.log('Login fallido');
           this.mostrarError = true;
+          this.mostrarInactivo = false;  // Asegurarse de que no se muestre el error de inactividad
         }
       });
   }
   
   
-
+  
+  
   onClick() {
-    //al darle click se comprueben los datos del login
+    // Al darle click se comprueben los datos del login
     this.comprobar();
   }
 }

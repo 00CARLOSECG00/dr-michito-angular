@@ -28,13 +28,14 @@ export class CreateVeterinarioComponent implements OnChanges {
     correo: '',
     celular: 0,
     especialidad: '',
-    estado:true
+    estado: true
   };
 
   constructor(
     private veterinarioService: VeterinarioService,
     private router: Router
   ) {}
+
   ngOnInit() {
     // Obtiene el veterinario seleccionado
     this.veterinarioService.getVeterinarioSeleccionado().subscribe(veterinario => {
@@ -47,7 +48,7 @@ export class CreateVeterinarioComponent implements OnChanges {
       }
     });
   }
-  
+
   ngOnChanges() {
     if (this.veterinario && this.modoEdicion) {
       // Si se pasa un veterinario en modo edición, llenamos el formulario con sus datos
@@ -61,7 +62,7 @@ export class CreateVeterinarioComponent implements OnChanges {
   // Método para crear o editar dependiendo del modo
   guardar(veterinario: Veterinario) {
     if (this.modoEdicion) {
-      // Editar veterinario existente
+      // Editar veterinario existente, sin comprobar si la cédula ya existe
       this.veterinarioService.updateVeterinario(veterinario).subscribe({
         next: (response) => {
           console.log('Veterinario actualizado con éxito:', response);
@@ -73,7 +74,7 @@ export class CreateVeterinarioComponent implements OnChanges {
         }
       });
     } else {
-      // Crear nuevo veterinario
+      // Crear nuevo veterinario, donde se comprueba si la cédula existe
       this.veterinarioService.createVeterinario(veterinario).subscribe({
         next: (response) => {
           console.log('Veterinario creado con éxito:', response);
@@ -96,9 +97,10 @@ export class CreateVeterinarioComponent implements OnChanges {
       correo: '',
       celular: 0,
       especialidad: '',
-      estado:true
+      estado: true
     };
   }
+
   onChangeEstado(event: any) {
     this.formVeterinario.estado = event.target.checked;
   }

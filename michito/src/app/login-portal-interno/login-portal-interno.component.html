@@ -31,11 +31,14 @@
         <input [(ngModel)]="login.password" name="password" id="contrasena" type="password" required/>
         
         <!-- Mostrar el mensaje de error si 'mostrarError' es true -->
-        <ng-container *ngIf="mostrarError">
-          <div class="alert alert-danger">
-            <p>Usuario o contraseña incorrecta</p>
-          </div>
-        </ng-container>
+        <div *ngIf="mostrarError" class="alert alert-danger">
+          Error: El nombre de usuario o la contraseña son incorrectos.
+        </div>
+        
+        <div *ngIf="mostrarInactivo" class="alert alert-warning">
+          Su cuenta de veterinario está inactiva. Por favor, contacte con el administrador.
+        </div>
+        
         
         <button id="btnLogin" type="button" (click)="onClick()">Iniciar Sesión</button>
 
