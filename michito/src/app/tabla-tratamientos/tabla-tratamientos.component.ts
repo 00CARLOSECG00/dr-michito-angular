@@ -113,39 +113,44 @@ export class TablaTratamientosComponent implements OnInit {
 
   // Listar todos los tratamientos
   listarTratamientos() {
-    if (this.esCliente && this.idCliente) {
-      // Si es cliente, mostrar solo los tratamientos de sus mascotas
-      this.tratamientoService.obtenerTratamientosPorCliente(this.idCliente).subscribe({
-        next: (tratamientos: Tratamiento[]) => {
-          this.tratamientos = tratamientos;
-          this.tratamientosMostrados = tratamientos;
-        },
-        error: (error) => {
-          console.error('Error al obtener los tratamientos del cliente:', error);
-        }
-      });
-
-    } else if (this.esVeterinario && this.idVeterinario) {
-      // Si es veterinario, mostrar solo los tratamientos que él realizó
-      this.tratamientoService.obtenerTratamientosPorVeterinario(this.idVeterinario).subscribe({
-        next: (tratamientos: Tratamiento[]) => {
-          this.tratamientos = tratamientos;
-          this.tratamientosMostrados = tratamientos;
-        }
-      });
-
-    } else if (this.esAdmin) {
-      // Si es admin, mostrar todos los tratamientos
-      this.tratamientoService.obtenerTratamientos().subscribe({
-        next: (tratamientos: Tratamiento[]) => { 
-          this.tratamientos = tratamientos;
-          this.tratamientosMostrados = tratamientos;
-        },
-        error: (error) => {
-          console.error('Error al obtener los tratamientos:', error);
-        }
-      });
+    if(this.mostrarSoloMascota && this.mascotaId) {
+      this.listarTratamientosPorMascota(this.mascotaId);
+    }else {
+      if (this.esCliente && this.idCliente) {
+        // Si es cliente, mostrar solo los tratamientos de sus mascotas
+        this.tratamientoService.obtenerTratamientosPorCliente(this.idCliente).subscribe({
+          next: (tratamientos: Tratamiento[]) => {
+            this.tratamientos = tratamientos;
+            this.tratamientosMostrados = tratamientos;
+          },
+          error: (error) => {
+            console.error('Error al obtener los tratamientos del cliente:', error);
+          }
+        });
+  
+      } else if (this.esVeterinario && this.idVeterinario) {
+        // Si es veterinario, mostrar solo los tratamientos que él realizó
+        this.tratamientoService.obtenerTratamientosPorVeterinario(this.idVeterinario).subscribe({
+          next: (tratamientos: Tratamiento[]) => {
+            this.tratamientos = tratamientos;
+            this.tratamientosMostrados = tratamientos;
+          }
+        });
+  
+      } else if (this.esAdmin) {
+        // Si es admin, mostrar todos los tratamientos
+        this.tratamientoService.obtenerTratamientos().subscribe({
+          next: (tratamientos: Tratamiento[]) => { 
+            this.tratamientos = tratamientos;
+            this.tratamientosMostrados = tratamientos;
+          },
+          error: (error) => {
+            console.error('Error al obtener los tratamientos:', error);
+          }
+        });
+      }
     }
+    
   }
 
   // Listar tratamientos por mascota (independiente del tipo de usuario)
