@@ -49,6 +49,7 @@
             <th>Correo</th>
             <th>Celular</th>
             <th>Especialidad</th>
+            <th>Estado</th>
             <th>Acciones</th>
           </tr>
         </thead>
@@ -66,6 +67,10 @@
             <td>{{ Veterinarios.correo }}</td>
             <td>{{ Veterinarios.celular }}</td>
             <td>{{ Veterinarios.especialidad }}</td>
+            <td>
+              <i *ngIf="Veterinarios.estado" class="estatus hecho"></i>
+              <i *ngIf="!Veterinarios.estado" class="estatus pendiente"></i>
+            </td>
           
             <td>
               <button class="btn btn-green" (click)="verVeterinario(Veterinarios)">

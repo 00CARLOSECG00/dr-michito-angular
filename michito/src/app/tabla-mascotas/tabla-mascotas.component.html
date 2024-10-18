@@ -41,6 +41,7 @@
             <th>Peso</th>
             <th>Foto</th>
             <th>Historial</th>
+            <th>Estado</th>
             <th>Acciones</th>
           </tr>
         </thead>
@@ -52,6 +53,7 @@
                 | paginate : { itemsPerPage: 6, currentPage: page }
             "
           >
+        
             <td>{{ Mascotas.id }}</td>
             <td>{{ Mascotas.nombre }}</td>
             <td>{{ Mascotas.edad }}</td>
@@ -63,6 +65,10 @@
               <button class="btn btn-green" (click)="verMascota(Mascotas)">
                 Ver
               </button>
+            </td>
+            <td>
+              <i *ngIf="Mascotas.estado" class="estatus hecho"></i>
+              <i *ngIf="!Mascotas.estado" class="estatus pendiente"></i>
             </td>
             <td>
               <button

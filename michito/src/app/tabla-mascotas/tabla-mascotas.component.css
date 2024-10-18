@@ -8,7 +8,22 @@ body {
   font-family: "Roboto", serif;
   background-color: #f8f9fa;
 }
+.estatus {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  display: inline-block;
+}
 
+.pendiente {
+  background-color: red;
+  margin-left: 6px;
+}
+
+.hecho {
+  background-color: green;
+  margin-left: 6px;
+}
 .contenedor-principal {
   display: flex;
   height: 100vh;

@@ -44,6 +44,7 @@
           <tbody>
             <ng-container *ngIf="tratamientosMostrados != null">
             <tr *ngFor="let tratamiento of tratamientosMostrados | paginate : { itemsPerPage: 10, currentPage: page }" >
+              
               <td>{{ tratamiento.id }}</td>
               <td>{{ tratamiento.descripcion }}</td>
               <td>{{ tratamiento.fecha | date: 'dd/MM/yyyy' }}</td>

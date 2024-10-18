@@ -159,7 +159,22 @@
     border-color: #6f42c1;
     box-shadow: 0 0 0 0.2rem rgba(111, 66, 193, 0.25);
   }
-  
+  .estatus {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+.pendiente {
+    background-color: red;
+    margin-left: 6px;
+}
+
+.hecho {
+    background-color: green;
+    margin-left: 6px;
+}
   
   
   /* Ajuste responsive */
