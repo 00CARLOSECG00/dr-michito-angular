@@ -1,0 +1,17 @@
+<h1 mat-dialog-title>Confirmación</h1>
+<div mat-dialog-content>
+  <div
+    style="
+      display: flex;
+      flex-direction: column;
+      margin: 1rem auto;
+      max-width: 600px;
+      padding: 1rem;
+    "
+  >
+    <p>{{ data.message }}</p>
+  </div>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onClose()">OK</button>
+</div>

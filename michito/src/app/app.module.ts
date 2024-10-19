@@ -6,6 +6,7 @@ import { HttpClientModule } from "@angular/common/http";
 import { NgxPaginationModule } from "ngx-pagination";
 import { NgxChartsModule } from "@swimlane/ngx-charts";
 import { BrowserAnimationsModule, NoopAnimationsModule } from "@angular/platform-browser/animations";
+import { MatDialogModule } from "@angular/material/dialog";
 
 
 @NgModule({
@@ -17,8 +18,9 @@ import { BrowserAnimationsModule, NoopAnimationsModule } from "@angular/platform
         AppRoutingModule,
         HttpClientModule, 
         NgxPaginationModule,
-        NgxChartsModule,
-        NoopAnimationsModule 
+        NgxChartsModule,    
+        BrowserAnimationsModule,
+        MatDialogModule
     ],
     providers:[],
     bootstrap:[AppComponent]
