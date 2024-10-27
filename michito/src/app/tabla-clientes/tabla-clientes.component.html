@@ -20,9 +20,9 @@
         </div>
         <div class="btn-toolbar mb-2 mb-md-0">
           <div class="btn-group mr-2">
-            <a class="btn btn-green" (click)="crearCliente()">
+            <button class="btn btn-green" (click)="crearCliente()" id="CrearClientebtn">
               + Agregar Cliente
-            </a>
+            </button>
           </div>
         </div>
       </div>
@@ -48,7 +48,7 @@
                   | paginate : { itemsPerPage: 8, currentPage: page }
               "
             >
-              <td>{{ cliente.id }}</td>
+              <td class="idClientes">{{ cliente.id }}</td>
               <td>{{ cliente.cedula }}</td>
               <td>{{ cliente.nombre }}</td>
               <td>{{ cliente.correo }}</td>

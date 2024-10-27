@@ -25,7 +25,7 @@
         
         <div class="btn-toolbar mb-2 mb-md-0">
           <div class="btn-group mr-2">
-            <button class="btn btn-green" (click)="agregarMascota()">
+            <button class="btn btn-green" (click)="agregarMascota()" id="btnAddMascotas">
               + Agregar Mascota
             </button>
           </div>
@@ -54,7 +54,7 @@
             "
           >
         
-            <td>{{ Mascotas.id }}</td>
+            <td class="idMascotas">{{ Mascotas.id }}</td>
             <td>{{ Mascotas.nombre }}</td>
             <td>{{ Mascotas.edad }}</td>
             <td>{{ Mascotas.peso }}</td>

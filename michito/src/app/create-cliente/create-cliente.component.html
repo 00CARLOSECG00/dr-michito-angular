@@ -14,8 +14,8 @@
             </h2>
               
           <ng-container *ngIf="mostrarError">
-            <div class="alert alert-danger">
-                <p>Ya existe un cliente con la cédula {{ formCliente.cedula }}</p>
+            <div class="alert alert-danger" id="ERRORCLIENTE">
+                <p >Ya existe un cliente con la cédula {{ formCliente.cedula }}</p>
             </div>
           </ng-container>
   
@@ -82,7 +82,7 @@
                 </div>
               </div>
             </div>
-            <button type="submit" class="btn btn-dark w-100">
+            <button type="submit" class="btn btn-dark w-100" id="Add">
               {{ modoEdicion ? 'Actualizar' : 'Guardar' }}
             </button>
           </form>

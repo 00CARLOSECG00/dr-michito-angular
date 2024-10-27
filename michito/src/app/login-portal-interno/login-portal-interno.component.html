@@ -31,8 +31,8 @@
         <input [(ngModel)]="login.password" name="password" id="contrasena" type="password" required/>
         
         <!-- Mostrar el mensaje de error si 'mostrarError' es true -->
-        <div *ngIf="mostrarError" class="alert alert-danger">
-          Error: El nombre de usuario o la contraseña son incorrectos.
+        <div *ngIf="mostrarError" class="alert alert-danger" id="ErrorLogin">
+          <p>Error: El nombre de usuario o la contraseña son incorrectos.</p>
         </div>
         
         <div *ngIf="mostrarInactivo" class="alert alert-warning">
