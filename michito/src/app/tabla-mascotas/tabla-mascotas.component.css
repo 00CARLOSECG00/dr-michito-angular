@@ -19,7 +19,9 @@ body {
   background-color: red;
   margin-left: 6px;
 }
-
+.estadoMascota{
+  width: 55px;
+}
 .hecho {
   background-color: green;
   margin-left: 6px;

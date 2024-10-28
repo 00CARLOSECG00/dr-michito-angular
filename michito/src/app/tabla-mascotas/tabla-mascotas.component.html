@@ -67,8 +67,8 @@
               </button>
             </td>
             <td>
-              <i *ngIf="Mascotas.estado" class="estatus hecho"></i>
-              <i *ngIf="!Mascotas.estado" class="estatus pendiente"></i>
+              <i *ngIf="Mascotas.estado" ><img src="images/activo.png" class="estadoMascota"></i>
+              <i *ngIf="!Mascotas.estado" ><img src="images/inactivo.png" class="estadoMascota"></i>
             </td>
             <td>
               <button

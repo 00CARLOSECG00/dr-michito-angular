@@ -14,7 +14,9 @@
     height: 100vh;
     margin-left: 250px;
   }
-  
+  .estadoVeterinario{
+    width: 55px;
+  }
   h1 {
     font-family: "Jomhuria", serif;
     letter-spacing: 4px;

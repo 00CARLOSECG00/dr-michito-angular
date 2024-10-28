@@ -68,8 +68,8 @@
             <td>{{ Veterinarios.celular }}</td>
             <td>{{ Veterinarios.especialidad }}</td>
             <td>
-              <i *ngIf="Veterinarios.estado" class="estatus hecho"></i>
-              <i *ngIf="!Veterinarios.estado" class="estatus pendiente"></i>
+              <i *ngIf="Veterinarios.estado" ><img src="images/activoVet.png" class="estadoVeterinario"></i>
+              <i *ngIf="!Veterinarios.estado" ><img src="images/inactivoVet.png" class="estadoVeterinario"></i>
             </td>
           
             <td>
