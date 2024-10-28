@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Veterinario } from '../Model/veterinario';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
-
+import { VeterinarioDTO } from '../Model/veterinario-dto';
 @Injectable({
   providedIn: 'root'
 })
@@ -91,14 +91,12 @@ export class VeterinarioService {
     );
   }
 
-  createVeterinario(veterinario: Veterinario): Observable<Veterinario> {
-    return this.http.post<Veterinario>(`${this.ROOT_URL}/agregar`, veterinario).pipe(
-      catchError(error => {
-        console.error('Error al crear el veterinario:', error);
-        throw error;
-      })
-    );
+
+  createVeterinario(veterinarioDTO: VeterinarioDTO): Observable<any> {
+    return this.http.post<string>('http://localhost:8080/Veterinarios/agregar', veterinarioDTO, { responseType: 'text' as 'json' });
   }
+
+
 
   updateVeterinario(veterinario: Veterinario): Observable<Veterinario> {
     return this.http.put<Veterinario>(`${this.ROOT_URL}/editar/${veterinario.id}`, veterinario).pipe(

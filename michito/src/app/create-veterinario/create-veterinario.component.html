@@ -97,6 +97,39 @@
                     />
                   </div>
                 </div>
+                <div class="col-md-6" *ngIf="!modoEdicion"><!--SOLO SALE SI MODO CREAR-->
+                  <div class="form-group">
+                    <label for="Username" class="form-label">Username</label>
+                    <input
+                      [(ngModel)]="formVeterinario.usuario"
+                      name="Username"
+                      type="text"
+                      id="Username"
+                      placeholder="Ingresar Username"
+                      required
+                      class="form-control"
+                    />
+                  </div>
+                </div>
+              </div>
+              
+                
+              
+              <div class="row" *ngIf="!modoEdicion"><!--SOLO SALE SI MODO CREAR-->
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="Password" class="form-label">Password</label>
+                    <input
+                      [(ngModel)]="formVeterinario.passwords"
+                      name="Password"
+                      type="text"
+                      id="Password"
+                      placeholder="Ingresar Password"
+                      required
+                      class="form-control"
+                    />
+                  </div>
+                </div>
               </div>
 
             </div>

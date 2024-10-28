@@ -1,4 +1,4 @@
-import { Veterinario } from '../Model/veterinario';
+import { VeterinarioDTO } from '../Model/veterinario-dto';
 import { VeterinarioService } from '../Services/veterinario.service';
 import { Component, Input, OnChanges } from '@angular/core';
 import { FormsModule } from '@angular/forms';
@@ -11,24 +11,27 @@ import { Router } from '@angular/router';
   standalone: true,
   imports: [FormsModule, CommonModule, BarraLateralComponent],
   templateUrl: './create-veterinario.component.html',
-  styleUrl: './create-veterinario.component.css'
+  styleUrls: ['./create-veterinario.component.css']
 })
 export class CreateVeterinarioComponent implements OnChanges {
 
   mostrarError: boolean = false;
 
-  @Input() veterinario!: Veterinario | null;
+  @Input() veterinario!: VeterinarioDTO | null;
   @Input() modoEdicion: boolean = false;
 
   // Objeto que maneja el formulario
-  formVeterinario: Veterinario = {
-    id: 0, 
+  formVeterinario: VeterinarioDTO = {
+    id: 0,
     cedula: '',
     nombre: '',
     correo: '',
     celular: 0,
     especialidad: '',
-    estado: true
+    estado: true,
+    usuario: '',
+    passwords: '',
+    tipo: 'veterinario'
   };
 
   constructor(
@@ -37,11 +40,35 @@ export class CreateVeterinarioComponent implements OnChanges {
   ) {}
 
   ngOnInit() {
-    // Obtiene el veterinario seleccionado
+    this.formVeterinario = {
+      id: 0,
+      cedula: '',
+      nombre: '',
+      correo: '',
+      celular: 0,
+      especialidad: '',
+      estado: true,
+      usuario: '',
+      passwords: '',
+      tipo: 'veterinario'
+    };
+    
+    // Obtiene el veterinario seleccionado y convierte a DTO
     this.veterinarioService.getVeterinarioSeleccionado().subscribe(veterinario => {
       if (veterinario) {
         this.modoEdicion = true;
-        this.formVeterinario = veterinario;
+        this.formVeterinario = {
+          id: veterinario.id,
+          cedula: veterinario.cedula,
+          nombre: veterinario.nombre,
+          correo: veterinario.correo,
+          celular: veterinario.celular,
+          especialidad: veterinario.especialidad,
+          estado: veterinario.estado,
+          usuario: veterinario.login?.username || '',
+          passwords: veterinario.login?.password || '',
+          tipo: veterinario.login?.tipo || 'veterinario'
+        };
       } else {
         this.modoEdicion = false;
         this.resetForm();
@@ -59,34 +86,32 @@ export class CreateVeterinarioComponent implements OnChanges {
     }
   }
 
-  // Método para crear o editar dependiendo del modo
-  guardar(veterinario: Veterinario) {
+  guardar(veterinarioDTO: VeterinarioDTO) {
     if (this.modoEdicion) {
-      // Editar veterinario existente, sin comprobar si la cédula ya existe
-      this.veterinarioService.updateVeterinario(veterinario).subscribe({
-        next: (response) => {
-          console.log('Veterinario actualizado con éxito:', response);
-          this.onVolver();
-        },
-        error: (error) => {
-          console.error('Error al actualizar veterinario:', error);
-          this.mostrarError = true;
-        }
-      });
+       this.veterinarioService.updateVeterinario(veterinarioDTO).subscribe({
+          next: (response) => {
+             console.log('Veterinario actualizado con éxito:', response);
+             this.onVolver();
+          },
+          error: (error) => {
+             console.error('Error al actualizar veterinario:', error);
+             this.mostrarError = true;
+          }
+       });
     } else {
-      // Crear nuevo veterinario, donde se comprueba si la cédula existe
-      this.veterinarioService.createVeterinario(veterinario).subscribe({
-        next: (response) => {
-          console.log('Veterinario creado con éxito:', response);
-          this.onVolver();
-        },
-        error: (error) => {
-          console.error('Error al crear veterinario:', error);
-          this.mostrarError = true;
-        }
-      });
+       this.veterinarioService.createVeterinario(veterinarioDTO).subscribe({
+          next: (response) => {
+             console.log(response);  // Aquí deberías ver "Veterinario guardado correctamente"
+             this.onVolver();
+          },
+          error: (error) => {
+             console.error('Error al crear veterinario:', error);
+             this.mostrarError = true;
+          }
+       });
     }
-  }
+ }
+ 
 
   // Resetea el formulario para crear un nuevo veterinario
   resetForm() {
@@ -97,7 +122,10 @@ export class CreateVeterinarioComponent implements OnChanges {
       correo: '',
       celular: 0,
       especialidad: '',
-      estado: true
+      estado: true,
+      usuario: '',
+      passwords: '',
+      tipo: 'veterinario'
     };
   }
 
