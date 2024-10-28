@@ -13,6 +13,7 @@
             <input 
               type="text" 
               class="form-control search-input" 
+              id="searchBarMedicamentos"
               placeholder="Buscar medicamento por nombre..." 
               [(ngModel)]="searchTerm" 
               (input)="onSearch()"
@@ -39,10 +40,10 @@
               <tr *ngFor="let medicamento of medicamentosMostrados | paginate : { itemsPerPage: 10, currentPage: page }" >
                 <td>{{ medicamento.id }}</td>
                 <td>{{ medicamento.nombre }}</td>
-                <td>{{ medicamento.precioCompra | currency}}</td>
-                <td>{{ medicamento.precioVenta | currency}}</td>
+                <td class="medicamentoPrecioCompra">{{ medicamento.precioCompra | currency}}</td>
+                <td class="medicamentoPrecioVenta">{{ medicamento.precioVenta | currency}}</td>
                 <td>{{ medicamento.unidadesDisponibles}}</td>
-                <td>{{ medicamento.unidadesVendidas}}</td>
+                <td class="medicamentoUnidadesVendidas">{{ medicamento.unidadesVendidas}}</td>
                 <td>
                   <button class="btn btn-sm btn-edit" (click)="editarMedicamento(medicamento)">
                     <img src="/images/iconos/editIcon.png" alt="Editar" class="action-icon" />

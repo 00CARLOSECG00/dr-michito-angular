@@ -20,7 +20,7 @@
         <!-- Mostrar botón de crear solo si es admin o veterinario -->
         <div *ngIf="esAdmin || esVeterinario" class="btn-toolbar mb-2 mb-md-0">
           <div class="btn-group mr-2">
-            <button class="btn btn-green" (click)="agregarTratamiento()">
+            <button class="btn btn-green btnAgregarTratamiento" (click)="agregarTratamiento()">
               + Crear tratamiento
             </button>
           </div>
@@ -46,7 +46,7 @@
             <tr *ngFor="let tratamiento of tratamientosMostrados | paginate : { itemsPerPage: 10, currentPage: page }" >
               
               <td>{{ tratamiento.id }}</td>
-              <td>{{ tratamiento.descripcion }}</td>
+              <td class="tratamientoDescripcion">{{ tratamiento.descripcion }}</td>
               <td>{{ tratamiento.fecha | date: 'dd/MM/yyyy' }}</td>
               <td>{{ tratamiento.mascota?.nombre }}</td> 
               <td>{{ tratamiento.veterinario?.nombre }}</td> 

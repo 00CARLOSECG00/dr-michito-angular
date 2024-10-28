@@ -31,7 +31,7 @@
 
             <!-- Mostrar dropdown solo si hay coincidencias -->
             <ul *ngIf="mascotasSugeridas.length > 0" class="list-group">
-              <li class="list-group-item" *ngFor="let mascota of mascotasSugeridas" (click)="seleccionarMascota(mascota)">
+              <li class="list-group-item itemMascota" *ngFor="let mascota of mascotasSugeridas" (click)="seleccionarMascota(mascota)">
                 {{ mascota.nombre }} - {{ mascota.id }}
               </li>
             </ul>
@@ -75,7 +75,7 @@
 
             <!-- Mostrar dropdown solo si hay coincidencias -->
             <ul *ngIf="medicamentosSugeridos.length > 0" class="list-group">
-              <li class="list-group-item" *ngFor="let medicamento of medicamentosSugeridos" (click)="seleccionarMedicamento(medicamento)">
+              <li class="list-group-item itemMedicamento" *ngFor="let medicamento of medicamentosSugeridos" (click)="seleccionarMedicamento(medicamento)">
                 {{ medicamento.nombre }}
               </li>
             </ul>
@@ -118,7 +118,7 @@
           </ng-container>
 
           <!-- Botón para enviar (solo visible si es admin o veterinario) -->
-          <button type="submit" class="btn btn-dark w-100" *ngIf="esVeterinario || esAdmin">
+          <button type="submit" class="btn btn-dark w-100"  id ="btnAddTratamiento" *ngIf="esVeterinario || esAdmin">
             {{ modoEdicion ? 'Actualizar' : 'Guardar' }}
           </button>
         </form>

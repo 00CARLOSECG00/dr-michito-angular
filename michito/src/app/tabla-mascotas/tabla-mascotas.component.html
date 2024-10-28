@@ -17,6 +17,7 @@
           <input 
             type="text" 
             class="form-control search-input" 
+            id="searchBarMascotas"
             placeholder="Buscar mascota por nombre..." 
             [(ngModel)]="searchTerm" 
             (input)="onSearch()"
@@ -25,14 +26,14 @@
         
         <div class="btn-toolbar mb-2 mb-md-0">
           <div class="btn-group mr-2">
-            <button class="btn btn-green" (click)="agregarMascota()" id="btnAddMascotas">
+            <button class="btn btn-green " (click)="agregarMascota()" id="btnAddMascotas">
               + Agregar Mascota
             </button>
           </div>
         </div>
       </div>
 
-      <table class="table table-striped table-hover">
+      <table class="table table-striped table-hover" id="tablaMascotas">
         <thead class="table-hover">
           <tr>
             <th>Id</th>
@@ -62,7 +63,7 @@
               <img src="{{ Mascotas.foto }}" class="foto_mascota" />
             </td>
             <td>
-              <button class="btn btn-green" (click)="verMascota(Mascotas)">
+              <button class="btn btn-green detalleMascota" (click)="verMascota(Mascotas)">
                 Ver
               </button>
             </td>
