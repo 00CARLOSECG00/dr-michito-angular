@@ -9,6 +9,7 @@ import { Veterinario } from '../Model/veterinario';
 import { BarraLateralComponent } from '../componentes/barra-lateral/barra-lateral.component';
 import { Router } from '@angular/router';
 import { ClienteService } from '../Services/cliente.service';
+import { PdfService } from '../Services/pdf.service';
 
 @Component({
   selector: 'app-detalle-tratamiento',
@@ -28,9 +29,22 @@ export class DetalleTratamientoComponent implements OnInit {
     private route: ActivatedRoute,  // Para acceder a los parámetros de la URL
     private tratamientoService: TratamientoService,  // Servicio para cargar el tratamiento
     private router: Router,  // Para navegar entre rutas
-    private clienteService: ClienteService  // Servicio para obtener información del cliente
+    private clienteService: ClienteService,  // Servicio para obtener información del cliente
+    private pdfService: PdfService
   ) {}
 
+  async descargarPDF() {
+    try {
+      await this.pdfService.generarPDF(
+        'historia-clinica-content', // Asegúrate de añadir este id al div principal del contenido
+        `Historia_Clinica_${this.tratamiento?.id}.pdf`
+      );
+    } catch (error) {
+      console.error('Error al descargar PDF:', error);
+      // Aquí puedes añadir un mensaje de error para el usuario
+    }
+  }
+  
   ngOnInit(): void {
     const tratamientoId = Number(this.route.snapshot.queryParams['id']); 
     if (tratamientoId) {

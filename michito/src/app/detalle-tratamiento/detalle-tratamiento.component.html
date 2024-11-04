@@ -1,76 +1,139 @@
+<!-- HTML -->
 <app-barra-lateral></app-barra-lateral>
-<div class="contenedor-principal">
-  <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-    <div class="btn-toolbar mb-2 mb-md-0">
-      <div class="btn-group mr-2">
-        <button class="btn btn-primary" (click)="volver()">Volver</button>
+<div id="historia-clinica-content" class="contenedor-principal">
+  <div class="header-principal border-green">
+    <div class="d-flex justify-content-between align-items-center">
+      <button class="btn btn-success btn-volver" (click)="volver()">
+        <i class="fas fa-arrow-left"></i> Volver
+      </button>
+      <div class="d-flex align-items-center gap-3">
+        <button class="btn btn-pdf" (click)="descargarPDF()">
+          <i class="fas fa-file-pdf me-2"></i>
+          Descargar PDF
+        </button>
+        <div class="numero-registro">ID: {{tratamiento.id}}</div>
+      </div>
+    </div>
+    
+    <div class="header-content mt-4">
+      <div class="header-logo-title">
+        <img src="/images/iconos/Logo_principal_dr.michito_blanco.png" alt="Dr. Michito Logo" class="header-logo">
+        <h2 class="header-brand-title">Dr. Michito</h2>
+      </div>
+      <h1 class="titulo-principal">DETALLES DEL TRATAMIENTO</h1>
+      <div class="spacer"></div> <!-- Este div ayuda a centrar el título -->
+    </div>
+  
+    <p class="fecha">Fecha: {{tratamiento.fecha}}</p>
+  </div>
+
+  <div class="contenido-historia">
+    <div class="seccion-izquierda">
+      <div class="seccion-mascota">
+        <h2 class="seccion-titulo">Información de la Mascota</h2>
+        <div class="foto-mascota">
+          <img [src]="mascota?.foto" alt="Foto de la mascota" class="img-fluid rounded">
+        </div>
+        <div class="datos-mascota">
+          <div class="dato">
+            <label>Nombre:</label>
+            <span>{{mascota.nombre}}</span>
+          </div>
+          <div class="dato">
+            <label>Edad:</label>
+            <span>{{mascota.edad}} años</span>
+          </div>
+          <div class="dato">
+            <label>Peso:</label>
+            <span>{{mascota.peso}} kg</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="seccion-propietario">
+        <h2 class="seccion-titulo">Información del Propietario</h2>
+        <div class="datos-propietario">
+          <div class="dato">
+            <label>Nombre:</label>
+            <span>{{cliente.nombre}}</span>
+          </div>
+          <div class="dato">
+            <label>Email:</label>
+            <span>{{cliente.correo}}</span>
+          </div>
+          <div class="dato">
+            <label>Teléfono:</label>
+            <span>{{cliente.celular}}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="seccion-derecha">
+      <div class="seccion-tratamiento">
+        <h2 class="seccion-titulo">Tratamiento Actual</h2>
+        <div class="descripcion-tratamiento">
+          {{tratamiento?.descripcion}}
+        </div>
+      </div>
+
+      <div class="seccion-veterinario">
+        <h2 class="seccion-titulo">Médico Veterinario Tratante</h2>
+        <div class="datos-veterinario">
+          <div class="dato">
+            <label>Nombre:</label>
+            <span>{{veterinario.nombre}}</span>
+          </div>
+          <div class="dato">
+            <label>Especialidad:</label>
+            <span>{{veterinario.especialidad}}</span>
+          </div>
+          <div class="dato">
+            <label>Email:</label>
+            <span>{{veterinario.correo}}</span>
+          </div>
+          <div class="dato">
+            <label>Teléfono:</label>
+            <span>{{veterinario.celular}}</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="seccion-medicamentos">
+        <h2 class="seccion-titulo">Medicamentos Prescritos</h2>
+        <div class="table-responsive">
+          <table class="table table-hover">
+            <thead class="table-light">
+              <tr>
+                <th>Medicamento</th>
+                <th class="text-end">Precio</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let medicamento of tratamiento?.medicamentos">
+                <td>{{medicamento.nombre}}</td>
+                <td class="text-end">${{formatearPrecio(medicamento.precioVenta)}}</td>
+              </tr>
+              <tr class="table-active fw-bold">
+                <td>Total</td>
+                <td class="text-end">${{formatearPrecio(totalMedicamentos)}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   </div>
 
-  <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4 contenido-principal">
-    <div class="row row-cols-1 row-cols-md-2 g-4">
-
-      <!-- Tarjeta de Detalles del Tratamiento -->
-      <div class="col">
-        <div class="card detalles-tratamiento-card">
-          <div class="card-header">
-            <h2 class="text-center">Detalles del Tratamiento</h2>
-          </div>
-          <div class="card-body">
-            <p><strong>Fecha:</strong> {{ tratamiento?.fecha }}</p>
-            <p><strong>Descripción:</strong> {{ tratamiento?.descripcion }}</p>
-          </div>
-        </div>
-      </div>
-
-      <!-- Tarjeta de Detalles de la Mascota -->
-      <div class="col">
-        <div class="card detalles-mascota-card">
-          <div class="card-header">
-            <h2 class="text-center">Detalles de la Mascota</h2>
-          </div>
-          <div class="card-body">
-            <p><strong>Nombre:</strong> {{ mascota?.nombre }}</p>
-            <p><strong>Edad:</strong> {{ mascota?.edad }} años</p>
-            <p><strong>Peso:</strong> {{ mascota?.peso }} kg</p>
-          </div>
-        </div>
-      </div>
-
-      <!-- Tarjeta de Detalles del Cliente -->
-      <div class="col">
-        <div class="card detalles-cliente-card">
-          <div class="card-header">
-            <h2 class="text-center">Detalles del Cliente</h2>
-          </div>
-          <div class="card-body">
-            <p><strong>Nombre:</strong> {{ cliente?.nombre }}</p>
-            <p><strong>Email:</strong> {{ cliente?.correo }}</p>
-            <p><strong>Teléfono:</strong> {{ cliente?.celular }}</p>
-          </div>
-        </div>
-      </div>
-
-      <!-- Tarjeta de Medicamentos Usados -->
-<div class="col">
-  <div class="card detalles-medicamentos-card">
-    <div class="card-header">
-      <h2 class="text-center">Medicamentos Usados</h2>
+  <div class="area-firmas">
+    <div class="firma">
+      <div class="linea-firma"></div>
+      <p>Firma del Veterinario</p>
+      <p>Ced. Prof.: __________________</p>
     </div>
-    <div class="card-body">
-      <ul>
-        <li *ngFor="let medicamento of tratamiento?.medicamentos">
-          {{ medicamento.nombre }}..................   $ {{ formatearPrecio(medicamento.precioVenta) }}
-        </li>
-      </ul>
-      <!-- Mostrar el total de medicamentos -->
-      <p><strong>Total de Medicamentos:</strong> $ {{ formatearPrecio(totalMedicamentos) }}</p>
+    <div class="firma">
+      <div class="linea-firma"></div>
+      <p>Firma del Propietario</p>
     </div>
   </div>
-</div>
-
-
-    </div>
-  </main>
 </div>

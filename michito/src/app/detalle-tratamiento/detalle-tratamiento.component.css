@@ -1,68 +1,235 @@
-/* General */
+/* CSS */
 .contenedor-principal {
   margin-left: 250px;
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
-  position: relative;
-  height: auto;
   min-height: 100vh;
   background-color: #f8f9fa;
 }
 
-.card {
+.header-principal {
+  background-color: var(--color-barra-lateral);
+  padding: 30px;
+  margin-bottom: 30px;
+  color: white;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border: 3px solid #9dff70; 
+  
+}
+
+.header-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+  margin-bottom: 15px;
+}
+
+.header-logo-title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 200px; /* Asegura espacio consistente */
+}
+
+.header-logo {
+  width: 150px;
+  height:150px;
+  }
+
+.header-brand-title {
+  font-family: 'Roboto Serif', serif;
+  color: #ffff;
+  font-size: 24px;
+  font-weight: 600;
+  margin: 0;
+}
+
+.titulo-principal {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 28px;
+  margin: 0;
+  font-weight: 600;
+}
+
+.spacer {
+  min-width: 200px; /* Mismo ancho que header-logo-title para balance */
+}
+
+.fecha {
+  text-align: center;
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 16px;
+  margin-top: 10px;
+}
+
+
+.btn-pdf {
+  background-color: white !important;
+  color: #46315f !important;
+  border: 2px solid #9dff70 !important;
+  font-weight: 600 !important;
+  padding: 8px 20px !important;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+}
+
+.btn-pdf:hover {
+  background-color: #9dff70 !important;
+  color: #46315f !important;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.btn-pdf i {
+  font-size: 1.2rem;
+}
+
+.titulo-principal {
+  font-size: 28px;
+  margin-bottom: 10px;
+  font-weight: 600;
+}
+
+.fecha {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 16px;
+}
+
+.btn-volver {
+  background-color: #9dff70 !important;
+  border-color: #9dff70 !important;
+  color: var(--color-barra-lateral) !important;
+  font-weight: 600 !important;
+  padding: 8px 20px !important;
+  transition: all 0.3s ease;
+}
+
+.btn-volver:hover {
+  background-color: #8eeb62 !important;
+  transform: translateX(-5px);
+}
+
+.numero-registro {
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.contenido-historia {
+  display: flex;
+  gap: 30px;
+  padding: 0 30px;
+}
+
+.seccion-izquierda, .seccion-derecha {
+  flex: 1;
+}
+
+.seccion-mascota, .seccion-propietario, .seccion-tratamiento, 
+.seccion-veterinario, .seccion-medicamentos {
+  background-color: white;
   border-radius: 10px;
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
-  margin-bottom: 20px;
+  margin-bottom: 30px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
   overflow: hidden;
 }
 
-/* Cuadrícula */
-.row {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-}
-
-.col {
-  flex: 0 0 calc(50% - 10px);
-  margin-bottom: 20px;
-}
-
-/* Estilo de la cabecera de cada tarjeta (similar a tu ejemplo anterior) */
-.card-header {
-  background-image: url("../../../public/images/fondos/fondoDetallesMascota.png");
-  background-size: cover;
-  background-position: center;
-  height: 100px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+.seccion-titulo {
+  background-color: var(--color-barra-lateral);
   color: white;
+  margin: 0;
+  padding: 15px 20px;
+  font-size: 18px;
+  font-weight: 500;
+  border-bottom: 3px solid #9dff70;
 }
 
-.card-header h2 {
-  font-family: 'Jomhuria', serif;
-  font-size: 30px;
-  letter-spacing: 2px;
-  color: #fff;
-}
-
-/* Estilo del cuerpo de las tarjetas */
-.card-body {
+.foto-mascota {
+  text-align: center;
   padding: 20px;
 }
 
-.btn {
-  background-color: #C2F970;
-  border-color: #C2F970;
-  color: #44344F;
-  font-weight: 600;
-  padding: 10px 20px;
-  margin-top: 20px;
-  transition: background-color 0.3s ease;
+.foto-mascota img {
+  width: 180px;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.btn:hover {
-  background-color: #b2e860;
+.datos-mascota, .datos-propietario, .datos-veterinario, .descripcion-tratamiento {
+  padding: 20px;
+}
+
+.dato {
+  display: flex;
+  margin-bottom: 12px;
+  align-items: center;
+}
+
+.dato label {
+  width: 120px;
+  color: var(--color-barra-lateral);
+  font-weight: 500;
+  margin-bottom: 0;
+}
+
+.dato span {
+  flex: 1;
+  color: #333;
+}
+
+.descripcion-tratamiento {
+  white-space: pre-line;
+  line-height: 1.6;
+  color: #333;
+}
+
+.table {
+  margin-bottom: 0;
+}
+
+.table th {
+  background-color: #f8f9fa;
+  color: var(--color-barra-lateral);
+  font-weight: 600;
+}
+
+.area-firmas {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 60px;
+  padding: 40px 30px;
+  background-color: white;
+  border-top: 1px solid #e0e0e0;
+}
+
+.firma {
+  text-align: center;
+  width: 200px;
+}
+
+.linea-firma {
+  width: 100%;
+  border-top: 2px solid var(--color-barra-lateral);
+  margin-bottom: 10px;
+}
+
+.firma p {
+  margin: 5px 0;
+  color: var(--color-barra-lateral);
+  font-size: 14px;
+}
+
+/* Responsive */
+@media (max-width: 1200px) {
+  .contenido-historia {
+    flex-direction: column;
+  }
+  
+  .seccion-izquierda, .seccion-derecha {
+    width: 100%;
+  }
 }
