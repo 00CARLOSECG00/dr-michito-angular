@@ -48,8 +48,8 @@
               <td>{{ tratamiento.id }}</td>
               <td class="tratamientoDescripcion">{{ tratamiento.descripcion }}</td>
               <td>{{ tratamiento.fecha | date: 'dd/MM/yyyy' }}</td>
-              <td>{{ tratamiento.mascota?.nombre }}</td> 
-              <td>{{ tratamiento.veterinario?.nombre }}</td> 
+              <td>{{ tratamiento.mascota.nombre }}</td> 
+              <td>{{ tratamiento.veterinario.nombre }}</td> 
               <td>
                 <button class="btn btn-green" (click)="verTratamiento(tratamiento)">
                   Ver
