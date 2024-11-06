@@ -6,6 +6,7 @@ import { Cliente } from '../Model/cliente';
 import { catchError, map } from 'rxjs/operators';
 import { Veterinario } from '../Model/veterinario';
 import { Login } from '../Model/login';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
@@ -16,7 +17,7 @@ export class AuthService {
   private VETERINARIO_ID_KEY = 'veterinarioId';
   private TOKEN_KEY = 'authToken';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private router: Router) {}
 
   // Método para login de clientes basado en cédula
   login(cedula: string): Observable<boolean> {
@@ -78,7 +79,36 @@ export class AuthService {
     return of({ authenticated: false });
   }
 
-  
+  redirectBasedOnRole(): Observable<boolean> {
+    const token = localStorage.getItem(this.TOKEN_KEY);
+
+    if (token) {
+      const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+      
+      return this.http.get<Veterinario>(`http://localhost:8080/Veterinarios/detalles`, { headers }).pipe(
+        switchMap((veterinario: Veterinario) => {
+          // Guardar detalles del veterinario en el localStorage si es necesario
+          if (veterinario.especialidad === 'admin') {
+            localStorage.setItem(this.USER_TYPE_KEY, 'admin');
+            this.router.navigate(['/Mascotas']); // Redirigir a la página de administrador
+          } else {
+            localStorage.setItem(this.USER_TYPE_KEY, 'veterinario');
+            this.router.navigate(['/Mascotas']); // Redirigir a la página de veterinario
+          }
+
+          localStorage.setItem(this.VETERINARIO_ID_KEY, veterinario.id.toString());
+          return of(true);
+        }),
+        catchError((error) => {
+          console.error('Error al redirigir según el rol', error);
+          return of(false);
+        })
+      );
+    } else {
+      return of(false);
+    }
+  }
+
   // Obtener el tipo de usuario (admin, cliente, veterinario, etc.)
   getUserType(): string | null {
     return localStorage.getItem(this.USER_TYPE_KEY);

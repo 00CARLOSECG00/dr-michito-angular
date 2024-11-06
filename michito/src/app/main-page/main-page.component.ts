@@ -6,6 +6,7 @@ import{MainNosotrosComponent}from'../componentes/main-nosotros/main-nosotros.com
 import{MainTestimoniosComponent}from'../componentes/main-testimonios/main-testimonios.component'
 import{MainContactoComponent}from'../componentes/main-contacto/main-contacto.component'
 import{MainFooterComponent}from'../componentes/main-footer/main-footer.component'
+import { AuthService } from '../Services/auth.service';
 @Component({
   selector: 'app-main-page',
   standalone: true,
@@ -15,4 +16,10 @@ import{MainFooterComponent}from'../componentes/main-footer/main-footer.component
 })
 export class MainPageComponent {
 
+  constructor(private authService: AuthService) {}
+
+  ngOnInit(): void {
+    this.authService.redirectBasedOnRole().subscribe();
+  }
+  
 }
