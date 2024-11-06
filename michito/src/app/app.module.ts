@@ -1,19 +1,20 @@
 import { BrowserModule } from "@angular/platform-browser";
-import { NgModule} from "@angular/core";
+import { NgModule } from "@angular/core";
 import { AppComponent } from "./app.component";
 import { AppRoutingModule } from './app-routing.module';
-import { HttpClientModule } from "@angular/common/http";
+import { HttpClientModule, HTTP_INTERCEPTORS, provideHttpClient, withInterceptors } from "@angular/common/http";
 import { NgxPaginationModule } from "ngx-pagination";
 import { NgxChartsModule } from "@swimlane/ngx-charts";
-import { BrowserAnimationsModule, NoopAnimationsModule } from "@angular/platform-browser/animations";
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { MatDialogModule } from "@angular/material/dialog";
+import { authInterceptor } from "./helpers/auth.interceptor";
 
 
 @NgModule({
-    declarations:[
+    declarations: [
         AppComponent
     ],
-    imports:[
+    imports: [
         BrowserModule,
         AppRoutingModule,
         HttpClientModule, 
@@ -22,7 +23,9 @@ import { MatDialogModule } from "@angular/material/dialog";
         BrowserAnimationsModule,
         MatDialogModule
     ],
-    providers:[],
-    bootstrap:[AppComponent]
+    providers: [
+        provideHttpClient(withInterceptors([authInterceptor]))
+    ],
+    bootstrap: [AppComponent]
 })
-export class AppModule{}
+export class AppModule {}

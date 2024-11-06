@@ -17,6 +17,7 @@ export class BarraLateralComponent implements OnInit {
   //debemos saber que usuario es para darle acceso a ciertos botones
   constructor(
     private router: Router,
+    private authService: AuthService,
     @Inject(PLATFORM_ID) private platformId: Object
   ) {}
 
@@ -35,6 +36,7 @@ export class BarraLateralComponent implements OnInit {
   }
   //salir del portal 
   unLogin() {
+    this.authService.logout();
     this.router.navigate(['/']); // Cambia a la ruta deseada
   }
 }
