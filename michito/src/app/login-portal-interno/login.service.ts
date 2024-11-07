@@ -12,8 +12,8 @@ export class LoginService {
 
   constructor(private http: HttpClient) { }
 
-  comprobarUsuario(username: string): Observable<Login> {
-    return this.http.get<Login>(`${this.baseUrl}/${username}`);
+  comprobarUsuario(token: string): Observable<String> {
+    return this.http.get<String>(`${this.baseUrl}`);
   }
   
-}
+} 

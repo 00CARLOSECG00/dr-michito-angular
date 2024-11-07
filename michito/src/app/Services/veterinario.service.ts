@@ -106,6 +106,10 @@ export class VeterinarioService {
       })
     );
   }
+
+  veterinarioDetails():Observable<Veterinario>{
+    return this.http.get<Veterinario>(`${this.ROOT_URL}/details`);
+  }
 }
 
 

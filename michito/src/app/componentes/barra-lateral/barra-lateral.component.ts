@@ -37,6 +37,6 @@ export class BarraLateralComponent implements OnInit {
   //salir del portal 
   unLogin() {
     this.authService.logout();
-    this.router.navigate(['/']); // Cambia a la ruta deseada
+    this.router.navigate(['/']);
   }
 }
