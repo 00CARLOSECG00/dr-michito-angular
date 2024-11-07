@@ -85,7 +85,7 @@ export class AuthService {
     if (token) {
       const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
       
-      return this.http.get<Veterinario>(`http://localhost:8080/Veterinarios/detalles`, { headers }).pipe(
+      return this.http.get<Veterinario>(`http://localhost:8080/Veterinarios/all`, { headers }).pipe(
         switchMap((veterinario: Veterinario) => {
           // Guardar detalles del veterinario en el localStorage si es necesario
           if (veterinario.especialidad === 'admin') {
