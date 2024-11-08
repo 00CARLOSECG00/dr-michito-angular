@@ -5,11 +5,12 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { BarraLateralComponent } from '../componentes/barra-lateral/barra-lateral.component';
 import { Router } from '@angular/router';
+import { PasswordModule } from 'primeng/password';
 
 @Component({
   selector: 'app-create-veterinario',
   standalone: true,
-  imports: [FormsModule, CommonModule, BarraLateralComponent],
+  imports: [FormsModule, CommonModule, BarraLateralComponent,PasswordModule],
   templateUrl: './create-veterinario.component.html',
   styleUrls: ['./create-veterinario.component.css']
 })

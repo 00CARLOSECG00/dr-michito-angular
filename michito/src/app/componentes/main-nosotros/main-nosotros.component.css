@@ -1,90 +1,113 @@
+/**************** Sobre nosotros y nuestro equipo *******************/
+#nosotros {
+  background-color: #B49FCC;
+  padding: 20px 10px;
+  text-align: center;
+}
 
+#nosotros h2 {
+  color: #44344F;
+  font-family: 'Jomhuria', serif;
+  font-size: 90px;
+  margin: 0;
+}
 
- 
- /****************Sobre nosotros y nuestro equipo *******************/
- #nosotros {
-    background-color: #B49FCC;
-    padding: 20px 10px; /* Reducir el padding */
-    text-align: center;
-  }
-  #nosotros h2 {
-    color: #44344F;
-    font-family: Jomhuria, serif;
-    font-size: 90px; /* Reducir el tamaño de la fuente */
-    margin-bottom: 0px;
-    margin-top: 0px;
-  }
-  #nosotros p {
-    color: #44344F;
-    font-size: 16px; /* Reducir el tamaño de la fuente */
-    line-height: 1.5;
-    max-width: 1150px; 
-    margin: 0 auto;
-    margin-bottom: 5px;
-  }
-  #equipo {
-    background-color: #B49FCC;
-    padding: 20px 10px; /* Reducir el padding */
-    text-align: center;
-  }
-  #equipo h2 {
-    color: #44344F;
-    font-family: Jomhuria, serif;
-    font-size: 70px; /* Reducir el tamaño de la fuente */
-    margin-bottom: 5px; /* Reducir el margen */
-    margin-top: 5px;
-  }
-  .carousel-container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    width: 80%;
-    margin: auto;
-  }
-  
-  .carousel-track-container {
-    overflow: hidden;
-    width: 80%;
-  }
-  
-  .team-carousel {
-    display: flex;
-    transition: transform 0.3s ease-in-out;
-  }
-  
-  .team-member {
-    min-width: calc(100% / 3);
-    box-sizing: border-box;
-    text-align: center;
-    padding: 20px;
-  }
-  
-  img {
-    width: 100px;
-    height: 100px;
-    border-radius: 50%;
-  }
-  
-  button {
-    background-color: transparent;
-    border: none;
-    font-size: 2rem;
-    cursor: pointer;
-    user-select: none;
-  }
-  
-  .prev-btn, .next-btn {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-  }
-  
-  .prev-btn {
-    left: 0;
-  }
-  
-  .next-btn {
-    right: 0;
-  }
-  
+#nosotros p {
+  color: #44344F;
+  font-size: 16px;
+  line-height: 1.5;
+  max-width: 1150px;
+  margin: 0 auto 5px;
+}
+
+#equipo {
+
+  background-color: #B49FCC;
+  padding: 20px 10px;
+  text-align: center;
+}
+
+#equipo h2 {
+  color: #44344F;
+  font-family: 'Jomhuria', serif;
+  font-size: 70px;
+  margin: 5px 0;
+}
+
+/* Tarjetas de miembro del equipo (sin ajustes de tamaño específicos) */
+.team-member {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background-color: #E8D4F0;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  border-radius: 12px;
+  transition: transform 0.3s ease;
+}
+
+.team-member:hover {
+  transform: translateY(-10px);
+}
+
+.team-member img {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  margin-bottom: 1rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.team-member h3 {
+  font-size: 1.5rem;
+  color: #44344F;
+  margin: 0.5rem 0;
+  text-align: center;
+}
+
+.team-member p {
+  font-size: 1rem;
+  color: #44344F;
+  margin: 0.3rem 0;
+  text-align: center;
+}
+
+/* Ocultar los indicadores cuadrados y mantener los circulares */
+.p-carousel-indicators-square {
+  display: none !important;
+}
+
+/* Botones de navegación del carrusel: solo el símbolo < y > */
+.p-carousel-prev, .p-carousel-next {
+  font-size: 2.5rem;
+  color: #44344F;
+  background: none;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 1;
+}
+
+.p-carousel-prev:hover, .p-carousel-next:hover {
+  color: #7A5A90;
+}
+
+.p-carousel-prev {
+  left: 10px; /* Ajuste para mantener el símbolo cerca del borde */
+}
+
+.p-carousel-next {
+  right: 10px; /* Ajuste para mantener el símbolo cerca del borde */
+}
+
+/* Contenedor de contenido del carrusel */
+.p-carousel .p-carousel-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+}
