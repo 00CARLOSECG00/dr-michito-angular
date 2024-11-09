@@ -60,3 +60,50 @@ header {
     color: #fff;
     border: none;
   }
+
+
+  /* Añade esto a tu CSS existente */
+header {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background-color: #fff;
+  transition: all 0.3s ease;
+}
+
+/* Optimización para animaciones */
+.aos-animate {
+  will-change: transform, opacity;
+}
+
+/* Asegura scroll suave */
+html, body {
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+}
+
+/* Efecto hover para los botones */
+.auth-buttons a {
+  transition: all 0.3s ease;
+}
+
+.auth-buttons a:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+/* Optimizaciones de rendimiento */
+.aos-animate {
+  will-change: transform, opacity;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+/* Asegura que el contenedor tenga un contexto de apilamiento */
+header {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  transform: translateZ(0);
+  will-change: transform;
+  backface-visibility: hidden;
+}

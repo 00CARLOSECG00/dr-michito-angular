@@ -95,3 +95,45 @@
     justify-content: center;
     align-items: center;
   }
+
+  /* Añade esto a tu archivo CSS */
+.tarjeta {
+  transition: transform 0.3s ease-in-out;
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+}
+
+.tarjeta:hover {
+  transform: translateY(-5px);
+}
+
+/* Optimizaciones para animaciones suaves */
+#servicios {
+  overflow: hidden;
+  transform: translateZ(0);
+}
+
+.filaServ {
+  will-change: transform, opacity;
+}
+
+/* Asegura que las imágenes no causen saltos durante la carga */
+.ServiciosImg {
+  opacity: 0;
+  animation: fadeIn 0.5s ease-in forwards;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Mejora la visibilidad del texto durante las animaciones */
+.tarjeta h3 {
+  position: relative;
+  z-index: 1;
+}
