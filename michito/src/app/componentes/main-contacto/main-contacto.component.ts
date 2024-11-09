@@ -49,7 +49,6 @@ export class MainContactoComponent {
   }
 
   openDialog(message: string): void {
-    // Abre el diálogo con el mensaje proporcionado
     this.dialog.open(DialogComponent, {
       width: '600px',
       data: { message: message }

@@ -10,6 +10,8 @@ import { BarraLateralComponent } from '../componentes/barra-lateral/barra-latera
 import { Router } from '@angular/router';
 import { ClienteService } from '../Services/cliente.service';
 import { PdfService } from '../Services/pdf.service';
+import { EmailRequestWithFile } from '../Model/email-request-with-file';
+import { MailService } from '../Services/mail.service';
 
 @Component({
   selector: 'app-detalle-tratamiento',
@@ -30,7 +32,8 @@ export class DetalleTratamientoComponent implements OnInit {
     private tratamientoService: TratamientoService,  // Servicio para cargar el tratamiento
     private router: Router,  // Para navegar entre rutas
     private clienteService: ClienteService,  // Servicio para obtener información del cliente
-    private pdfService: PdfService
+    private pdfService: PdfService,
+    private mailService: MailService
   ) {}
 
   async descargarPDF() {
@@ -41,7 +44,46 @@ export class DetalleTratamientoComponent implements OnInit {
       );
     } catch (error) {
       console.error('Error al descargar PDF:', error);
-      // Aquí puedes añadir un mensaje de error para el usuario
+      // Aquí puedes añadir un mensaje de error   qpara el usuario
+    }
+  }
+
+  async enviarCorreo() {
+    try {
+      const pdfBlob = await this.pdfService.generarPDFComoBlob('historia-clinica-content');
+      if (!pdfBlob) {
+        alert("Error al generar el PDF.");
+        return;
+      }
+
+      const pdfFile = new File([pdfBlob], `Tratamiento_${this.tratamiento.id}.pdf`, { type: 'application/pdf' });
+
+      // Crear el objeto EmailRequestWithFile
+      const emailRequest: EmailRequestWithFile = {
+        asunto: `Detalles del Tratamiento para ${this.mascota.nombre}`,
+        nombreVeterinario: this.veterinario.nombre,
+        nombreMascota: this.mascota.nombre,
+        emailCliente: this.cliente.correo,
+        fechaTratamiento: this.tratamiento.fecha.toString(),
+        body: "Aquí está el reporte del tratamiento de tu mascota.",
+        file: pdfFile
+      };
+
+      const formData = new FormData();
+      formData.append("asunto", emailRequest.asunto);
+      formData.append("nombreVeterinario", emailRequest.nombreVeterinario);
+      formData.append("nombreMascota", emailRequest.nombreMascota);
+      formData.append("emailCliente", emailRequest.emailCliente);
+      formData.append("fechaTratamiento", emailRequest.fechaTratamiento);
+      formData.append("body", emailRequest.body);
+      formData.append("file", emailRequest.file);
+
+      this.mailService.sendEmailWithAttachment(formData).subscribe({
+        next: () => alert("Correo enviado exitosamente."),
+        error: (error) => console.error("Error al enviar el correo:", error)
+      });
+    } catch (error) {
+      console.error("Error al generar y enviar el PDF:", error);
     }
   }
   
