@@ -1,126 +1,93 @@
 <app-barra-lateral></app-barra-lateral>
 
 <div class="contenedor-principal">
-  <main
-    role="main"
-    class="col-md-9 ml-sm-auto col-lg-10 px-4 contenido-principal"
-  >
-    <div
-      class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom"
-    >
-      <!-- Título de Dashboard -->
-      <h1>Dashboard</h1>
-    </div>
-    <!-- Título de la sección de datos relevantes -->
-    <h2>Datos relevantes</h2>
+  <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4 contenido-principal">
+    <h2>Dashboard</h2>
 
-    <!-- Sección para las cards pequeñas -->
+    <!-- Sección de tarjetas -->
     <div class="cards-container">
-      <ngx-charts-number-card
-        [view]="[220, 200]"
-        [results]="totalMascotas"
-        [scheme]="colorScheme"
-        [cardColor]="'#232837'"
-        [textColor]="'#000000'"
-        [emptyColor]="'#444444'"
-        [animations]="true"
-        class="small-card"
-      ></ngx-charts-number-card>
+      <div class="card" style="border-color: #42A5F5">
+        <div class="card-content">
+          <h2>{{ totalMascotas?.datasets[0]?.data[0] || 0 }}</h2>
+          <span>Total Mascotas</span>
+        </div>
+        <div class="icon"><i class="pi pi-paw"></i></div>
+      </div>
 
-      <ngx-charts-number-card
-        [view]="[220, 200]"
-        [results]="mascotasActivas"
-        [scheme]="colorScheme"
-        [cardColor]="'#232837'"
-        [textColor]="'#000000'"
-        [emptyColor]="'#444444'"
-        [animations]="true"
-        class="small-card"
-      ></ngx-charts-number-card>
+      <div class="card" style="border-color: #FFA726">
+        <div class="card-content">
+          <h2>{{ mascotasActivas?.datasets[0]?.data[0] || 0 }}</h2>
+          <span>Mascotas Activas</span>
+        </div>
+        <div class="icon"><i class="pi pi-heart"></i></div>
+      </div>
 
-      <ngx-charts-number-card
-        [view]="[220, 200]"
-        [results]="tratamientosTotales"
-        [scheme]="colorScheme"
-        [cardColor]="'#232837'"
-        [textColor]="'#000000'"
-        [emptyColor]="'#444444'"
-        [animations]="true"
-        class="small-card"
-      ></ngx-charts-number-card>
+      <div class="card" style="border-color: #7E57C2">
+        <div class="card-content">
+          <h2>{{ ventasTotales?.datasets[0]?.data[0] || 0 }}</h2>
+          <span>Ventas Totales</span>
+        </div>
+        <div class="icon"><i class="pi pi-shopping-cart"></i></div>
+      </div>
+
+      <div class="card" style="border-color: #FF7043">
+        <div class="card-content">
+          <h2>{{ gananciasTotales?.datasets[0]?.data[0] | currency }}</h2>
+          <span>Ganancias Totales</span>
+        </div>
+        <div class="icon"><i class="pi pi-dollar"></i></div>
+      </div>
     </div>
 
-    <div class="cards-container">
-      
-      <ngx-charts-number-card
-        [view]="[220, 200]"
-        [results]="ventasTotales"
-        [scheme]="colorScheme"
-        [cardColor]="'#232837'"
-        [textColor]="'#000000'"
-        [emptyColor]="'#444444'"
-        [animations]="true"
-        class="small-card"
-      ></ngx-charts-number-card>
-
-      <ngx-charts-number-card
-      [view]="[220, 200]"
-      [results]="gananciasTotales"
-      [scheme]="colorScheme"
-      [cardColor]="'#232837'"
-      [textColor]="'#000000'"
-      [emptyColor]="'#444444'"
-      [animations]="true"
-      class="small-card"
-    ></ngx-charts-number-card>
-
-    <p id="gananciasTotalesValor" class="hidden-text">{{ gananciasTotales[0].value }}</p>
-
-    </div>
-
-    <!-- Separador para darle espacio entre las cards y las gráficas grandes -->
-    <div style="margin-top: 50px"></div>
-
-    <!-- Gráficas -->
-    <div class="graficas-container">
-      <div class="grafico">
+    <!-- Gráficas organizadas en cuadrícula 3x3 -->
+    <div class="graficas-grid">
+      <div class="grafico-caja veterinarios" style="grid-area: veterinarios;">
         <h3>Veterinarios Activos/Inactivos</h3>
-        <ngx-charts-pie-grid
-          [view]="[450, 300]"
-          [results]="veterinariosActivosInactivos"
-          [scheme]="colorScheme"
-          [animations]="false"
-          class="large-chart"
-        ></ngx-charts-pie-grid>
+        <div class="veterinarios-container">
+          <div *ngFor="let chartData of veterinariosActivosInactivos; let i = index" class="veterinario-chart">
+            <p-chart type="doughnut" [data]="chartData" [options]="chartOptions"></p-chart>
+            <div class="veterinario-info">
+              <div class="veterinario-percentage">
+                <span *ngIf="i === 0">{{ porcentajeActivos }}%</span>
+                <span *ngIf="i === 1">{{ porcentajeInactivos }}%</span>
+              </div>
+              <div class="veterinario-label">
+                <span *ngIf="i === 0">Activos</span>
+                <span *ngIf="i === 1">Inactivos</span>
+              </div>
+              <div class="veterinario-total">
+                Total: <span *ngIf="i === 0">{{ totalVeterinarios - (totalVeterinarios * (porcentajeInactivos / 100)) }}</span>
+                <span *ngIf="i === 1">{{ totalVeterinarios - (totalVeterinarios * (porcentajeActivos / 100)) }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
 
-      <div class="grafico">
+      <div class="grafico-caja medicamento" style="grid-area: medicamento;">
         <h3>Tratamientos por Medicamento</h3>
-        <ngx-charts-pie-chart
-          [view]="[450, 300]"
-          [results]="tratamientosPorMedicamento"
-          [legend]="false"
-          [scheme]="colorScheme"
-          [labels]="true"
-          [animations]="false"
-          class="large-chart"
-        ></ngx-charts-pie-chart>
+        <p-chart type="doughnut" [data]="tratamientosPorMedicamento"></p-chart>
       </div>
 
-      <div class="grafico">
+      <div class="grafico-caja top-medicamentos" style="grid-area: top3;">
         <h3>Top 3 Medicamentos</h3>
-        <ngx-charts-pie-chart
-          [view]="[450, 300]"
-          [results]="topTratamientos"
-          [legend]="false"
-          [scheme]="colorScheme"
-          [labels]="true"
-          [animations]="false"
-          class="small-card"
-      ></ngx-charts-pie-chart>
+        <div class="top-medicamentos">
+          <div *ngFor="let item of topTratamientos?.labels; let i = index" class="medicamento-card">
+            <div class="medicamento-rank">#{{ i + 1 }}</div>
+            <div class="medicamento-name">{{ item }}</div>
+          </div>
+        </div>
       </div>
 
+      <div class="grafico-caja linea" style="grid-area: lineas;">
+        <h3>Tratamientos por Mes</h3>
+        <p-chart type="line" [data]="tratamientosPorMes"></p-chart>
+      </div>
 
+      <div class="grafico-caja barras" style="grid-area: barras;">
+        <h3>Cantidad de Tratamientos por Veterinario</h3>
+        <p-chart type="bar" [data]="tratamientosPorVeterinario"></p-chart>
+      </div>
     </div>
   </main>
 </div>

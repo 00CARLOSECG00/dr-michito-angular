@@ -71,3 +71,233 @@ h3 {
     height: 0;
     color: white;
 }
+
+
+/*************************tarjetas del inici**************/
+.cards-container {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 20px; /* Añadir margen inferior */
+}
+
+.card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem;
+    border-radius: 8px;
+    width: 24%;
+    color: #fff;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.2s ease-in-out;
+}
+
+.card:hover {
+    transform: scale(1.05);
+}
+
+.card:nth-child(1) {
+    background-color: #42A5F5; /* Color azul para Total Mascotas */
+    border: 2px solid #1E88E5;
+}
+
+.card:nth-child(2) {
+    background-color: #FFA726; /* Color naranja para Mascotas Activas */
+    border: 2px solid #FB8C00;
+}
+
+.card:nth-child(3) {
+    background-color: #7E57C2; /* Color morado para Ventas Totales */
+    border: 2px solid #5E35B1;
+}
+
+.card:nth-child(4) {
+    background-color: #FF7043; /* Color rojo-anaranjado para Ganancias Totales */
+    border: 2px solid #D84315;
+}
+
+.card-content h2 {
+    font-size: 2rem;
+    margin: 0;
+    animation: countUp 2s ease-in-out forwards;
+    /* Para que cada número cuente hasta el valor real */
+}
+
+.card-content span {
+    font-size: 1rem;
+    color: #eee;
+}
+
+.icon {
+    font-size: 2.5rem;
+    opacity: 0.7;
+}
+
+/* Efecto de conteo */
+@keyframes countUp {
+    0% { content: "0"; }
+    100% { /* Número final se ajusta en JavaScript */ }
+}
+
+/**********************css del top 3***********/
+.top-medicamentos {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 20px;
+  }
+  
+  .medicamento-card {
+    display: flex;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #9C27B0; /* Color de fondo similar al de la imagen */
+    color: white;
+    border-radius: 20px;
+    font-family: 'Roboto', sans-serif;
+  }
+  
+  .medicamento-rank {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 40px;
+    height: 40px;
+    background-color: white;
+    color: #9C27B0;
+    border-radius: 50%;
+    font-weight: bold;
+    margin-right: 15px;
+  }
+  .medicamento-card:hover {
+    transform: scale(1.05); /* Aumenta el tamaño al 105% */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* Añade una sombra para destacar */
+}
+  
+  .medicamento-name {
+    font-size: 1.2rem;
+  }
+  /***********activos-inactivos vet***/
+  .veterinarios-container {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 20px;
+  }
+  
+  .veterinario-chart {
+    position: relative;
+    text-align: center;
+  }
+  
+  .veterinario-info {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #6a1b9a;
+    font-family: 'Roboto', sans-serif;
+    text-align: center;
+  }
+  
+  .veterinario-percentage {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #6a1b9a;
+  }
+  
+  .veterinario-label {
+    font-size: 1rem;
+    color: #6a1b9a;
+  }
+  
+  .veterinario-total {
+    font-size: 0.9rem;
+    color: #6a1b9a;
+    margin-top: 5px;
+  }
+  /**************/
+  .graficas-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* Tres columnas iguales */
+    grid-template-rows: repeat(3, auto); /* Tres filas automáticas */
+    gap: 20px;
+    grid-template-areas:
+        "veterinarios veterinarios medicamento"
+        "top3 lineas lineas"
+        "top3 barras barras";
+}
+
+.grafico-caja {
+    background-color: #ffffff; /* Fondo blanco */
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Asignación de áreas para cada gráfico */
+.veterinarios {
+    grid-area: veterinarios;
+}
+
+.medicamento {
+    grid-area: medicamento;
+}
+
+.top-medicamentos {
+    grid-area: top3;
+}
+
+.linea {
+    grid-area: lineas;
+}
+
+.barras {
+    grid-area: barras;
+}
+
+/* Estilos adicionales para los elementos */
+.veterinarios-container {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.veterinario-chart {
+    position: relative;
+    text-align: center;
+}
+
+.veterinario-info {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #6a1b9a;
+    font-family: 'Roboto', sans-serif;
+    text-align: center;
+}
+
+.veterinario-percentage {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #6a1b9a;
+}
+
+.veterinario-label {
+    font-size: 1rem;
+    color: #6a1b9a;
+}
+
+.veterinario-total {
+    font-size: 0.9rem;
+    color: #6a1b9a;
+    margin-top: 5px;
+}
