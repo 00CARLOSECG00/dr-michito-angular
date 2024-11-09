@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, NgZone, Renderer2, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -12,52 +12,70 @@ import { Veterinario } from '../Model/veterinario';
   imports: [CommonModule, FormsModule, HttpClientModule],
   templateUrl: './login-portal-interno.component.html',
   styleUrls: ['./login-portal-interno.component.css'],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class LoginPortalInternoComponent implements OnInit {
   mostrarError: boolean = false;
   mostrarInactivo: boolean = false;
+  captchaResolved: boolean = false; // Indica si el CAPTCHA está resuelto
   login = { username: '', password: '', tipo: '' };
 
   constructor(
     private router: Router,
-    private authService: AuthService
+    private authService: AuthService,
+    private zone: NgZone,
+    private renderer: Renderer2
   ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    // Carga el script de hCaptcha en el DOM
+    const script = this.renderer.createElement('script');
+    script.src = 'https://js.hcaptcha.com/1/api.js';
+    script.async = true;
+    script.defer = true;
+    this.renderer.appendChild(document.body, script);
+    
+    // Define el callback de hCaptcha
+    (window as any).onCaptchaResolved = this.onCaptchaResolved.bind(this);
+  }
+
+  // Callback cuando se resuelve el CAPTCHA
+  onCaptchaResolved(token: string): void {
+    console.log('Captcha Resolved:', token); // Opcional: Log para ver el token
+    this.zone.run(() => {
+      this.captchaResolved = true; // Marca el CAPTCHA como resuelto
+    });
+  }
 
   comprobar() {
     console.log('Botón de Iniciar Sesión presionado');
-    console.log('Usuario ingresado:', this.login.username);
-    console.log('Contraseña ingresada:', this.login.password);
-  
     this.authService
       .loginPortalInterno(this.login.username, this.login.password)
       .subscribe((result: { authenticated: boolean; veterinario?: Veterinario }) => {
         if (result.authenticated) {
-          // Login exitoso, redirigir según el tipo de usuario
           console.log('Login exitoso');
           this.mostrarInactivo = false;
           this.mostrarError = false;
           this.router.navigate(['/Mascotas']);
         } else if (result.veterinario && result.veterinario.estado === false) {
-          // Veterinario inactivo, mostrar mensaje de inactividad
           console.log('Veterinario inactivo');
           this.mostrarInactivo = true;
-          this.mostrarError = false;  // Asegurarse de que no se muestre el error general
+          this.mostrarError = false;
         } else {
-          // Login fallido por otras razones
           console.log('Login fallido');
           this.mostrarError = true;
-          this.mostrarInactivo = false;  // Asegurarse de que no se muestre el error de inactividad
+          this.mostrarInactivo = false;
         }
       });
   }
-  
-  
-  
-  
+
   onClick() {
-    // Al darle click se comprueben los datos del login
-    this.comprobar();
+    // Solo intenta el login si el CAPTCHA está resuelto
+    if (this.captchaResolved) {
+      this.comprobar();
+    } else {
+      console.log('Captcha no resuelto');
+      this.mostrarError = true;
+    }
   }
 }

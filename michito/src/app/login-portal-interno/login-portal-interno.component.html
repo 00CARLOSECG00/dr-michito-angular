@@ -1,51 +1,47 @@
 <div class="container">
   <div class="left-panel">
-    <img
-    src="images/iconos/Logo_principal_dr.michito_blanco.png"
-      alt="Logo"
-      class="LogoPrincipal"
-    />
+    <img src="images/iconos/Logo_principal_dr.michito_blanco.png" alt="Logo" class="LogoPrincipal" />
     <h2>Eres parte de la mejor familia, sigue con tu labor!</h2>
-    <img
-      src="/images/loginImage.png"
-      alt="Perro en Sofa"
-      class="large-image"
-    />
+    <img src="/images/loginImage.png" alt="Perro en Sofa" class="large-image" />
   </div>
   <div class="right-panel">
     <div class="top-right">
-      <a href="/"
-        ><img
-        src="images/iconos/arrow-circle-left-purple.png"
-          alt="Icono Atras"
-      /></a>
+      <a href="/">
+        <img src="images/iconos/arrow-circle-left-purple.png" alt="Icono Atras" />
+      </a>
     </div>
     <div class="main-content">
       <h1>Portal Interno</h1>
 
       <form #loginForm="ngForm">
         <label for="usuario">Usuario</label>
-        <input [(ngModel)]="login.username" name="username" id="usuario" type="text" required/>
-        
+        <input [(ngModel)]="login.username" name="username" id="usuario" type="text" required />
+
         <label for="contrasena">Contraseña</label>
-        <input [(ngModel)]="login.password" name="password" id="contrasena" type="password" required/>
-        
-        <!-- Mostrar el mensaje de error si 'mostrarError' es true -->
+        <input [(ngModel)]="login.password" name="password" id="contrasena" type="password" required />
+
+        <!-- Mensajes de error e inactividad -->
         <div *ngIf="mostrarError" class="alert alert-danger" id="ErrorLogin">
           <p>Error: El nombre de usuario o la contraseña son incorrectos.</p>
         </div>
-        
+
         <div *ngIf="mostrarInactivo" class="alert alert-warning">
           Su cuenta de veterinario está inactiva. Por favor, contacte con el administrador.
         </div>
-        
-        
-        <button id="btnLogin" type="button" (click)="onClick()">Iniciar Sesión</button>
 
-
+        <!-- hCaptcha widget -->
+        <div 
+          class="h-captcha" 
+          data-sitekey="7742c3fa-b836-41c4-9986-2de4052e5bd2" 
+          data-callback="onCaptchaResolved">
+        </div>
+        
+        <!-- Botón de Iniciar Sesión, deshabilitado hasta que se resuelva el captcha -->
+        <button id="btnLogin" type="button" [disabled]="!captchaResolved" (click)="onClick()">Iniciar Sesión</button>
       </form>
-      
-        
     </div>
   </div>
 </div>
+
+<!-- Script para cargar hCaptcha -->
+<script src="https://js.hcaptcha.com/1/api.js" async defer></script>
