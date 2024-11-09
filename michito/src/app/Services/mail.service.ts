@@ -23,4 +23,14 @@ export class MailService {
     );
   }
 
+    // Método para enviar correo con archivo adjunto usando FormData
+    sendEmailWithAttachment(formData: FormData): Observable<any> {
+      return this.http.post(this.apiUrl + '-with-attachment', formData).pipe(
+        catchError(error => {
+          console.error('Error al enviar el correo con adjunto', error);
+          throw error;
+        })
+      );
+    }
+
 }
