@@ -22,8 +22,8 @@
     justify-content: space-around;
     background-color: #44344f;
     border-radius: 20px;
-    width: 218px;
-    height: 230px;
+    width: 180px;
+    height: 210px;
     padding: 10px;
     margin: 10px;
   }
@@ -73,13 +73,15 @@
   .CambioSec {
     display: flex;
     justify-content: center;
+
   }
   
   hr {
-    margin-top: 240px;
+    margin-top: 100px;
     height: 5px;
     width: 90%;
     background-color: #44344F;
+    margin-bottom: 0px;
   }
   
   .filaServ {

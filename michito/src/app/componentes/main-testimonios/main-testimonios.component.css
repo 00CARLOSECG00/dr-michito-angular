@@ -1,10 +1,12 @@
 
 .testimonials {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 50px 80px 0px 80px;
-  }
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 10px 80px 0px 80px; /* Último valor en 0 para quitar padding inferior */
+  margin-bottom: 0; /* Asegura que no haya margen inferior */
+}
+
   
   .testimonials h2 {
     font-size: 100px;
@@ -12,6 +14,7 @@
     font-weight: 400;
     font-family: Jomhuria, serif;
     color: #c2f970;
+    margin-bottom: 0px;
   }
   
   .testimonials-container {
@@ -21,9 +24,10 @@
     gap: 20px;
     position: relative;
     z-index: 1;
-    height: 800px;
-    padding: 20px 0px;
-  }
+    height: 650px;
+    padding: 0; /* Quita cualquier padding extra */
+}
+
   
   .circle-card {
     background-color: #44344f;
@@ -67,15 +71,11 @@
     justify-content: center;
     align-items: center;
     position: relative;
-    height: auto;
-    width: auto;
     z-index: -1;
     height: 380px;
     width: 280px;
-    top: 55%;
-  }
+    margin-bottom: 0; /* Quita cualquier margen inferior */
+    top: 44.5%; /* Asegúrate de que top esté en 0 */
+}
 
-  .CambioSec {
-    display: flex;
-    justify-content: center;
-  }
+

@@ -192,3 +192,21 @@
     }
   
   }
+
+  .btn-excel {
+    background: transparent;
+    border: none;
+    padding: 5px;
+    transition: transform 0.2s;
+    margin-left: 10px;
+  }
+  
+  .btn-excel:hover {
+    transform: scale(1.1);
+  }
+  
+  .excel-icon {
+    width: 10px;
+    height: 10px;
+    object-fit: contain;
+  }

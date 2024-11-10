@@ -1,20 +1,11 @@
 <app-barra-lateral></app-barra-lateral>
-<div class="contenedor-principal">
+<div class="contenedor-principal" data-aos="fade-left"
+data-aos-anchor="#example-anchor"
+data-aos-offset="500"
+data-aos-duration="500">
   <main
     role="main"
     class="col-md-9 ml-sm-auto col-lg-10 px-4 contenido-principal">
-    <!-- Botón para volver atras 
-    <div>
-      <a class="btn btn-outline-secondary" (click)="atras()">
-        <img
-          src="/images/iconos/arrow-circle-left-purple.png"
-          alt="Icono Atras"
-        />
-      </a>
-    </div>
-    -->
-
-
       <div
         class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom"
       >
@@ -36,6 +27,10 @@
             <button class="btn btn-green" (click)="agregarVeterinario()">
               + Agregar veterinario
             </button>
+            <button class="btn btn-excel" (click)="exportarAExcel()" title="Exportar a Excel">
+              <img src="../../../public/images/iconos/icono_exportar_excel.png" alt="Exportar Excel" class="excel-icon">
+            </button>
+
           </div>
         </div>
       </div>
@@ -58,7 +53,7 @@
           <tr
             *ngFor="
               let Veterinarios of veterinariosMostrados
-                | paginate : { itemsPerPage: 8, currentPage: page }
+                | paginate : { itemsPerPage: 7, currentPage: page }
             "
           >
             <td>{{ Veterinarios.id }}</td>

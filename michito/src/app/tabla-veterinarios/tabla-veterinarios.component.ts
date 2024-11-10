@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { NgxPaginationModule } from 'ngx-pagination'; 
 import { FormsModule } from '@angular/forms';
+import { ExcelExportService } from '../Services/excel-export.service';
 
 @Component({
   selector: 'app-tabla-veterinarios',
@@ -31,7 +32,7 @@ export class TablaVeterinariosComponent {
   
 
 
-  constructor(private http: HttpClient, private veterinarioService: VeterinarioService, private router: Router) {}
+  constructor(private http: HttpClient, private veterinarioService: VeterinarioService, private router: Router, private excelExportService: ExcelExportService) {}
   verVeterinario(veterinario: Veterinario) {
     this.router.navigate(['/DetalleVeterinario'],{ queryParams: { id : veterinario.id } });
   }
@@ -101,6 +102,25 @@ export class TablaVeterinariosComponent {
       );
     }
     this.page = 1;
+  }
+
+  exportarAExcel() {
+    const headers = {
+      'id': 'ID',
+      'cedula': 'Cédula',
+      'nombre': 'Nombre',
+      'correo': 'Correo',
+      'celular': 'Celular',
+      'especialidad': 'Especialidad',
+      'estado': 'Estado'
+    };
+  
+    this.excelExportService.exportToExcel(
+      this.veterinariosMostrados,
+      'Lista_Personal_Veterinario',
+      headers,
+      'Lista de Personal Veterinario'
+    );
   }
 }
 
