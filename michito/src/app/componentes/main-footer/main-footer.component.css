@@ -23,7 +23,7 @@ footer {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.5rem; /* Añadido para dar espacio consistente entre elementos */
+  gap: 2px; /* Añadido para dar espacio consistente entre elementos */
 }
 
 .LogoPrincipalBlanco {
@@ -33,15 +33,15 @@ footer {
 }
 
 .brand-name {
-  font-size: 1.5rem;
+  font-size: 2rem;
   color: #9dff70;
-  margin: 0.5rem 0; /* Ajustado para dar espacio específico arriba y abajo */
+  margin: 0px; /* Ajustado para dar espacio específico arriba y abajo */
 }
 
 .social-icons {
   display: flex;
   gap: 1rem; /* Añadido para dar espacio entre los íconos */
-  margin-top: 0.5rem; /* Ajustado para dar espacio específico después del nombre */
+  margin-top: 0.8rem; /* Ajustado para dar espacio específico después del nombre */
 }
 
 .social-icon {
@@ -90,11 +90,14 @@ footer {
 .footer-bottom {
   background: rgba(0, 0, 0, 0.2);
   text-align: center;
-  padding: 1rem 0; /* Añadido para dar más espacio al copyright */
-  margin-top: 2rem; /* Añadido para separar del contenido superior */
+  align-items: center;
+  vertical-align: middle;
 }
 
 .footer-copyright {
   font-size: 0.9rem;
   opacity: 0.8;
+  padding-top: 5px;
+  padding-bottom: 1px;
+  vertical-align: middle;
 }
