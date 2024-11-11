@@ -193,12 +193,19 @@
   
   }
 
+  .excel-cell {
+    text-align: center;
+    vertical-align: middle;
+  }
+  
   .btn-excel {
     background: transparent;
     border: none;
     padding: 5px;
     transition: transform 0.2s;
-    margin-left: 10px;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
   }
   
   .btn-excel:hover {
@@ -206,7 +213,7 @@
   }
   
   .excel-icon {
-    width: 10px;
-    height: 10px;
+    width: 40px;
+    height: 40px;
     object-fit: contain;
   }

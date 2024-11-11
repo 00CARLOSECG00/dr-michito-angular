@@ -21,17 +21,46 @@ import { MailService } from '../Services/mail.service';
   styleUrls: ['./detalle-tratamiento.component.css'],
 })
 export class DetalleTratamientoComponent implements OnInit {
-  tratamiento!: Tratamiento;  // Variable que contiene el tratamiento
-  mascota!: Mascota;  // Mascota asociada al tratamiento
-  cliente!: Cliente;  // Cliente asociado a la mascota
-  veterinario!: Veterinario;  // Veterinario que realizó el tratamiento
-  totalMedicamentos: number = 0; // Total del costo de medicamentos
+  tratamiento: Tratamiento = {
+    id: 0,
+    fecha: new Date(),
+    descripcion: '',
+    medicamentos: [],
+    mascota: new Mascota(),
+    veterinario: new Veterinario()
+  };
+  mascota: Mascota = {
+    id: 0,
+    nombre: '',
+    edad: 0,
+    peso: 0,
+    foto: '',
+    cedulaCliente: '',
+    estado: false
+  };
+  cliente: Cliente = {
+    cedula: '',
+    nombre: '',
+    correo: '',
+    celular: 1,
+    id: 0
+  };
+  veterinario: Veterinario = {
+    id: 0,
+    nombre: '',
+    especialidad: '',
+    correo: '',
+    celular: 1,
+    cedula: '',
+    estado: false
+  };
+  totalMedicamentos: number = 0;
 
   constructor(
-    private route: ActivatedRoute,  // Para acceder a los parámetros de la URL
-    private tratamientoService: TratamientoService,  // Servicio para cargar el tratamiento
-    private router: Router,  // Para navegar entre rutas
-    private clienteService: ClienteService,  // Servicio para obtener información del cliente
+    private route: ActivatedRoute,
+    private tratamientoService: TratamientoService,
+    private router: Router,
+    private clienteService: ClienteService,
     private pdfService: PdfService,
     private mailService: MailService
   ) {}
@@ -39,12 +68,11 @@ export class DetalleTratamientoComponent implements OnInit {
   async descargarPDF() {
     try {
       await this.pdfService.generarPDF(
-        'historia-clinica-content', // Asegúrate de añadir este id al div principal del contenido
-        `Historia_Clinica_${this.tratamiento?.id}.pdf`
+        'historia-clinica-content',
+        `Historia_Clinica_${this.tratamiento.id}.pdf`
       );
     } catch (error) {
       console.error('Error al descargar PDF:', error);
-      // Aquí puedes añadir un mensaje de error   qpara el usuario
     }
   }
 
@@ -58,7 +86,6 @@ export class DetalleTratamientoComponent implements OnInit {
 
       const pdfFile = new File([pdfBlob], `Tratamiento_${this.tratamiento.id}.pdf`, { type: 'application/pdf' });
 
-      // Crear el objeto EmailRequestWithFile
       const emailRequest: EmailRequestWithFile = {
         asunto: `Detalles del Tratamiento para ${this.mascota.nombre}`,
         nombreVeterinario: this.veterinario.nombre,
@@ -90,12 +117,12 @@ export class DetalleTratamientoComponent implements OnInit {
   ngOnInit(): void {
     const tratamientoId = Number(this.route.snapshot.queryParams['id']); 
     if (tratamientoId) {
-      this.cargarDetallesTratamiento(tratamientoId);  // Cargar detalles del tratamiento si el ID existe
+      this.cargarDetallesTratamiento(tratamientoId);
     }
   }
 
   volver(): void {
-    history.back(); // Navegar de vuelta a la lista de tratamientos
+    history.back();
   }
 
   cargarDetallesTratamiento(id: number): void {
@@ -104,20 +131,18 @@ export class DetalleTratamientoComponent implements OnInit {
         this.tratamiento = tratamiento;
         this.mascota = tratamiento.mascota;
         this.veterinario = tratamiento.veterinario;
-        this.calcularTotalMedicamentos(); // Llamada al método para calcular el total de medicamentos
-        if (tratamiento.mascota && tratamiento.mascota.cedulaCliente) {
+        this.calcularTotalMedicamentos();
+        if (tratamiento.mascota?.cedulaCliente) {
           this.obtenerDetallesClientePorCedula(tratamiento.mascota.cedulaCliente);
-        } else if (tratamiento.mascota && tratamiento.mascota.id) {
+        } else if (tratamiento.mascota?.id) {
           this.clienteService.obtenerClientePorMascota(tratamiento.mascota.id).subscribe({
             next: (cliente) => {
               this.cliente = cliente;
             },
-            error: (error) => {
+            error: () => {
               this.cliente = new Cliente();
             }
           });
-        } else {
-          this.cliente = new Cliente();
         }
       },
       error: (error) => {
@@ -126,20 +151,22 @@ export class DetalleTratamientoComponent implements OnInit {
     });
   }
 
-  // Método para calcular el total de los precios de los medicamentos
   calcularTotalMedicamentos(): void {
-    if (this.tratamiento && this.tratamiento.medicamentos) {
-      this.totalMedicamentos = this.tratamiento.medicamentos.reduce((total, medicamento) => total + medicamento.precioVenta, 0);
-    }
+    this.totalMedicamentos = this.tratamiento.medicamentos?.reduce(
+      (total, medicamento) => total + (medicamento.precioVenta || 0), 
+      0
+    ) || 0;
   }
 
-  // Método para formatear los precios con separadores de miles
   formatearPrecio(precio: number): string {
-    return new Intl.NumberFormat('es-ES', { style: 'currency', currency: 'COP', minimumFractionDigits: 0 }).format(precio);
+    return new Intl.NumberFormat('es-ES', { 
+      style: 'currency', 
+      currency: 'COP', 
+      minimumFractionDigits: 0 
+    }).format(precio);
   }
-  // Método para obtener los detalles del cliente
+
   obtenerDetallesClientePorCedula(cedula: string): void {
-    //se suscribe al servicio 
     this.clienteService.getClienteByCedula(cedula).subscribe({
       next: (cliente) => {
         this.cliente = cliente;

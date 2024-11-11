@@ -19,17 +19,16 @@ import { BarraLateralComponent } from "../componentes/barra-lateral/barra-latera
     TarjetaMascotaClienteComponent,
     CommonModule,
     BarraLateralComponent
-],
+  ],
   templateUrl: './vista-mascotas-cliente.component.html',
   styleUrls: ['./vista-mascotas-cliente.component.css'],
 })
 export class VistaMascotasClienteComponent {
   modoVer: boolean = false;
   idCliente: number | null = null;
-  mascotaSeleccionada: Mascota | null = null;;
+  mascotaSeleccionada: Mascota | null = null;
   mascotas: Mascota[] = [];
-  clienteSeleccionado!: Cliente;
-  private ROOT_URL = 'http://localhost:8080/Clientes';
+  clienteSeleccionado: Cliente | null = null; // Inicializado como null
 
   constructor(
     private http: HttpClient,
@@ -41,22 +40,28 @@ export class VistaMascotasClienteComponent {
 
   ngOnInit(): void {
     this.idCliente = this.authService.getClienteId();
-    console.log('ID del cliente:', this.idCliente);
-
-    if (this.idCliente) {
-      this.ClienteService.getClienteById(this.idCliente).subscribe({
-        next: (cliente: Cliente) => {
-          this.clienteSeleccionado = cliente;
-          console.log('Cliente cargado:', this.clienteSeleccionado);
-          this.listarMascotas();
-        },
-        error: (error) => {
-          console.error('Error al cargar el cliente:', error);
-        },
-      });
+    
+    if (!this.idCliente) {
+      console.error('No se encontró ID del cliente');
+      this.router.navigate(['/login']); // Redirige al login si no hay ID
+      return;
     }
 
-    this.modoVer = false;
+    this.cargarDatosCliente();
+  }
+
+  private cargarDatosCliente(): void {
+    this.ClienteService.getClienteById(this.idCliente!).subscribe({
+      next: (cliente: Cliente) => {
+        this.clienteSeleccionado = cliente;
+        this.listarMascotas();
+      },
+      error: (error) => {
+        console.error('Error al cargar el cliente:', error);
+        // Podrías mostrar un mensaje de error al usuario
+        this.router.navigate(['/error']); // O redirigir a una página de error
+      }
+    });
   }
 
   listarMascotas(): void {
@@ -66,8 +71,9 @@ export class VistaMascotasClienteComponent {
       },
       error: (error) => {
         console.error('Error al obtener las mascotas:', error);
+        // Podrías mostrar un mensaje de error al usuario
       },
-    })
+    });
   }
 
   onVerDetalles(mascota: Mascota) {
@@ -75,6 +81,6 @@ export class VistaMascotasClienteComponent {
   }
 
   onVolverALista() {
-    this.modoVer = false; // Cambiamos de vuelta al modo lista
+    this.modoVer = false;
   }
 }

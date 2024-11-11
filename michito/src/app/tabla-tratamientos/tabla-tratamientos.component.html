@@ -40,11 +40,13 @@ data-aos="fade-left">
               <th>Mascota</th>
               <th>Veterinario</th>
               <th>Acciones</th>
+              <th class="excel-cell">
+              </th>
             </tr>
           </thead>
           <tbody>
             <ng-container *ngIf="tratamientosMostrados != null">
-            <tr *ngFor="let tratamiento of tratamientosMostrados | paginate : { itemsPerPage: 10, currentPage: page }" >
+            <tr *ngFor="let tratamiento of tratamientosMostrados | paginate : { itemsPerPage: 8, currentPage: page }" >
               
               <td>{{ tratamiento.id }}</td>
               <td class="tratamientoDescripcion">{{ tratamiento.descripcion }}</td>
@@ -77,7 +79,7 @@ data-aos="fade-left">
         <div class="paginacion text-center">
           <pagination-controls
             (pageChange)="page = $event" 
-            [maxSize]="7"
+            [maxSize]="8"
             previousLabel="Anterior"
             nextLabel="Siguiente"
             class="my-pagination"
