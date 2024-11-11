@@ -1,30 +1,32 @@
 import { Component } from '@angular/core';
 import { MailService } from '../../Services/mail.service';
 import { FormsModule } from '@angular/forms';
-import {MatDialog, MatDialogModule} from '@angular/material/dialog';
-import { DialogComponent } from '../../dialog/dialog.component';
-
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { ConfirmationService } from 'primeng/api';
 
 @Component({
   selector: 'app-main-contacto',
   standalone: true,
-  imports: [FormsModule, MatDialogModule],
+  imports: [FormsModule, ConfirmDialogModule],
   templateUrl: './main-contacto.component.html',
-  styleUrl: './main-contacto.component.css'
+  styleUrls: ['./main-contacto.component.css'],
+  providers: [ConfirmationService]
 })
 export class MainContactoComponent {
   form = {
     nombre: '',
     apellido: '',
     email: '',
-    message:  ''
-  }
-  
-  constructor(private mailSender: MailService, public dialog: MatDialog) { }
+    message: ''
+  };
+
+  constructor(
+    private mailSender: MailService,
+    private confirmationService: ConfirmationService
+  ) {}
 
   sendForm() {
     const emailRequest = {
-
       nombre: this.form.nombre,
       apellido: this.form.apellido,
       email: this.form.email,
@@ -36,11 +38,11 @@ export class MainContactoComponent {
     this.mailSender.sendEmail(emailRequest).subscribe({
       next: (response) => {
         console.log('Correo enviado con éxito:', response);
-        this.openDialog('Correo enviado con éxito');
+        this.showConfirmationDialog('Correo enviado con éxito');
       },
       error: (error) => {
         console.error('Error al enviar el correo:', error);
-        this.openDialog('Hubo un error al enviar el correo');
+        this.showConfirmationDialog('Hubo un error al enviar el correo');
       },
       complete: () => {
         console.log('Correo enviado con exito');
@@ -48,10 +50,17 @@ export class MainContactoComponent {
     });
   }
 
-  openDialog(message: string): void {
-    this.dialog.open(DialogComponent, {
-      width: '600px',
-      data: { message: message }
+  showConfirmationDialog(message: string) {
+    this.confirmationService.confirm({
+      message: message,
+      header: 'Confirmación',
+      icon: 'pi pi-check',
+      acceptLabel: 'Aceptar',
+      rejectVisible: false,
+      acceptButtonStyleClass: 'custom-accept-button',
+      accept: () => {
+        // Se puede agregar lógica adicional aquí si es necesario
+      }
     });
   }
 }
