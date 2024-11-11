@@ -9,7 +9,6 @@ body {
 .contenedor-principal {
   display: flex;
   height: 100vh;
-  transition: margin-left 0.5s ease;
 }
 
 .con-margen {
@@ -38,7 +37,6 @@ h2 {
 
 main{
     padding: 20px;
-    transition: margin-left 0.5s ease;
 }
 main.min-main{
     margin-left: 100px;
@@ -48,7 +46,6 @@ main.min-main{
 .contenido-principal {
     flex-grow: 1; /* Hace que el main ocupe todo el espacio restante */
     padding: 20px;
-    transition: margin-left 0.5s ease;
 }
 
 /* Estilo de la tabla */
