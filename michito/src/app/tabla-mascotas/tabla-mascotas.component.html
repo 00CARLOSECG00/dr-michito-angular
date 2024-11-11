@@ -1,116 +1,140 @@
+<p-confirmDialog class="p.confirm-dialog"
+  styleClass="custom-confirm-dialog"
+  header="Confirmación"
+  message="¿Estás seguro de que deseas eliminar esta mascota?"
+  icon="pi pi-exclamation-triangle"
+  acceptLabel="Sí"
+  rejectLabel="No"
+  acceptClass="custom-accept-button"
+  rejectClass="ustom-reject-button"
+  acceptButtonStyleClass="custom-accept-button"
+></p-confirmDialog>
 <app-barra-lateral></app-barra-lateral>
-<div class="contenedor-principal" data-aos="fade-left"
-data-aos-anchor="#example-anchor"
-data-aos-offset="500"
-data-aos-duration="500">
+<div
+  class="contenedor-principal"
+  data-aos="fade-left"
+  data-aos-anchor="#example-anchor"
+  data-aos-offset="500"
+  data-aos-duration="500"
+>
   <main
     role="main"
-    class="col-md-9 ml-sm-auto col-lg-10 px-4 contenido-principal">
+    class="col-md-9 ml-sm-auto col-lg-10 px-4 contenido-principal"
+  >
+    <div
+      class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom"
+    >
+      <div *ngIf="mostrarTodas == true">
+        <h1>Mascotas</h1>
+      </div>
+      <div *ngIf="mostrarTodas == false">
+        <h1>Mascotas de {{ nombreCliente }}</h1>
+      </div>
+      <div class="mb-3 search-container">
+        <input
+          type="text"
+          class="form-control search-input"
+          id="searchBarMascotas"
+          placeholder="Buscar mascota por nombre..."
+          [(ngModel)]="searchTerm"
+          (input)="onSearch()"
+        />
+      </div>
 
-      <div
-        class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom"
-      >
-        <div *ngIf="mostrarTodas == true">
-          <h1>Mascotas</h1>
-        </div>
-        <div *ngIf="mostrarTodas == false">
-          <h1>Mascotas de {{ nombreCliente }}</h1>
-        </div>
-        <div class="mb-3 search-container">
-          <input 
-            type="text" 
-            class="form-control search-input" 
-            id="searchBarMascotas"
-            placeholder="Buscar mascota por nombre..." 
-            [(ngModel)]="searchTerm" 
-            (input)="onSearch()"
+      <div class="btn-toolbar mb-2 mb-md-0">
+        <div class="btn-group mr-2">
+          <button
+            class="btn btn-green"
+            (click)="agregarMascota()"
+            id="btnAddMascotas"
           >
+            + Agregar Mascota
+          </button>
         </div>
-        
-        <div class="btn-toolbar mb-2 mb-md-0">
-          <div class="btn-group mr-2">
-            <button class="btn btn-green " (click)="agregarMascota()" id="btnAddMascotas">
-              + Agregar Mascota
+      </div>
+    </div>
+
+    <table class="table table-striped table-hover" id="tablaMascotas">
+      <thead class="table-hover">
+        <tr>
+          <th>Id</th>
+          <th>Nombre</th>
+          <th>Edad</th>
+          <th>Peso</th>
+          <th>Foto</th>
+          <th>Historial</th>
+          <th>Estado</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Añadir el pipe `paginate` para paginar los elementos -->
+        <tr
+          *ngFor="
+            let Mascotas of mascotasMostradas
+              | paginate : { itemsPerPage: 6, currentPage: page }
+          "
+        >
+          <td class="idMascotas">{{ Mascotas.id }}</td>
+          <td>{{ Mascotas.nombre }}</td>
+          <td>{{ Mascotas.edad }}</td>
+          <td>{{ Mascotas.peso }}</td>
+          <td>
+            <img src="{{ Mascotas.foto }}" class="foto_mascota" />
+          </td>
+          <td>
+            <button
+              class="btn btn-green detalleMascota"
+              (click)="verMascota(Mascotas)"
+            >
+              Ver
             </button>
-          </div>
-        </div>
-      </div>
-
-      <table class="table table-striped table-hover" id="tablaMascotas">
-        <thead class="table-hover">
-          <tr>
-            <th>Id</th>
-            <th>Nombre</th>
-            <th>Edad</th>
-            <th>Peso</th>
-            <th>Foto</th>
-            <th>Historial</th>
-            <th>Estado</th>
-            <th>Acciones</th>
-          </tr>
-        </thead>
-        <tbody>
-          <!-- Añadir el pipe `paginate` para paginar los elementos -->
-          <tr
-            *ngFor="
-              let Mascotas of mascotasMostradas
-                | paginate : { itemsPerPage: 6, currentPage: page }
-            "
-          >
-        
-            <td class="idMascotas">{{ Mascotas.id }}</td>
-            <td>{{ Mascotas.nombre }}</td>
-            <td>{{ Mascotas.edad }}</td>
-            <td>{{ Mascotas.peso }}</td>
-            <td>
-              <img src="{{ Mascotas.foto }}" class="foto_mascota" />
-            </td>
-            <td>
-              <button class="btn btn-green detalleMascota" (click)="verMascota(Mascotas)">
-                Ver
-              </button>
-            </td>
-            <td>
-              <i *ngIf="Mascotas.estado" ><img src="images/activo.png" class="estadoMascota"></i>
-              <i *ngIf="!Mascotas.estado" ><img src="images/inactivo.png" class="estadoMascota"></i>
-            </td>
-            <td>
-              <button
-                class="btn btn-sm btn-edit"
-                (click)="editarMascota(Mascotas)"
-              >
-                <img
-                  src="/images/iconos/editIcon.png"
-                  alt="Editar"
-                  class="action-icon"
-                />
-              </button>
-              <button
-                class="btn btn-sm btn-delete"
-                (click)="eliminarMascota(Mascotas)"
-              >
-                <img
-                  src="/images/iconos/trashIcon.png"
-                  alt="Eliminar"
-                  class="action-icon"
-                />
-              </button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-      <div *ngIf="mascotasMostradas.length === 0" class="alert alert-info">
-        No se encontraron mascotas que coincidan con la búsqueda.
-      </div>
-      <!-- Añadir controles de paginación -->
-      <div class="paginacion text-center">
-        <pagination-controls
-          (pageChange)="page = $event" 
-          [maxSize]="7"
-          previousLabel="Anterior"
-          nextLabel="Siguiente"
-          class="my-pagination"
-        ></pagination-controls>
-      </div>
+          </td>
+          <td>
+            <i *ngIf="Mascotas.estado"
+              ><img src="images/activo.png" class="estadoMascota"
+            /></i>
+            <i *ngIf="!Mascotas.estado"
+              ><img src="images/inactivo.png" class="estadoMascota"
+            /></i>
+          </td>
+          <td>
+            <button
+              class="btn btn-sm btn-edit"
+              (click)="editarMascota(Mascotas)"
+            >
+              <img
+                src="/images/iconos/editIcon.png"
+                alt="Editar"
+                class="action-icon"
+              />
+            </button>
+            <button
+              class="btn btn-sm btn-delete"
+              (click)="eliminarMascota(Mascotas)"
+            >
+              <img
+                src="/images/iconos/trashIcon.png"
+                alt="Eliminar"
+                class="action-icon"
+              />
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <div *ngIf="mascotasMostradas.length === 0" class="alert alert-info">
+      No se encontraron mascotas que coincidan con la búsqueda.
+    </div>
+    <!-- Añadir controles de paginación -->
+    <div class="paginacion text-center">
+      <pagination-controls
+        (pageChange)="page = $event"
+        [maxSize]="7"
+        previousLabel="Anterior"
+        nextLabel="Siguiente"
+        class="my-pagination"
+      ></pagination-controls>
+    </div>
   </main>
 </div>

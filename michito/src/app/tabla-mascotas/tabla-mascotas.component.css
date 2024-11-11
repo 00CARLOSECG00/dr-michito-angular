@@ -177,7 +177,59 @@ main.min-main {
   box-shadow: 0 0 0 0.2rem rgba(111, 66, 193, 0.25);
 }
 
+/* Cambiar el contenedor completo del diálogo */
+.custom-confirm-dialog {
+  border-radius: 15px; /* Borde redondeado */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra */
+}
 
+/* Contenedor del confirm dialog */
+.p-confirmdialog {
+  border-radius: 15px;
+}
+
+/* Estilo del encabezado */
+.p-dialog-titlebar {
+  background-color: #4CAF50; /* Color de fondo */
+  color: #fff; /* Color de texto */
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
+}
+
+/* Estilo del título en el encabezado */
+.p-dialog-title {
+  font-weight: bold;
+}
+
+/* Ícono del encabezado */
+.p-dialog-titlebar-icon {
+  color: #fff;
+}
+
+/* Estilo del botón de cierre */
+.p-dialog-titlebar-close {
+  color: #fff;
+}
+
+/* Contenido del diálogo */
+.p-dialog-content {
+  padding: 20px;
+}
+
+/* Estilo de los botones dentro del diálogo */
+.p-confirmdialog .p-button-accept {
+  background-color: #C2F970;
+  border-color: #C2F970;
+  color: #fff;
+  border-radius: 10px; /* Bordes redondeados en el botón */
+}
+
+.p-confirmdialog .p-button-reject {
+  background-color: #6c757d;
+  border-color: #6c757d;
+  color: #fff;
+  border-radius: 10px; /* Bordes redondeados en el botón */
+}
 
 /* Ajuste responsive */
 @media (max-width: 576px) {

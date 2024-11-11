@@ -1,18 +1,21 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { Mascota } from '../Model/mascota';
-import { MascotaDTO } from '../Model/mascota-dto'; // Importamos MascotaDTO
+import { MascotaDTO } from '../Model/mascota-dto';
 import { CommonModule } from '@angular/common';
 import { NgxPaginationModule } from 'ngx-pagination'; 
 import { FormsModule } from '@angular/forms';
-import { HttpClient, HttpClientModule, HttpErrorResponse } from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
 import { BarraLateralComponent } from '../componentes/barra-lateral/barra-lateral.component';
 import { MascotaService } from '../Services/mascota.service';
 import { Router, ActivatedRoute } from '@angular/router';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { ConfirmationService } from 'primeng/api'; // Importa el servicio de confirmación
 
 @Component({
   selector: 'app-tabla-mascotas',
   standalone: true,
-  imports: [CommonModule, NgxPaginationModule, FormsModule, HttpClientModule, BarraLateralComponent],
+  imports: [CommonModule, NgxPaginationModule, FormsModule, HttpClientModule, BarraLateralComponent, ConfirmDialogModule],
+  providers: [ConfirmationService], // Agrega ConfirmationService en providers
   templateUrl: './tabla-mascotas.component.html',
   styleUrls: ['./tabla-mascotas.component.css'],
 })
@@ -29,9 +32,10 @@ export class TablaMascotasComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private mascotaService: MascotaService,
-    private router: Router
+    private router: Router,
+    private confirmationService: ConfirmationService // Inyecta ConfirmationService
   ) {}
-
+  
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {
       this.clienteId = params['clienteId'];
@@ -50,10 +54,10 @@ export class TablaMascotasComponent implements OnInit {
 
   // Editar una mascota
   editarMascota(mascota: Mascota) {
-    const mascotaDTO = this.convertirMascotaADTO(mascota);  // Convertimos a DTO
-    console.log('Mascota enviada al servicio:', mascotaDTO);  // Verificar en la consola
-    this.mascotaService.setMascotaSeleccionada(mascotaDTO);  // Seteamos la mascota seleccionada
-    this.router.navigate(['/AgregarMascota']);  // Navegar al componente de edición
+    const mascotaDTO = this.convertirMascotaADTO(mascota);
+    console.log('Mascota enviada al servicio:', mascotaDTO);
+    this.mascotaService.setMascotaSeleccionada(mascotaDTO);
+    this.router.navigate(['/AgregarMascota']);
   }
 
   private convertirMascotaADTO(mascota: Mascota): MascotaDTO {
@@ -68,25 +72,27 @@ export class TablaMascotasComponent implements OnInit {
     };
   }
 
-  // Eliminar una mascota
+  // Método modificado de eliminar mascota
   eliminarMascota(mascota: Mascota) {
-    const confirmed = confirm('¿Estás seguro de que deseas eliminar esta mascota?');
-    if (confirmed) {
-      this.mascotaService.eliminarMascota(mascota.id).subscribe({
-        next: (response) => {
-          console.log('Mascota eliminada con éxito:', response);
-          this.listarMascotas();
-        },
-        error: (error) => {
-          console.error('Error al eliminar la mascota:', error);
-        }
-      });
-    }
+    this.confirmationService.confirm({
+      message: '¿Estás seguro de que deseas eliminar esta mascota?',
+      accept: () => {
+        this.mascotaService.eliminarMascota(mascota.id).subscribe({
+          next: (response) => {
+            console.log('Mascota eliminada con éxito:', response);
+            this.listarMascotas();
+          },
+          error: (error) => {
+            console.error('Error al eliminar la mascota:', error);
+          }
+        });
+      }
+    });
   }
 
   // Agregar nueva mascota
   agregarMascota(): void {
-    this.mascotaService.setMascotaSeleccionada(null); // Limpiar la mascota seleccionada
+    this.mascotaService.setMascotaSeleccionada(null);
     this.router.navigate(['/AgregarMascota']);
   }
 

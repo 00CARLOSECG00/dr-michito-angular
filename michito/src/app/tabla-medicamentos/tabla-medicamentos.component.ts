@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';  // Importa HttpClient
+import { HttpClient } from '@angular/common/http';
 import { Medicamento } from '../Model/medicamento';
 import { CommonModule } from '@angular/common';
 import { NgxPaginationModule } from 'ngx-pagination'; 
@@ -7,10 +7,14 @@ import { FormsModule } from '@angular/forms';
 import { BarraLateralComponent } from '../componentes/barra-lateral/barra-lateral.component';
 import { MedicamentoService } from '../Services/medicamento.service';
 import { Router } from '@angular/router';
+import { ConfirmationService } from 'primeng/api';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+
 @Component({
   selector: 'app-tabla-medicamentos',
   standalone: true,
-  imports: [CommonModule, NgxPaginationModule, FormsModule, BarraLateralComponent],
+  imports: [CommonModule, NgxPaginationModule, FormsModule, BarraLateralComponent, ConfirmDialogModule],
+  providers: [ConfirmationService],
   templateUrl: './tabla-medicamentos.component.html',
   styleUrls: ['./tabla-medicamentos.component.css']
 })
@@ -20,7 +24,12 @@ export class TablaMedicamentosComponent implements OnInit {
   medicamentosMostrados: Medicamento[] = [];
   searchTerm: string = '';
 
-  constructor(private http: HttpClient, private medicamentoService: MedicamentoService, private router: Router) {}
+  constructor(
+    private http: HttpClient,
+    private medicamentoService: MedicamentoService,
+    private router: Router,
+    private confirmationService: ConfirmationService
+  ) {}
 
   ngOnInit(): void {
     this.cargarMedicamentos();
@@ -42,6 +51,19 @@ export class TablaMedicamentosComponent implements OnInit {
   }
 
   eliminarMedicamento(id: number) {
+    this.confirmationService.confirm({
+      message: '¿Estás seguro de que deseas eliminar este medicamento?',
+      header: 'Confirmación de Eliminación',
+      icon: 'pi pi-exclamation-triangle',
+      acceptLabel: 'Sí',
+      rejectLabel: 'No',
+      accept: () => {
+        this.procederEliminarMedicamento(id);
+      }
+    });
+  }
+
+  procederEliminarMedicamento(id: number) {
     this.medicamentoService.eliminarMedicamento(id).subscribe({
       next: () => {
         console.log('Medicamento eliminado correctamente');

@@ -19,3 +19,18 @@
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+/* Aplica bordes redondeados a todos los diálogos de confirmación */
+::ng-deep .p-confirmdialog {
+    border-radius: 15px; /* Ajusta el valor según el nivel de redondez que prefieras */
+  }
+  
+  ::ng-deep .p-confirmdialog .p-dialog-content {
+    border-radius: 15px; /* Asegura que el contenido también esté redondeado */
+  }
+  
+  /* Aplica bordes redondeados al encabezado */
+  ::ng-deep .p-confirmdialog .p-dialog-titlebar {
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+  }

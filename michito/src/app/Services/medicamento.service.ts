@@ -5,14 +5,16 @@ import { catchError } from 'rxjs/operators';
 import { Medicamento } from '../Model/medicamento';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class MedicamentoService {
   private ROOT_URL = 'http://localhost:8080/Medicamentos';
 
   constructor(private http: HttpClient) {}
 
-  private medicamentoSeleccionado = new BehaviorSubject<Medicamento | null>(null);
+  private medicamentoSeleccionado = new BehaviorSubject<Medicamento | null>(
+    null
+  );
 
   // Método para obtener el BehaviorSubject como Observable
   obtenerMedicamentoSeleccionado(): Observable<Medicamento | null> {
@@ -27,7 +29,7 @@ export class MedicamentoService {
   obtenerMedicamentos(): Observable<Medicamento[]> {
     console.log('Obteniendo medicamentos...');
     return this.http.get<Medicamento[]>(`${this.ROOT_URL}/all`).pipe(
-      catchError(error => {
+      catchError((error) => {
         console.error('Error al obtener medicamentos:', error);
         throw error;
       })
@@ -40,34 +42,36 @@ export class MedicamentoService {
       // Si no hay término de búsqueda, retorna un arreglo vacío
       return new Observable<Medicamento[]>((observer) => observer.next([]));
     }
-    return this.http.get<Medicamento[]>(`${this.ROOT_URL}/buscar?nombre=${term}`).pipe(
-      catchError(error => {
-        console.error('Error al buscar medicamentos:', error);
-        throw error;
-      })
-    );
-  }
-
-  eliminarMedicamento(id: number): Observable<any> {
-    const confirmed = confirm('¿Estás seguro de que deseas eliminar este medicamento?');
-    if (confirmed) {
-      return this.http.delete(`${this.ROOT_URL}/delete/${id}`).pipe(
-        catchError(error => {
-          console.error('Error al eliminar medicamento:', error);
+    return this.http
+      .get<Medicamento[]>(`${this.ROOT_URL}/buscar?nombre=${term}`)
+      .pipe(
+        catchError((error) => {
+          console.error('Error al buscar medicamentos:', error);
           throw error;
         })
       );
-    } else {
-      return of(null);  // Retornar un Observable vacío si la acción es cancelada
-    }
   }
 
-  editarMedicamento(medicamento: Medicamento): Observable<Medicamento> {
-    return this.http.put<Medicamento>(`${this.ROOT_URL}/update/${medicamento.id}`, medicamento).pipe(
-      catchError(error => {
-        console.error('Error al editar medicamento:', error);
+  eliminarMedicamento(id: number): Observable<any> {
+    return this.http.delete(`${this.ROOT_URL}/delete/${id}`).pipe(
+      catchError((error) => {
+        console.error('Error al eliminar medicamento:', error);
         throw error;
       })
     );
+  }
+
+  editarMedicamento(medicamento: Medicamento): Observable<Medicamento> {
+    return this.http
+      .put<Medicamento>(
+        `${this.ROOT_URL}/update/${medicamento.id}`,
+        medicamento
+      )
+      .pipe(
+        catchError((error) => {
+          console.error('Error al editar medicamento:', error);
+          throw error;
+        })
+      );
   }
 }

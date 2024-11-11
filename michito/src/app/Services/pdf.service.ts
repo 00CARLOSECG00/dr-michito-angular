@@ -61,7 +61,7 @@ export class PdfService {
 
     try {
       const canvas = await html2canvas(element, {
-        scale: 1.5, // Escala aumentada para mejor calidad en JPEG
+        scale: 2, // Escala aumentada para mejor calidad en JPEG
         useCORS: true,
         logging: false,
         backgroundColor: '#ffffff'
@@ -80,13 +80,13 @@ export class PdfService {
       let position = 0;
 
       // Usar JPEG con calidad 0.9
-      pdf.addImage(canvas.toDataURL('image/jpeg', 0.9), 'JPEG', 0, position, imgWidth, imgHeight);
+      pdf.addImage(canvas.toDataURL('image/jpeg', 1), 'JPEG', 0, position, imgWidth, imgHeight);
       heightLeft -= pageHeight;
 
       while (heightLeft > 0) {
         position = heightLeft - imgHeight;
         pdf.addPage();
-        pdf.addImage(canvas.toDataURL('image/jpeg', 0.9), 'JPEG', 0, position, imgWidth, imgHeight);
+        pdf.addImage(canvas.toDataURL('image/jpeg', 1), 'JPEG', 0, position, imgWidth, imgHeight);
         heightLeft -= pageHeight;
       }
 
