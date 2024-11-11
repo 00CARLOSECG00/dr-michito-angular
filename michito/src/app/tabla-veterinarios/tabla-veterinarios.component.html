@@ -27,9 +27,6 @@ data-aos-duration="500">
             <button class="btn btn-green" (click)="agregarVeterinario()">
               + Agregar veterinario
             </button>
-            <button class="btn btn-excel" (click)="exportarAExcel()" title="Exportar a Excel">
-              <img src="../../../public/images/iconos/icono_exportar_excel.png" alt="Exportar Excel" class="excel-icon">
-            </button>
 
           </div>
         </div>
@@ -46,6 +43,11 @@ data-aos-duration="500">
             <th>Especialidad</th>
             <th>Estado</th>
             <th>Acciones</th>
+            <th class="excel-cell">
+              <button class="btn btn-excel" (click)="exportarAExcel()" title="Exportar a Excel">
+                <img src="images/iconos/icono_exportar_excel.png" alt="Exportar Excel" class="excel-icon">
+              </button>
+            </th>
           </tr>
         </thead>
         <tbody>
@@ -53,7 +55,7 @@ data-aos-duration="500">
           <tr
             *ngFor="
               let Veterinarios of veterinariosMostrados
-                | paginate : { itemsPerPage: 7, currentPage: page }
+                | paginate : { itemsPerPage: 9, currentPage: page }
             "
           >
             <td>{{ Veterinarios.id }}</td>
@@ -104,7 +106,7 @@ data-aos-duration="500">
       <div class="paginacion text-center">
         <pagination-controls
           (pageChange)="page = $event" 
-          [maxSize]="7"
+          [maxSize]="10"
           previousLabel="Anterior"
           nextLabel="Siguiente"
           class="my-pagination"

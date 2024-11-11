@@ -9,6 +9,7 @@ import { BarraLateralComponent } from '../componentes/barra-lateral/barra-latera
 import { HttpClient, HttpClientModule, HttpErrorResponse } from '@angular/common/http';
 import { ClienteService } from '../Services/cliente.service';
 import { Router } from '@angular/router';
+import { ExcelExportService } from '../Services/excel-export.service'; 
 
 @Component({
   selector: 'app-tabla-clientes',
@@ -33,7 +34,7 @@ export class TablaClientesComponent implements OnInit {
   clientesMostrados: Cliente[] = [];
   searchTerm: string = '';
 
-  constructor(private clienteService: ClienteService, private http: HttpClient, private router: Router) {}
+  constructor(private clienteService: ClienteService, private http: HttpClient, private router: Router, private excelService: ExcelExportService) {}
 
   ngOnInit(): void {
     this.loadClientes();
@@ -95,5 +96,38 @@ export class TablaClientesComponent implements OnInit {
       );
     }
     this.page = 1;
+  }
+
+  exportarExcel(): void {
+    // Definir los encabezados para el Excel
+    const headers = {
+      'id': 'ID',
+      'cedula': 'Cédula',
+      'nombre': 'Nombre',
+      'correo': 'Correo Electrónico',
+      'celular': 'Celular'
+    };
+
+    // Obtener los datos actuales filtrados
+    const datosParaExportar = this.clientesMostrados.map(cliente => ({
+      id: cliente.id,
+      cedula: cliente.cedula,
+      nombre: cliente.nombre,
+      correo: cliente.correo,
+      celular: cliente.celular
+    }));
+
+    try {
+      // Llamar al servicio de exportación
+      this.excelService.exportToExcel(
+        datosParaExportar,
+        'Listado_Clientes',
+        headers,
+        'Listado de Clientes'
+      );
+    } catch (error) {
+      console.error('Error al exportar a Excel:', error);
+      // Aquí podrías añadir una notificación al usuario si lo deseas
+    }
   }
 }

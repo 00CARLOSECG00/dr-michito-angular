@@ -10,6 +10,7 @@ import { MascotaService } from '../Services/mascota.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ConfirmationService } from 'primeng/api'; // Importa el servicio de confirmación
+import { ExcelExportService } from '../Services/excel-export.service';
 
 @Component({
   selector: 'app-tabla-mascotas',
@@ -33,7 +34,8 @@ export class TablaMascotasComponent implements OnInit {
     private route: ActivatedRoute,
     private mascotaService: MascotaService,
     private router: Router,
-    private confirmationService: ConfirmationService // Inyecta ConfirmationService
+    private confirmationService: ConfirmationService, // Inyecta ConfirmationService
+    private excelExportService: ExcelExportService
   ) {}
   
   ngOnInit(): void {
@@ -137,5 +139,29 @@ export class TablaMascotasComponent implements OnInit {
       );
     }
     this.page = 1;
+  }
+
+  exportarExcel(): void {
+    // Define los headers para el Excel
+    const headers = {
+      'id': 'ID',
+      'nombre': 'Nombre',
+      'edad': 'Edad',
+      'peso': 'Peso',
+      'estado': 'Estado'
+    };
+  
+    // Genera el nombre del archivo
+    const fileName = this.mostrarTodas ? 
+      'Listado_Mascotas' : 
+      `Mascotas_${this.nombreCliente}`;
+  
+    // Llama al servicio de exportación
+    this.excelExportService.exportToExcel(
+      this.mascotasMostradas,
+      fileName,
+      headers,
+      this.mostrarTodas ? 'Listado de Mascotas' : `Mascotas de ${this.nombreCliente}`
+    );
   }
 }

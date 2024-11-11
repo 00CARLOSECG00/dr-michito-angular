@@ -16,13 +16,7 @@
         </a>
       </li>
 
-      <!-- El botón 'Cuenta' solo está visible para el cliente -->
-      <li *ngIf="tipoUsuario === 'cliente'">
-        <a id="cuenta" (click)="onClick('Cuenta')">
-          <img src="/images/iconos/barraLateral/identification.png" alt="cuenta" />
-          <span>Cuenta</span>
-        </a>
-      </li>
+      
 
       <!-- El botón 'Personal' solo está visible para el admin -->
       <li *ngIf="tipoUsuario === 'admin'">
