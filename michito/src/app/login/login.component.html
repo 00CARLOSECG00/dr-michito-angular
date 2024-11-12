@@ -1,44 +1,42 @@
 <div class="container">
-  <div class="left-panel" data-aos="fade-right">
-    <img
-      src="images/iconos/Logo_principal_dr.michito_blanco.png"
-      alt="Logo"
-      class="LogoPrincipal"
-    />
+  <div class="left-panel">
+    <img src="images/iconos/Logo_principal_dr.michito_blanco.png" alt="Logo" class="LogoPrincipal" />
     <h2>Volvamos a cuidar juntos de tus peludos favoritos.</h2>
     <img src="images/loginImage.png" alt="Perro en Sofa" class="large-image" />
   </div>
-  <div class="right-panel" data-aos="fade-left">
+  <div class="right-panel">
     <div class="top-right">
-      <a href="/"
-        ><img
-          src="images/iconos/arrow-circle-left-purple.png"
-          alt="Icono Atras"
-      /></a>
+      <a href="/">
+        <img src="images/iconos/arrow-circle-left-purple.png" alt="Icono Atras" />
+      </a>
     </div>
-    <div class="main-content" data-aos="fade-left">
+    <div class="main-content">
       <h1>Iniciar Sesión</h1>
 
-      <!-- Usar ngSubmit para manejar el envío del formulario -->
+      <!-- Formulario de login con CAPTCHA -->
       <form (ngSubmit)="login()" #loginForm="ngForm">
         <label for="cedula">Cédula</label>
-        <input
-          type="text"
-          id="cedula"
-          name="cedula"
-          [(ngModel)]="cedula"
-          required
-        />
+        <input type="text" id="cedula" name="cedula" [(ngModel)]="cedula" required />
 
-        <!-- Mostrar el mensaje de error si 'mostrarError' es true -->
+        <!-- Mensaje de error -->
         <div *ngIf="mostrarError" class="alert alert-danger">
-          <p>Cedula no encontrada, intente de nuevo</p>
+          <p>Cédula no encontrada, intente de nuevo</p>
         </div>
 
-        <button type="submit" [disabled]="loginForm.invalid" id="LoginCTEinto">
+        <!-- hCaptcha widget -->
+        <div 
+          class="h-captcha" 
+          data-sitekey="7742c3fa-b836-41c4-9986-2de4052e5bd2" 
+          data-callback="onCaptchaResolved">
+        </div>
+
+        <!-- Botón de Iniciar Sesión deshabilitado hasta resolver el CAPTCHA -->
+        <button type="submit" [disabled]="!captchaResolved" id="LoginCTEinto">
           Iniciar Sesión
         </button>
       </form>
     </div>
   </div>
 </div>
+
+<script src="https://js.hcaptcha.com/1/api.js" async defer></script>

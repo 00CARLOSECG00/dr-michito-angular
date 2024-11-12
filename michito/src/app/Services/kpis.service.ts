@@ -92,4 +92,23 @@ export class KpisService {
     );
   }
 
+  getTratamientosPorMes(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/tratamientos-por-mes`).pipe(
+      catchError(error => {
+        console.error("Error al obtener tratamientos por mes:", error);
+        throw error;
+      })
+    );
+  }
+  
+  getTratamientosPorVeterinario(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/tratamientos-por-veterinario`).pipe(
+      catchError(error => {
+        console.error("Error al obtener tratamientos por veterinario:", error);
+        throw error;
+      })
+    );
+  }
+  
+
 }

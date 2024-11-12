@@ -1,154 +1,232 @@
 import { Component } from '@angular/core';
-import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { BarraLateralComponent } from '../componentes/barra-lateral/barra-lateral.component';
 import { KpisService } from '../Services/kpis.service';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CommonModule } from '@angular/common';
-
+import { ChartModule } from 'primeng/chart';
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [NgxChartsModule, BarraLateralComponent, CommonModule],
+  imports: [BarraLateralComponent, CommonModule,ChartModule],
   templateUrl: './dashboard.component.html',
-  styleUrl: './dashboard.component.css',
+  styleUrls: ['./dashboard.component.css'],
 })
 export class DashboardComponent {
-  view: number[] = [700, 400];
   colorScheme = 'nightLights';
 
-  tratamientosTotales = [
-    { name: 'Tratamientos Durante el Último Mes', value: 0 },
-  ];
-  tratamientosPorMedicamento: { name: string; value: number }[] = [];
-  topTratamientos: { name: string; value: number }[] = [];
-  veterinariosActivosInactivos: { name: string; value: number }[] = [];
-  mascotasActivas = [{ name: 'Mascotas Activas', value: 0 }];
-  totalMascotas = [{ name: 'Total Mascotas', value: 1 }];
-  gananciasTotales: { name: string; value: number }[] = [];
-  ventasTotales: { name: string; value: number }[] = [];
+  // Datos para las gráficas
+  tratamientosTotales: any;
+  tratamientosPorMedicamento: any;
+  topTratamientos: any;
+  veterinariosActivosInactivos: any;
+  mascotasActivas: any;
+  totalMascotas: any;
+  gananciasTotales: any;
+  ventasTotales: any;
 
+
+  tratamientosPorMes: any; 
+  tratamientosPorVeterinario: any; 
+  //
+  totalVeterinarios = 0; // Total de veterinarios
+  porcentajeActivos = 0;
+  porcentajeInactivos = 0;
+  //
+
+
+  chartOptions: any = {
+    cutout: 120, // Cambiado a número
+    plugins: {
+      legend: {
+        display: false, // Oculta la leyenda
+      },
+    },
+  };
+
+  
   constructor(private kpisService: KpisService) {}
 
   ngOnInit(): void {
-    // Llamar al servicio para obtener los datos de tratamientos y demas cuando se inicia
-    this.consultarKpis();
-  }
-
-  ngOnCharged(): void {
-    // Llamar al service para obtener los datos de tratamiento cuando se carga
     this.consultarKpis();
   }
 
   consultarKpis(): void {
-    // Total de mascotas
     this.kpisService.getTotalMascotas().subscribe({
-        next: (data) => {
-            const totalMascotas = data as number;
-            this.totalMascotas = [{ name: 'Total Mascotas', value: totalMascotas }];
-        },
-        error: (error) => console.error('Error al obtener total de mascotas', error),
-        complete: () => console.log('Consulta de total de mascotas completada')
+      next: (data) => {
+        this.totalMascotas = {
+          labels: ['Total Mascotas'],
+          datasets: [{ data: [data], backgroundColor: ['#42A5F5'] }],
+        };
+      },
     });
 
-    // Llamar al servicio para obtener los datos de tratamientos
     this.kpisService.getTratamientosUltimoMes().subscribe({
-        next: (data) => {
-            const totalTratamientos = data as number;
-            this.tratamientosTotales = [
-                {
-                    name: 'Tratamientos Durante el Último Mes',
-                    value: totalTratamientos,
-                },
-            ];
-        },
-        error: (error) => console.error('Error al obtener tratamientos totales', error),
-        complete: () => console.log('Consulta de tratamientos completada')
+      next: (data) => {
+        this.tratamientosTotales = {
+          labels: ['Tratamientos Último Mes'],
+          datasets: [{ data: [data], backgroundColor: ['#66BB6A'] }],
+        };
+      },
     });
 
-    // Mascotas activas
     this.kpisService.getMascotasActivas().subscribe({
-        next: (data) => {
-            const mascotasActivas = data as number;
-            this.mascotasActivas = [
-                { name: 'Mascotas Activas', value: mascotasActivas },
-            ];
-        },
-        error: (error) => console.error('Error al obtener mascotas activas', error),
-        complete: () => console.log('Consulta de mascotas activas completada')
+      next: (data) => {
+        this.mascotasActivas = {
+          labels: ['Mascotas Activas'],
+          datasets: [{ data: [data], backgroundColor: ['#FFA726'] }],
+        };
+      },
     });
 
-    // Veterinarios activos
     this.kpisService.getVeterinariosActivos().subscribe({
-        next: (data) => {
-            const totalVeterinariosActivos = data as number;
-            this.veterinariosActivosInactivos.push({
-                name: 'Activos',
-                value: totalVeterinariosActivos,
-            });
-        },
-        error: (error) => console.error('Error al obtener veterinarios activos', error),
-        complete: () => console.log('Consulta de veterinarios activos completada')
+      next: (activos) => {
+        this.kpisService.getVeterinariosInactivos().subscribe({
+          next: (inactivos) => {
+            this.veterinariosActivosInactivos = {
+              labels: ['Activos', 'Inactivos'],
+              datasets: [{ data: [activos, inactivos], backgroundColor: ['#4CAF50', '#FF5722'] }],
+            };
+          },
+        });
+      },
     });
 
-    // Veterinarios inactivos
-    this.kpisService.getVeterinariosInactivos().subscribe({
-        next: (data) => {
-            const totalVeterinariosinactivos = data as number;
-            this.veterinariosActivosInactivos.push({
-                name: 'Inactivos',
-                value: totalVeterinariosinactivos,
-            });
-        },
-        error: (error) => console.error('Error al obtener veterinarios inactivos', error),
-        complete: () => console.log('Consulta de veterinarios inactivos completada')
-    });
-
-    // Medicamentos y cantidad suministrada en el último mes
     this.kpisService.getTratamientosPorMedicamento().subscribe({
         next: (data: any) => {
-            // Transformar los datos en el formato requerido por ngx-charts
-            this.tratamientosPorMedicamento = data.map((item: any[]) => {
-                return { name: item[0], value: item[1] };
-            });
+          const labels = data.map((item: any[]) => item[0]); // Nombres de los medicamentos
+          const values = data.map((item: any[]) => item[1]); // Cantidad de tratamientos por medicamento
+          this.tratamientosPorMedicamento = {
+            labels,
+            datasets: [{ data: values, backgroundColor: ['#29B6F6', '#FFCA28', '#AB47BC', '#66BB6A', '#FF7043'] }],
+          };
         },
-        error: (error) => console.error('Error al obtener tratamientos por medicamento', error),
-        complete: () => console.log('Consulta de tratamientos por medicamento completada')
-    });
+        error: (err) => console.error("Error al obtener tratamientos por medicamento:", err),
+      });
+      
+      
 
     this.kpisService.getTotalGanancias().subscribe({
-        next: (data) => {
-            const totalGanancias = data as number;
-            this.gananciasTotales = [                {
-              name: 'Ganancias Totales',
-              value: totalGanancias,
-          },];
-        },
-        error: (error) => console.error('Error al obtener total de ganancias', error),
-        complete: () => console.log('Consulta de total de ganancias completada')
+      next: (data) => {
+        this.gananciasTotales = {
+          labels: ['Ganancias Totales'],
+          datasets: [{ data: [data], backgroundColor: ['#FF7043'] }],
+        };
+      },
     });
 
     this.kpisService.getTotalVentas().subscribe({
-        next: (data) => {
-            const totalVentas = data as number;
-            this.ventasTotales = [                {
-              name: 'Ventas Totales',
-              value: totalVentas,
-          },];
-        },
-        error: (error) => console.error('Error al obtener total de ventas', error),
-        complete: () => console.log('Consulta de total de ventas completada')
+      next: (data) => {
+        this.ventasTotales = {
+          labels: ['Ventas Totales'],
+          datasets: [{ data: [data], backgroundColor: ['#7E57C2'] }],
+        };
+      },
     });
 
     this.kpisService.getTopTratamientos().subscribe({
+      next: (data: any) => {
+        const labels = data.map((item: any) => item[0]);
+        const values = data.map((item: any) => item[1]);
+        this.topTratamientos = {
+          labels,
+          datasets: [{ data: values, backgroundColor: ['#8E24AA', '#FFEB3B', '#009688'] }],
+        };
+      },
+    });
+
+    //Nueva barras
+    this.kpisService.getTratamientosPorVeterinario().subscribe({
         next: (data: any) => {
-          this.topTratamientos = data.map((item: any) => {
-            return { name: item[0], value: item[1] };
-          });
-          console.log(this.topTratamientos);
+          const labels = data.map((item: any[]) => item[0]); // Nombres de los veterinarios
+          const values = data.map((item: any[]) => item[1]); // Cantidad de tratamientos
+          this.tratamientosPorVeterinario = {
+            labels,
+            datasets: [
+              {
+                label: 'Cantidad de Tratamientos por Veterinario',
+                data: values,
+                backgroundColor: '#FFA726',
+              },
+            ],
+          };
         },
-        error: (error) => console.error('Error al obtener tratamientos por medicamento', error),
-        complete: () => console.log('Consulta de tratamientos por medicamento completada')
+        error: (err) => console.error("Error al obtener tratamientos por veterinario:", err),
       });
+    //Nueba lineas
+    this.kpisService.getTratamientosPorMes().subscribe({
+        next: (data: any) => {
+          const labels = data.map((item: any[]) => `${item[1]}-${item[0]}`); // Formato "Año-Mes"
+          const values = data.map((item: any[]) => item[2]); // Cantidad de tratamientos
+          this.tratamientosPorMes = {
+            labels,
+            datasets: [
+              {
+                label: 'Tratamientos por Mes',
+                data: values,
+                fill: false,
+                borderColor: '#42A5F5',
+                tension: 0.1,
+              },
+            ],
+          };
+        },
+        error: (err) => console.error("Error al obtener tratamientos por mes:", err),
+      });
+
+
+
+
+
+
+
+
+     
+        
+      this.kpisService.getVeterinariosActivos().subscribe({
+        next: (activos) => {
+          this.kpisService.getVeterinariosInactivos().subscribe({
+            next: (inactivos) => {
+                this.totalVeterinarios = Math.ceil(activos + inactivos);
+              this.porcentajeActivos = parseFloat(((activos / this.totalVeterinarios) * 100).toFixed(1)); // Conversión a número
+              this.porcentajeInactivos = parseFloat(((inactivos / this.totalVeterinarios) * 100).toFixed(1));
+  
+              this.veterinariosActivosInactivos = [
+                {
+                  labels: ['Activos'],
+                  datasets: [
+                    {
+                      data: [activos, inactivos],
+                      backgroundColor: ['#6a1b9a', '#d1c4e9'],
+                      hoverBackgroundColor: ['#7b1fa2', '#b39ddb'],
+                    },
+                  ],
+                },
+                {
+                  labels: ['Inactivos'],
+                  datasets: [
+                    {
+                      data: [inactivos, activos],
+                      backgroundColor: ['#9c27b0', '#ede7f6'],
+                      hoverBackgroundColor: ['#ab47bc', '#d1c4e9'],
+                    },
+                  ],
+                },
+              ];
+            },
+          });
+        },
+      });
+
+
+
+
+
+
+
+
+
+
+
+
 
   }
 }

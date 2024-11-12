@@ -1,5 +1,5 @@
 import { BrowserModule } from "@angular/platform-browser";
-import { NgModule } from "@angular/core";
+import { NgModule,CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { AppComponent } from "./app.component";
 import { AppRoutingModule } from './app-routing.module';
 import { HttpClientModule, HTTP_INTERCEPTORS, provideHttpClient, withInterceptors } from "@angular/common/http";
@@ -35,6 +35,7 @@ import { ChartModule } from 'primeng/chart';
         KnobModule,
         ChartModule
     ],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA],
     providers: [
         provideHttpClient(withInterceptors([authInterceptor]))
     ],
