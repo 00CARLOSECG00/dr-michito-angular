@@ -10,29 +10,28 @@
       entendemos que ellos son parte de tu familia y merecen lo mejor.
     </p>
   </div>
-  
 </section>
 
 <section id="equipo" data-aos="zoom-out">
   <h2>Nuestro equipo</h2>
-  <p-carousel 
-    [value]="teamMembers" 
-    [numVisible]="3" 
-    [numScroll]="1" 
-    [showIndicators]="true"
-    [showNavigators]="true"
-    [orientation]="'horizontal'"
-    [circular]="true" 
-    [page]="0"
-    [autoplayInterval]="3000">
-    
-    <ng-template pTemplate="item" let-member>  
-      <div class="team-member">
-        <img [src]="member.image" [alt]="member.name" />
-        <h3>{{ member.name }}</h3>
-        <p>{{ member.specialty }}</p>
-        <p>{{ member.description }}</p>
-      </div>
-    </ng-template>
-  </p-carousel>
+  <swiper-container
+    slides-per-view="3"
+    space-between="30"
+    loop="true"
+    autoplay="true"
+    navigation="true"
+    pagination="true"
+    class="team-swiper"
+  >
+    @for (member of teamMembers; track member.name) {
+      <swiper-slide>
+        <div class="team-member">
+          <img [src]="member.image" [alt]="member.name" />
+          <h3>{{ member.name }}</h3>
+          <p class="specialty">{{ member.specialty }}</p>
+          <p class="description">{{ member.description }}</p>
+        </div>
+      </swiper-slide>
+    }
+  </swiper-container>
 </section>

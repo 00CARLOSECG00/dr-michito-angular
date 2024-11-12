@@ -1,4 +1,3 @@
-/**************** Sobre nosotros y nuestro equipo *******************/
 #nosotros {
   background-color: #B49FCC;
   padding: 20px 10px;
@@ -21,7 +20,6 @@
 }
 
 #equipo {
-
   background-color: #B49FCC;
   padding: 20px 10px;
   text-align: center;
@@ -34,7 +32,10 @@
   margin: 5px 0;
 }
 
-/* Tarjetas de miembro del equipo (sin ajustes de tamaño específicos) */
+.team-swiper {
+  padding: 20px 50px;
+}
+
 .team-member {
   display: flex;
   flex-direction: column;
@@ -45,6 +46,7 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   border-radius: 12px;
   transition: transform 0.3s ease;
+  height: 100%;
 }
 
 .team-member:hover {
@@ -57,6 +59,7 @@
   border-radius: 50%;
   margin-bottom: 1rem;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  object-fit: cover;
 }
 
 .team-member h3 {
@@ -66,48 +69,36 @@
   text-align: center;
 }
 
-.team-member p {
+.team-member .specialty {
+  font-size: 1.1rem;
+  color: #44344F;
+  margin: 0.3rem 0;
+  text-align: center;
+  font-weight: bold;
+}
+
+.team-member .description {
   font-size: 1rem;
   color: #44344F;
   margin: 0.3rem 0;
   text-align: center;
 }
 
-/* Ocultar los indicadores cuadrados y mantener los circulares */
-.p-carousel-indicators-square {
-  display: none !important;
+:host ::ng-deep swiper-container {
+  --swiper-theme-color: #44344F;
+  --swiper-navigation-size: 30px;
+  --swiper-navigation-color: #44344F;
+  --swiper-pagination-color: #44344F;
 }
 
-/* Botones de navegación del carrusel: solo el símbolo < y > */
-.p-carousel-prev, .p-carousel-next {
-  font-size: 2.5rem;
-  color: #44344F;
-  background: none;
-  border: none;
-  outline: none;
-  cursor: pointer;
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  z-index: 1;
+@media (max-width: 1024px) {
+  swiper-container {
+    --swiper-slidesPerView: 2;
+  }
 }
 
-.p-carousel-prev:hover, .p-carousel-next:hover {
-  color: #7A5A90;
-}
-
-.p-carousel-prev {
-  left: 10px; /* Ajuste para mantener el símbolo cerca del borde */
-}
-
-.p-carousel-next {
-  right: 10px; /* Ajuste para mantener el símbolo cerca del borde */
-}
-
-/* Contenedor de contenido del carrusel */
-.p-carousel .p-carousel-content {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 1rem;
+@media (max-width: 768px) {
+  swiper-container {
+    --swiper-slidesPerView: 1;
+  }
 }

@@ -1,4 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
+@import 'swiper/css';
+@import 'swiper/css/navigation';
+@import 'swiper/css/pagination';
 :root{
     --color-barra-lateral:#44344f;
 

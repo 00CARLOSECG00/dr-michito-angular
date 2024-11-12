@@ -1,17 +1,15 @@
-import { Component, AfterViewInit, Inject, PLATFORM_ID } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, Component, AfterViewInit, Inject, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
-import { CarouselModule } from 'primeng/carousel';
+import { register } from 'swiper/element/bundle';
 
 @Component({
   selector: 'app-main-nosotros',
   standalone: true,
   templateUrl: './main-nosotros.component.html',
   styleUrls: ['./main-nosotros.component.css'],
-  imports: [CarouselModule],
-  
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
-export class MainNosotrosComponent {
-  
+export class MainNosotrosComponent implements AfterViewInit {
   teamMembers = [
     {
       name: 'Dra. Laura Rodríguez',
@@ -66,5 +64,9 @@ export class MainNosotrosComponent {
 
   constructor(@Inject(PLATFORM_ID) private platformId: Object) {}
 
-
+  ngAfterViewInit() {
+    if (isPlatformBrowser(this.platformId)) {
+      register();
+    }
+  }
 }
