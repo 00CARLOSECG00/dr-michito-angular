@@ -3,16 +3,19 @@ import { Tratamiento } from '../Model/tratamiento';
 import { CommonModule } from '@angular/common';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { FormsModule } from '@angular/forms';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
 import { BarraLateralComponent } from '../componentes/barra-lateral/barra-lateral.component';
 import { TratamientoService } from '../Services/tratamiento.service'; 
 import { Router, ActivatedRoute } from '@angular/router';
-import { AuthService } from '../Services/auth.service'; // Importamos el AuthService para verificar el tipo de usuario
+import { AuthService } from '../Services/auth.service';
+import { ConfirmationService } from 'primeng/api';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
 
 @Component({
   selector: 'app-tabla-tratamientos',
   standalone: true,
-  imports: [CommonModule, NgxPaginationModule, FormsModule, HttpClientModule, BarraLateralComponent],
+  imports: [CommonModule, NgxPaginationModule, FormsModule, HttpClientModule, BarraLateralComponent, ConfirmDialogModule],
+  providers: [ConfirmationService],
   templateUrl: './tabla-tratamientos.component.html',
   styleUrls: ['./tabla-tratamientos.component.css'],
 })
@@ -32,13 +35,14 @@ export class TablaTratamientosComponent implements OnInit {
   esAdmin: boolean = false;
   esCliente: boolean = false;
   idCliente!: number | null;
-  idVeterinario!: number | null;  // ID del veterinario autenticado
+  idVeterinario!: number | null;
 
   constructor(
     private route: ActivatedRoute,
     private tratamientoService: TratamientoService,
     private router: Router,
-    private authService: AuthService  // Inyectamos AuthService
+    private authService: AuthService,
+    private confirmationService: ConfirmationService
   ) {}
 
   ngOnInit(): void {
@@ -54,16 +58,13 @@ export class TablaTratamientosComponent implements OnInit {
       this.idCliente = this.authService.getClienteId();
     }
 
-    // Modificar esta parte para manejar ambos casos
     if (this.mostrarSoloMascota && this.mascotaId) {
-      // Si es componente hijo de detalle-mascota, mostrar solo tratamientos de esa mascota
       this.listarTratamientosPorMascota(this.mascotaId);
     } else {
-      // Si es componente independiente, revisar queryParams
       this.route.queryParams.subscribe(params => {
         const mascotaIdParam = params['mascotaId'];
         if (mascotaIdParam) {
-          this.mascotaId = +mascotaIdParam;  // Asignamos al Input mascotaId
+          this.mascotaId = +mascotaIdParam;
           this.listarTratamientosPorMascota(this.mascotaId);
         } else {
           this.listarTratamientos();
@@ -88,22 +89,31 @@ export class TablaTratamientosComponent implements OnInit {
   // Eliminar un tratamiento (solo para admin o veterinario)
   eliminarTratamiento(tratamiento: Tratamiento) {
     if (this.esAdmin || this.esVeterinario) {
-      const confirmed = confirm('¿Estás seguro de que deseas eliminar este tratamiento?');
-      if (confirmed) {
-        this.tratamientoService.eliminarTratamiento(tratamiento.id).subscribe({
-          next: (response) => {
-            console.log('Tratamiento eliminado con éxito:', response);
-            this.listarTratamientos(); 
-          },
-          error: (error) => {
-            console.error('Error al eliminar el tratamiento:', error);
-          }
-        });
-      }
+      this.confirmationService.confirm({
+        message: '¿Estás seguro de que deseas eliminar este tratamiento?',
+        header: 'Confirmación de Eliminación',
+        icon: 'pi pi-exclamation-triangle',
+        acceptLabel: 'Sí',
+        rejectLabel: 'No',
+        accept: () => {
+          this.procederEliminarTratamiento(tratamiento.id);
+        }
+      });
     }
   }
 
-  // Agregar nuevo tratamiento (solo para admin o veterinario)
+  procederEliminarTratamiento(id: number) {
+    this.tratamientoService.eliminarTratamiento(id).subscribe({
+      next: () => {
+        console.log('Tratamiento eliminado correctamente');
+        this.listarTratamientos(); 
+      },
+      error: (error) => {
+        console.error('Error al eliminar tratamiento:', error);
+      }
+    });
+  }
+
   agregarTratamiento(): void {
     if (this.esAdmin || this.esVeterinario) {
       this.tratamientoService.setTratamientoSeleccionado(null); 
@@ -111,13 +121,11 @@ export class TablaTratamientosComponent implements OnInit {
     }
   }
 
-  // Listar todos los tratamientos
   listarTratamientos() {
     if(this.mostrarSoloMascota && this.mascotaId) {
       this.listarTratamientosPorMascota(this.mascotaId);
-    }else {
+    } else {
       if (this.esCliente && this.idCliente) {
-        // Si es cliente, mostrar solo los tratamientos de sus mascotas
         this.tratamientoService.obtenerTratamientosPorCliente(this.idCliente).subscribe({
           next: (tratamientos: Tratamiento[]) => {
             this.tratamientos = tratamientos;
@@ -129,7 +137,6 @@ export class TablaTratamientosComponent implements OnInit {
         });
   
       } else if (this.esVeterinario && this.idVeterinario) {
-        // Si es veterinario, mostrar solo los tratamientos que él realizó
         this.tratamientoService.obtenerTratamientosPorVeterinario(this.idVeterinario).subscribe({
           next: (tratamientos: Tratamiento[]) => {
             this.tratamientos = tratamientos;
@@ -138,7 +145,6 @@ export class TablaTratamientosComponent implements OnInit {
         });
   
       } else if (this.esAdmin) {
-        // Si es admin, mostrar todos los tratamientos
         this.tratamientoService.obtenerTratamientos().subscribe({
           next: (tratamientos: Tratamiento[]) => { 
             this.tratamientos = tratamientos;
@@ -150,10 +156,8 @@ export class TablaTratamientosComponent implements OnInit {
         });
       }
     }
-    
   }
 
-  // Listar tratamientos por mascota (independiente del tipo de usuario)
   listarTratamientosPorMascota(mascotaId: number) {
     this.tratamientoService.obtenerTratamientosPorMascota(mascotaId).subscribe({
       next: (tratamientos: Tratamiento[]) => { 
@@ -166,12 +170,10 @@ export class TablaTratamientosComponent implements OnInit {
     });
   }
 
-  // Búsqueda de tratamientos
   onSearch() {
     this.filterTratamientos();
   }
 
-  // Filtrar los tratamientos en base al término de búsqueda
   private filterTratamientos() {
     if (this.searchTerm.trim() === '') {
       this.tratamientosMostrados = this.tratamientos;

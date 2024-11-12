@@ -1,13 +1,15 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { BarraLateralComponent } from '../componentes/barra-lateral/barra-lateral.component';
-import {Veterinario } from '../Model/veterinario'
-import { HttpClient, HttpClientModule, HttpErrorResponse } from '@angular/common/http';
-import {VeterinarioService} from '../Services/veterinario.service'
+import { Veterinario } from '../Model/veterinario';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { VeterinarioService } from '../Services/veterinario.service';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { NgxPaginationModule } from 'ngx-pagination'; 
+import { NgxPaginationModule } from 'ngx-pagination';
 import { FormsModule } from '@angular/forms';
 import { ExcelExportService } from '../Services/excel-export.service';
+import { ConfirmationService } from 'primeng/api';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
 
 @Component({
   selector: 'app-tabla-veterinarios',
@@ -16,60 +18,69 @@ import { ExcelExportService } from '../Services/excel-export.service';
     BarraLateralComponent,
     CommonModule,
     NgxPaginationModule,
-    FormsModule
+    FormsModule,
+    ConfirmDialogModule
   ],
+  providers: [ConfirmationService],
   templateUrl: './tabla-veterinarios.component.html',
-  styleUrl: './tabla-veterinarios.component.css'
+  styleUrls: ['./tabla-veterinarios.component.css']
 })
-export class TablaVeterinariosComponent {
+export class TablaVeterinariosComponent implements OnInit {
   page: number = 1;
   veterinarios: Veterinario[] = [];
   veterinariosMostrados: Veterinario[] = [];
   veterinarioSeleccionado!: Veterinario | null;
   searchTerm: string = '';
   
- 
-  
+  constructor(
+    private http: HttpClient,
+    private veterinarioService: VeterinarioService,
+    private router: Router,
+    private excelExportService: ExcelExportService,
+    private confirmationService: ConfirmationService
+  ) {}
 
+  ngOnInit(): void {
+    this.listarVeterinario();
+  }
 
-  constructor(private http: HttpClient, private veterinarioService: VeterinarioService, private router: Router, private excelExportService: ExcelExportService) {}
   verVeterinario(veterinario: Veterinario) {
-    this.router.navigate(['/DetalleVeterinario'],{ queryParams: { id : veterinario.id } });
+    this.router.navigate(['/DetalleVeterinario'], { queryParams: { id: veterinario.id } });
   }
 
   editarVeterinario(veterinario: Veterinario) {
     this.veterinarioService.setVeterinarioSeleccionado(veterinario);
     this.router.navigate(['/Create-Veterinario']);
   }
-  
 
   eliminarVeterinario(veterinario: Veterinario) {
-    const confirmed = confirm('¿Estás seguro de que deseas eliminar este empleado?');
-    if (confirmed) {
-      this.veterinarioService.deleteVeterinario(veterinario.id).subscribe({
-        next: (response) => {
-          console.log('Veterinario eliminado con éxito:', response);
-          this.listarVeterinario();
-        },
-        error: (error) => {
-          console.error('Error al eliminar el veterinario:', error);
-        }
-      });
-    }
+    this.confirmationService.confirm({
+      message: '¿Estás seguro de que deseas eliminar este empleado?',
+      header: 'Confirmación de Eliminación',
+      icon: 'pi pi-exclamation-triangle',
+      acceptLabel: 'Sí',
+      rejectLabel: 'No',
+      accept: () => {
+        this.procederEliminarVeterinario(veterinario.id);
+      }
+    });
   }
-  
-  
+
+  procederEliminarVeterinario(id: number) {
+    this.veterinarioService.deleteVeterinario(id).subscribe({
+      next: () => {
+        console.log('Veterinario eliminado con éxito');
+        this.listarVeterinario();
+      },
+      error: (error) => {
+        console.error('Error al eliminar el veterinario:', error);
+      }
+    });
+  }
 
   agregarVeterinario(): void {
-    this.veterinarioService.setVeterinarioSeleccionado(null); // Limpiar el veterinario seleccionado
+    this.veterinarioService.setVeterinarioSeleccionado(null);
     this.router.navigate(['/Create-Veterinario']);
-  }
-  
-
-  ngOnInit(): void {
-  
-    this.listarVeterinario();
-    
   }
 
   listarVeterinario() {
@@ -78,17 +89,12 @@ export class TablaVeterinariosComponent {
         this.veterinarios = veterinarios;
         this.veterinariosMostrados = veterinarios;
       },
-
       error: (error) => {
         console.error('Error al obtener los veterinarios:', error);
       }
     });
   }
-  
 
-  atras() {
-    
-  }
   onSearch() {
     this.filterVeterinarios();
   }
@@ -123,8 +129,3 @@ export class TablaVeterinariosComponent {
     );
   }
 }
-
-
-
-
-

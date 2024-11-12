@@ -2,14 +2,15 @@ import { Component, OnInit } from '@angular/core';
 import { Cliente } from '../Model/cliente';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { TablaMascotasComponent} from '../tabla-mascotas/tabla-mascotas.component';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { FormsModule } from '@angular/forms';
 import { BarraLateralComponent } from '../componentes/barra-lateral/barra-lateral.component';
-import { HttpClient, HttpClientModule, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { ClienteService } from '../Services/cliente.service';
 import { Router } from '@angular/router';
-import { ExcelExportService } from '../Services/excel-export.service'; 
+import { ExcelExportService } from '../Services/excel-export.service';
+import { ConfirmationService } from 'primeng/api';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
 
 @Component({
   selector: 'app-tabla-clientes',
@@ -19,22 +20,25 @@ import { ExcelExportService } from '../Services/excel-export.service';
     RouterModule,
     NgxPaginationModule,
     FormsModule,
-    BarraLateralComponent
+    BarraLateralComponent,
+    ConfirmDialogModule
   ],
+  providers: [ConfirmationService],
   templateUrl: './tabla-clientes.component.html',
   styleUrls: ['./tabla-clientes.component.css']
 })
 export class TablaClientesComponent implements OnInit {
   page: number = 1;
   clientes: Cliente[] = [];
-  modoCreacion: boolean = false;
-  modoEdicion: boolean = false;
-  clienteSeleccionado!: Cliente | null;
-  modoVisualizacion: boolean = false;
   clientesMostrados: Cliente[] = [];
   searchTerm: string = '';
 
-  constructor(private clienteService: ClienteService, private http: HttpClient, private router: Router, private excelService: ExcelExportService) {}
+  constructor(
+    private clienteService: ClienteService,
+    private router: Router,
+    private excelService: ExcelExportService,
+    private confirmationService: ConfirmationService
+  ) {}
 
   ngOnInit(): void {
     this.loadClientes();
@@ -53,35 +57,42 @@ export class TablaClientesComponent implements OnInit {
   }
 
   confirmDelete(id: number): void {
-    const confirmed = confirm('¿Estás seguro de que deseas eliminar este cliente?');
-    if (confirmed) {
-      this.clienteService.deleteCliente(id).subscribe({
-        next: () => {
-          this.loadClientes();
-        },
-        error: (error) => {
-          console.error('Error al eliminar el cliente:', error);
-        }
-      });
-    }
+    this.confirmationService.confirm({
+      message: '¿Estás seguro de que deseas eliminar este cliente?',
+      header: 'Confirmación de Eliminación',
+      icon: 'pi pi-exclamation-triangle',
+      acceptLabel: 'Sí',
+      rejectLabel: 'No',
+      accept: () => {
+        this.procederEliminarCliente(id);
+      }
+    });
+  }
+
+  procederEliminarCliente(id: number): void {
+    this.clienteService.deleteCliente(id).subscribe({
+      next: () => {
+        this.loadClientes();
+      },
+      error: (error) => {
+        console.error('Error al eliminar el cliente:', error);
+      }
+    });
   }
 
   editarCliente(cliente: Cliente): void {
     this.clienteService.setClienteSeleccionado(cliente);
-    this.router.navigate(['/Create-Cliente']); // Navegar al componente de creación/edición
+    this.router.navigate(['/Create-Cliente']);
   }
 
   crearCliente(): void {
-    // Limpiar el cliente seleccionado para crear uno nuevo
     this.clienteService.setClienteSeleccionado(null);
-    this.router.navigate(['/Create-Cliente']); // Navegar al componente de creación
+    this.router.navigate(['/Create-Cliente']);
   }
-
 
   verMascotas(cliente: Cliente): void {
-    this.router.navigate(['/Mascotas'], { queryParams: { clienteId: cliente.id } }); // Navegar y pasar el ID del cliente
+    this.router.navigate(['/Mascotas'], { queryParams: { clienteId: cliente.id } });
   }
-  
 
   onSearch() {
     this.filterClientes();
@@ -99,7 +110,6 @@ export class TablaClientesComponent implements OnInit {
   }
 
   exportarExcel(): void {
-    // Definir los encabezados para el Excel
     const headers = {
       'id': 'ID',
       'cedula': 'Cédula',
@@ -108,7 +118,6 @@ export class TablaClientesComponent implements OnInit {
       'celular': 'Celular'
     };
 
-    // Obtener los datos actuales filtrados
     const datosParaExportar = this.clientesMostrados.map(cliente => ({
       id: cliente.id,
       cedula: cliente.cedula,
@@ -118,7 +127,6 @@ export class TablaClientesComponent implements OnInit {
     }));
 
     try {
-      // Llamar al servicio de exportación
       this.excelService.exportToExcel(
         datosParaExportar,
         'Listado_Clientes',
@@ -127,7 +135,6 @@ export class TablaClientesComponent implements OnInit {
       );
     } catch (error) {
       console.error('Error al exportar a Excel:', error);
-      // Aquí podrías añadir una notificación al usuario si lo deseas
     }
   }
 }
